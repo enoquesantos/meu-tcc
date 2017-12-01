@@ -5,25 +5,25 @@
 2. Android NDK R14
 
 3. Android SDK (instalar os seguintes pacotes):
-    1.  Android SDK Build-Tools >= 26
-    2.  Android SDK Platform-Tools >= 26
-    3.  Android SDK Tools Versão >= 26
-    4.  Android 5.1 (API 22 SDK Platform)
-    5.  Android 6.0 (API 23 SDK Platform)
-    6.  Android 7.1.1 (API 25 SDK Platform)
-    7.  Android Support Repository REV 47
-    8.  Google Play Licensing Library REV 1
-    9.  Google Play Services REV 41
-    10. Google Repository REV 53
+⋅⋅* Android SDK Build-Tools >= 26
+⋅⋅* Android SDK Platform-Tools >= 26
+⋅⋅* Android SDK Tools Versão >= 26
+⋅⋅* Android 5.1 (API 22 SDK Platform)
+⋅⋅* Android 6.0 (API 23 SDK Platform)
+⋅⋅* Android 7.1.1 (API 25 SDK Platform)
+⋅⋅* Android Support Repository REV 47
+⋅⋅* Google Play Licensing Library REV 1
+⋅⋅* Google Play Services REV 41
+⋅⋅* Google Repository REV 53
 
-    ###### Obs:
-    1. As APIs Level (System Image) é necessário quando testar o app em um emulador.
-    2. Caso queira testar o aplicativo em um emulador, Push Notification não funcionará.
-    3. O SDK mais recente não dispõe de um gerenciador gráfico para instalar os pacotes listados acima, execute os comandos abaixo.
-    4. Caso use o Android Studio, marque os checkbox correspondentes aos itens do Android SDK (item 3).
-    5. Para maiores informações, acesse:
-        1. https://developer.android.com/studio/command-line/sdkmanager.html
-        2. http://doc.qt.io/qt-5/androidgs.html
+###### Obs:
+1. As APIs Level (System Image) é necessário quando testar o app em um emulador.
+2. Caso queira testar o aplicativo em um emulador, Push Notification não funcionará.
+3. O SDK mais recente não dispõe de um gerenciador gráfico para instalar os pacotes listados acima, execute os comandos abaixo.
+4. Caso use o Android Studio, marque os checkbox correspondentes aos itens do Android SDK (item 3).
+5. Para maiores informações, acesse:
+    1. https://developer.android.com/studio/command-line/sdkmanager.html
+    2. http://doc.qt.io/qt-5/androidgs.html
 
 ### Instalando manualmente (sem android studio)
 ###### No diretório do SDK, acesse tools/bin e execute os comandos abaixo:
