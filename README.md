@@ -35,17 +35,6 @@ Para usar esta arquitetura, faça um fork desse projeto, faça um clone do proje
    - Google Repository REV 53
 
 
-#### Observações:
-----
-1. As APIs Level (System Image) é necessário quando testar o app em um emulador.
-2. Caso queira testar o aplicativo em um emulador, Push Notification não funcionará.
-3. O SDK mais recente não dispõe de um gerenciador gráfico para instalar os pacotes listados acima, execute os comandos abaixo.
-4. Caso use o Android Studio, marque os checkbox correspondentes aos itens do Android SDK (item 3).
-5. Para maiores informações, acesse:
-   - https://developer.android.com/studio/command-line/sdkmanager.htm
-   - http://doc.qt.io/qt-5/androidgs.html
-
-
 #### Instalando as dependências manualmente (sem android studio)
 ----
 1. No diretório do SDK, acesse tools/bin e execute os comandos abaixo: (android extras é requerido pelo Firebase (Push Notification))
@@ -60,3 +49,14 @@ Para usar esta arquitetura, faça um fork desse projeto, faça um clone do proje
    - ./sdkmanager "extras;google;market_licensing"
    - ./sdkmanager "extras;google;google_play_services"
    - ./sdkmanager "extras;google;m2repository"
+
+
+#### Observações sobre as dependências:
+----
+1. As APIs Level (System Image) é necessário quando testar o app em um emulador.
+2. Caso queira testar o aplicativo em um emulador, Push Notification não funcionará.
+3. O SDK mais recente não dispõe de um gerenciador gráfico para instalar os pacotes listados acima, execute os comandos abaixo.
+4. Caso use o Android Studio, marque os checkbox correspondentes aos itens do Android SDK (item 3).
+5. Para maiores informações, acesse:
+   - https://developer.android.com/studio/command-line/sdkmanager.htm
+   - http://doc.qt.io/qt-5/androidgs.html
