@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDisplayName</key>
+        <string>${PRODUCT_NAME}</string>
+    <key>CFBundleExecutable</key>
+        <string>${EXECUTABLE_NAME}</string>
+    <key>CFBundleGetInfoString</key>
+        <string>Created by Qt 5.9.2/QMake</string>
+    <key>CFBundleIcons</key>
+    <dict/>
+        <key>CFBundleIcons~ipad</key>
+    <dict/>
+    <key>CFBundleIdentifier</key>
+        <string>${PRODUCT_NAME:rfc1034identifier}</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+        <string>6.0</string>
+    <key>CFBundleName</key>
+        <string>${PRODUCT_NAME}</string>
+    <key>CFBundlePackageType</key>
+        <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+        <string>1.0</string>
+    <key>CFBundleSignature</key>
+        <string>????</string>
+    <key>CFBundleVersion</key>
+        <string>1.0</string>
+    <key>NSCameraUsageDescription</key>
+        <string>${PRODUCT_NAME} Needs to access the camera</string>
+    <key>LSRequiresIPhoneOS</key>
+        <true/>
+    <key>NSAppTransportSecurity</key>
+        <dict>
+            <key>NSAllowsArbitraryLoads</key>
+            <true/>
+        </dict>
+    <key>NSPhotoLibraryUsageDescription</key>
+        <string>The app requires a gallery access to read your profile image</string>
+    <key>UIBackgroundModes</key>
+        <array>
+            <string>fetch</string>
+            <string>remote-notification</string>
+        </array>
+    <key>UILaunchStoryboardName</key>
+        <string>Launch</string>
+    <key>UISupportedInterfaceOrientations</key>
+        <array>
+            <string>UIInterfaceOrientationPortrait</string>
+            <string>UIInterfaceOrientationPortraitUpsideDown</string>
+        </array>
+</dict>
+</plist>

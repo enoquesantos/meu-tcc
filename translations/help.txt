@@ -1,0 +1,7 @@
+# para gerar as traduções:
+1: Run lupdate *.pro to create the .ts file.
+2: Make your translations in Qt Linguist and save the .ts file.
+3: In Qt Linguist menu, click in File -> Release As to compile the .ts file to a .qm file.
+4: Copy the .qm file to this correct location.
+5: Add the .qm path in translations.qrc file.
+6: If the translation file is a new language, append the .ts file into .pro in TRANSLATIONS variable.

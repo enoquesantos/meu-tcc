@@ -1,0 +1,56 @@
+{
+    "forceClearCache": false,
+    "applicationName": "MyApp",
+    "organizationName": "My App",
+    "organizationDomain": "myapp.org",
+    "applicationDescription": "The app description",
+    "hasLogin": true,
+    "usesTabBar": false,
+    "showTabButtonText": false,
+    "usesDrawer": true,
+    "applicationStyle": "Material",
+    "showEula": false,
+    "forceEulaAgreement": false,
+    "restService": {
+        "authentication" : {
+            "type": "basic",
+            "userName": "",
+            "userPass": ""
+        },
+        "baseUrl": "",
+        "baseImagesUrl": ""
+    },
+    "fontSize": {
+        "small": 10,
+        "normal": 12,
+        "large": 16,
+        "extraLarge": 24
+    },
+    "theme": {
+        "linkColor": "#2c576c",
+        "colorAccent": "#91ff44",
+        "colorPrimary": "#2c576c",
+        "colorControl": "#2c3f49",
+        "statusBarColor": "#483d8b",
+        "colorControlHighlight": "#729846",
+        "textColorPrimary": "#3b3b3b",
+        "menuBackgroundColor": "#2c576c",
+        "pageBackgroundColor": "#fafafa",
+        "toolTipBackgroundColor": "#323232"
+    },
+    "events": {
+        "cameraImageSaved": "cameraImageSaved",
+        "cancel": "cancel",
+        "eulaAccepted": "eulaAccepted",
+        "goBack": "goBack",
+        "newPushMessage": "newPushMessage",
+        "newIntentPushMessage": "newIntentPushMessage",
+        "openDrawer": "openDrawer",
+        "pushNotificationToken": "pushNotificationToken",
+        "refreshDrawerPages": "refreshDrawerPages",
+        "requestUpdateUserProfile": "requestUpdateUserProfile",
+        "saveUserProfile": "saveUserProfile",
+        "submitForm": "submitForm",
+        "userProfileChanged": "userProfileChanged"
+    }
+}

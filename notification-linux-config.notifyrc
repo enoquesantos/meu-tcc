@@ -1,0 +1,10 @@
+[Global]
+IconName=preferences-system-warning
+Comment=Notification system
+Name=Notification
+
+[Event/Notify]
+Name=Notification ...
+Comment=The application needs attention!
+Icon=app-icon
+Action=Popup

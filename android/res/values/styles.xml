@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat">
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:colorBackground">@color/colorAccent</item>
+        <item name="android:colorControlActivated">@color/colorPrimary</item>
+        <item name="android:colorControlHighlight">@color/colorPrimary</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:statusBarColor">@color/statusBarColor</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+</resources>

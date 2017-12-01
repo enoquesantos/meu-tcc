@@ -1,0 +1,14 @@
+<h2>Sobre o Emile</h2>
+O Emile é um aplicativo desenvolvido pelo GSORT - Grupo de Pesquisa em Ciência da Computação, Sistemas Distribuídos e Tempo Real do curso de <a href="https://ads.ifba.edu.br" style="color:#80deea">Análise e Desenvolvimento de Sistemas</a> do IFBA Campus Salvador. O Emile foi desenvolvido como um projeto de pesquisa com o objetivo de melhorar a comunicação acadêmica através da troca de mensagens entre coordenadores de curso, professores e alunos via smartphones. Outros recursos estão em desenvolvimento e você pode contribuir para o projeto tornando o aplicativo ainda melhor.
+
+<br>
+<h2>Como contribuir</h2>
+Você pode contribuir para o Emile de diversas formas: testando e reportando bugs ou possíveis melhorias, implementando uma nova feature ou corrigindo bugs. Interaja com os desenvovedores do projeto através do GSORT no IFBA Campus Salvador ou acesse a <a href="http://emile.ifba.edu.br" style="color:#80deea">página</a> do projeto e entre em contato.
+
+<br>
+<h2>Tecnologias utilizadas</h2>
+O Emile foi desenvolvido sobre o toolkit <a href="https://www.qt.io" style="color:#80deea">Qt</a>, utiliza um serviço REST escrito em python com <a href="http://www.django-rest-framework.org" style="color:#80deea">Django Rest Framework</a> e está disponível para Android. Versões para iOS e Desktop estão em desenvolvimento.
+
+<br>
+<h2>Licença</h2>
+O Emile está distribuído sob a Licença GPL e o código fonte do aplicativo pode ser acessado no <a href="https://github.com/gsort/emile-mobile" style="color:#80deea">github</a> do projeto mobile.
