@@ -1,4 +1,4 @@
-#### Instruções para criar um projeto utilizando essa arquitetura
+#### Instruções para criar um projeto utilizando essa arquitetura:
 ----
 Este projeto contém apenas uma arquitetura de software para um projeto de uma aplicação desktop (linux somente - por enquanto) e mobile (android bem suportado e iOS parcialmente suportado).
 
@@ -35,7 +35,7 @@ Para usar esta arquitetura, faça um fork desse projeto, faça um clone do proje
    - Google Repository REV 53
 
 
-#### Instalando as dependências manualmente (sem android studio)
+#### Instalando as dependências manualmente (sem android studio):
 ----
 1. No diretório do SDK, acesse tools/bin e execute os comandos abaixo: (android extras é requerido pelo Firebase (Push Notification))
    - ./sdkmanager "tools"
