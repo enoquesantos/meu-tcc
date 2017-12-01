@@ -3,16 +3,16 @@
 1. Qt Creator for Android Versão 5.9
 2. Android NDK R14
 3. Android SDK (instalar os seguintes pacotes):
-* Android SDK Build-Tools >= 26
-* Android SDK Platform-Tools >= 26
-* Android SDK Tools Versão >= 26
-* Android 5.1 (API 22 SDK Platform)
-* Android 6.0 (API 23 SDK Platform)
-* Android 7.1.1 (API 25 SDK Platform)
-* Android Support Repository REV 47
-* Google Play Licensing Library REV 1
-* Google Play Services REV 41
-* Google Repository REV 53
+   - Android SDK Build-Tools >= 26
+   - Android SDK Platform-Tools >= 26
+   - Android SDK Tools Versão >= 26
+   - Android 5.1 (API 22 SDK Platform)
+   - Android 6.0 (API 23 SDK Platform)
+   - Android 7.1.1 (API 25 SDK Platform)
+   - Android Support Repository REV 47
+   - Google Play Licensing Library REV 1
+   - Google Play Services REV 41
+   - Google Repository REV 53
 
 
 #### Obs:
