@@ -1,0 +1,52 @@
+# C++ objects and libs
+*.slo
+*.lo
+*.o
+*.a
+*.la
+*.lai
+*.dll
+*.dylib
+
+# Qt-es
+/.qmake.cache
+/.qmake.stash
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+Makefile*
+*build-*
+
+# QtCreator
+*.autosave
+
+# QtCtreator Qml
+*.qmlproject.user
+*.qmlproject.user.*
+
+# QtCtreator CMake
+CMakeLists.txt.user
+
+emile-mobile
+
+# Gradle
+*.properties
+*.properties~
+android/local.properties
+android/local.properties~
+android/gradle.properties
+android/gradle.properties~
+
+# Dolphin KDE
+.directory
+
+# ios finder
+.DS_Store
+plugins/.DS_Store
+*.DS_Store
+ios/*.DS_Store
