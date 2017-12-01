@@ -32,8 +32,6 @@ Makefile*
 # QtCtreator CMake
 CMakeLists.txt.user
 
-emile-mobile
-
 # Gradle
 *.properties
 *.properties~
