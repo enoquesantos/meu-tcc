@@ -1,4 +1,4 @@
-#### Instruções para criar um projeto utilizando essa arquitetura:
+#### Instruções para criar um projeto utilizando esta arquitetura:
 Este projeto contém apenas uma arquitetura de software para um projeto de uma aplicação desktop (linux somente - por enquanto) e mobile (android bem suportado e iOS parcialmente suportado).
 
 Para usar esta arquitetura, faça um fork desse projeto, faça um clone do projeto forkado para a sua máquina e renomeie a pasta clonada e o arquivo tcc.pro para o nome do seu projeto, que deve ser o nome do seu app. Em seguida, importe o projeto no QtCreator. No entando faça:
