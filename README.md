@@ -73,8 +73,8 @@ Não utilize o *wizard* de adição de arquivos do *QtCreator*, pois ele vai adi
 
 
 ----
-#### Observações sobre as dependências:
-1. As APIs Level (System Image) é necessário quando testar o app em um emulador.
+#### Observações:
+1. As *APIs Level* (contendo *System Images*) é necessário somente para testar o app em um emulador.
 2. Caso queira testar o aplicativo em um emulador, *Push Notification* não funcionará.
 3. Links úteis:
    - http://doc.qt.io/qt-5/androidgs.html
