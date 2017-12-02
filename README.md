@@ -1,12 +1,17 @@
 #### Instruções para criar um projeto utilizando esta arquitetura:
-Este projeto contém apenas uma arquitetura de software para um projeto de uma aplicação desktop (Linux plasma KDE bem suportado e OSX parcialmente suportado) e mobile (Android bem suportado e iOS parcialmente suportado).
+Este projeto contém apenas uma simples arquitetura de software para um projeto de uma aplicação desktop (Linux plasma KDE bem suportado e OSX parcialmente suportado) e mobile (Android bem suportado e iOS parcialmente suportado).
 
-Para usar esta arquitetura, faça:
-    1. Crie um fork desse projeto
-    2. Clone o projeto forkado para a sua máquina
-    3. Renomeie a pasta clonada e o arquivo *tcc.pro* para o nome do seu projeto (pode ser o nome do seu app)
-    4. Importe o projeto no *QtCreator* e siga os passos seguintes para configurar a customização do seu app.
 
+----
+#### Para usar esta arquitetura, faça:
+1. Crie um fork desse projeto
+2. Clone o projeto forkado para a sua máquina
+3. Renomeie a pasta clonada e o arquivo *tcc.pro* para o nome do seu projeto (pode ser o nome do seu app)
+4. Importe o projeto no *QtCreator* e siga os passos seguintes para configurar a customização do seu app.
+
+
+----
+#### Para customizar o seu aplicativo, faça:
 1. Primeiramente, abra o arquivo *AndroidManifest.xml* no QtCreator e renomeie o *package name*, de *org.qtproject.example* para o nome do pacote do seu app.
 2. Para suportar push notification, crie um projeto do [firebase](https://console.firebase.google.com)
    - Adicione o suporte a [push-notification](https://console.firebase.google.com/project/novo-projeto-do-firebase/notification) ao projeto, configure as opções e ao final do *wizard* de configuração, exporte o arquivo de configuração *google-services.json* e salve na pasta android (substitua o existente - ele é apenas um exemplo).
@@ -46,6 +51,7 @@ Para usar esta arquitetura, faça:
    - No primeiro build, o gradle vai baixar algumas libs requeridas para compilação do projeto e salvar na home do usuário. Do segundo build em diante ele usará as as libs salvas localmente, tal como as libs do *Firebase*.
 6. Adicione os paths do JDK, Android SDK e NDK nas configurações do QtCreator. Para isso, faça:
    - Clique no menu Tools -> Options -> Devices -> Android e informe o caminho absoluto dos kits e clique em Ok.
+
 
 ----
 #### Instalando as dependências manualmente (sem android studio):
