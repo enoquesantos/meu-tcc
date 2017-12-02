@@ -1,5 +1,4 @@
 #### Instruções para criar um projeto utilizando essa arquitetura:
-----
 Este projeto contém apenas uma arquitetura de software para um projeto de uma aplicação desktop (linux somente - por enquanto) e mobile (android bem suportado e iOS parcialmente suportado).
 
 Para usar esta arquitetura, faça um fork desse projeto, faça um clone do projeto forkado para a sua máquina e renomeie a pasta clonada e o arquivo tcc.pro para o nome do seu projeto, que deve ser o nome do seu app. Em seguida, importe o projeto no QtCreator. No entando faça:
@@ -18,8 +17,8 @@ Para usar esta arquitetura, faça um fork desse projeto, faça um clone do proje
 9. Escreva os seus plugins. O app não possui nenhuma funcionalidade de tela fornecida, você deve implementar nos plugins. Os plugins serão carregados e mapeados numa lista de objetos.
 
 
-#### Requisitos para gerar um app android:
 ----
+#### Requisitos para gerar um app android:
 1. Qt Creator for Android Versão 5.9
 2. Android NDK R14
 3. Android SDK (instalar os seguintes pacotes):
@@ -35,8 +34,8 @@ Para usar esta arquitetura, faça um fork desse projeto, faça um clone do proje
    - Google Repository REV 53
 
 
-#### Instalando as dependências manualmente (sem android studio):
 ----
+#### Instalando as dependências manualmente (sem android studio):
 1. No diretório do SDK, acesse tools/bin e execute os comandos abaixo: (android extras é requerido pelo Firebase (Push Notification))
    - ./sdkmanager "tools"
    - ./sdkmanager "platform-tools"
@@ -51,8 +50,8 @@ Para usar esta arquitetura, faça um fork desse projeto, faça um clone do proje
    - ./sdkmanager "extras;google;m2repository"
 
 
-#### Observações sobre as dependências:
 ----
+#### Observações sobre as dependências:
 1. As APIs Level (System Image) é necessário quando testar o app em um emulador.
 2. Caso queira testar o aplicativo em um emulador, Push Notification não funcionará.
 3. O SDK mais recente não dispõe de um gerenciador gráfico para instalar os pacotes listados acima, execute os comandos abaixo.
