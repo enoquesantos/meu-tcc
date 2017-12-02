@@ -90,7 +90,7 @@ android {
         variant.outputs.each  { output ->
             // outputs file to build/app/outputs/apk/app.apk instead of build/app/outputs/apk/release/app.apk
             // output.outputFile.name
-            output.outputFileName = "../app.apk"
+            output.outputFileName = "../android-build-${variant.name}.apk"
         }
     }
 }
