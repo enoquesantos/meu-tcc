@@ -64,14 +64,19 @@ void Notification::initialize()
     QFile file(QStringLiteral(":/") + m_notificationConfigFileName);
 
     if (!file.exists()) {
-        qWarning() << QStringLiteral("The notifyrc file cannot found!");
+        #ifdef QT_DEBUG
+                qWarning() << QStringLiteral("The notifyrc file cannot found!");
+        #endif
         return;
     }
 
     QDir destinationDir(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
 
-    if (!destinationDir.exists() && !destinationDir.mkdir(destinationDir.absolutePath()))
-        qWarning() << QStringLiteral("The application 'GenericDataLocation' directory cannot be created!");
+    if (!destinationDir.exists() && !destinationDir.mkdir(destinationDir.absolutePath())) {
+        #ifdef QT_DEBUG
+                qWarning() << QStringLiteral("The application 'GenericDataLocation' directory cannot be created!");
+        #endif
+    }
 
     QString notificationConfigDestination(destinationDir.absolutePath() + QStringLiteral("/"));
     notificationConfigDestination.append(QApplication::applicationName() + QStringLiteral(".notifyrc"));
@@ -79,8 +84,11 @@ void Notification::initialize()
     if (QFile::exists(notificationConfigDestination))
         return;
 
-    if (!file.copy(notificationConfigDestination))
-        qWarning() << QStringLiteral("The notifyrc file cannot be copied!");
+    if (!file.copy(notificationConfigDestination)) {
+        #ifdef QT_DEBUG
+            qWarning() << QStringLiteral("The notifyrc file cannot be copied!");
+        #endif
+    }
 #endif
 }
 
