@@ -1,7 +1,7 @@
 #### Instruções para criar um projeto utilizando esta arquitetura:
 Este projeto contém apenas uma arquitetura de software para um projeto de uma aplicação desktop (linux somente - por enquanto) e mobile (android bem suportado e iOS parcialmente suportado).
 
-Para usar esta arquitetura, faça um fork desse projeto, faça um clone do projeto forkado para a sua máquina e renomeie a pasta clonada e o arquivo tcc.pro para o nome do seu projeto, que deve ser o nome do seu app. Em seguida, importe o projeto no QtCreator. No entando faça:
+Para usar esta arquitetura, faça um fork desse projeto, faça um clone do projeto forkado para a sua máquina e renomeie a pasta clonada e o arquivo tcc.pro para o nome do seu projeto, que deve ser o nome do seu app. Em seguida, importe o projeto no QtCreator. Siga os passos seguintes para configurar a customização do seu app:
 
 1. Primeiramente, abra o arquivo *AndroidManifest.xml* no QtCreator e renomeie o Package name, de *org.qtproject.example* para o nome do pacote do seu app.
 2. Para suportar push notification, crie o seu projeto do [firebase](https://console.firebase.google.com/?hl=pt-br&pli=1) 
@@ -36,7 +36,7 @@ Para usar esta arquitetura, faça um fork desse projeto, faça um clone do proje
 
 ----
 #### Instalando as dependências manualmente (sem android studio):
-1. No diretório do SDK, acesse tools/bin e execute os comandos abaixo: (android extras é requerido pelo Firebase (Push Notification))
+1. No diretório do SDK, acesse tools/bin e execute os comandos abaixo (android extras é requerido pelo *Firebase - Push Notification* )
    - ./sdkmanager "tools"
    - ./sdkmanager "platform-tools"
    - ./sdkmanager "build-tools;26.0.2"
@@ -53,9 +53,7 @@ Para usar esta arquitetura, faça um fork desse projeto, faça um clone do proje
 ----
 #### Observações sobre as dependências:
 1. As APIs Level (System Image) é necessário quando testar o app em um emulador.
-2. Caso queira testar o aplicativo em um emulador, Push Notification não funcionará.
-3. O SDK mais recente não dispõe de um gerenciador gráfico para instalar os pacotes listados acima, execute os comandos abaixo.
-4. Caso use o Android Studio, marque os checkbox correspondentes aos itens do Android SDK (item 3).
-5. Para maiores informações, acesse:
-   - https://developer.android.com/studio/command-line/sdkmanager.htm
+2. Caso queira testar o aplicativo em um emulador, *Push Notification* não funcionará.
+3. Links úteis:
    - http://doc.qt.io/qt-5/androidgs.html
+   - https://developer.android.com/studio/command-line/sdkmanager.htm
