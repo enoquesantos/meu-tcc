@@ -2,7 +2,7 @@ QT += multimedia
 QT += multimediawidgets
 QT += network
 QT += qml
-QT += quick
+QT -= quick
 QT += quickcontrols2
 QT += sql
 QT += svg
@@ -36,9 +36,8 @@ SOURCES += main.cpp \
 RESOURCES += qml.qrc \
     translations.qrc
 
-TRANSLATIONS = translations/en_US.ts \
-    translations/pt_BR.ts \
-    translations/pt_BR.qm
+TRANSLATIONS = translations/*.ts \
+    translations/*.qm
 
 OTHER_FILES += config.json \
     qtquickcontrols2.conf
@@ -104,16 +103,16 @@ ios: {
     assets_catalogs.files = plugins
     QMAKE_BUNDLE_DATA += assets_catalogs
 
-    ios_icon.files = $$files($$PWD/ios/icons/Icon-App-*.png)
-    QMAKE_BUNDLE_DATA += ios_icon
+    icons.files = $$files($$PWD/ios/icons/Icon-App-*.png)
+    QMAKE_BUNDLE_DATA += icons
 
-    app_launch_images.files = $$PWD/ios/Launch.xib $$files($$PWD/ios/icons/Icon-App-*.png)
-    QMAKE_BUNDLE_DATA += app_launch_images
+    launch_images.files = $$PWD/ios/Launch.xib $$files($$PWD/ios/icons/Icon-App-*.png)
+    QMAKE_BUNDLE_DATA += launch_images
 
-    ios_google_plist.files = $$PWD/ios/GoogleService-Info.plist
-    QMAKE_BUNDLE_DATA += ios_google_plist
+    google_service_json.files = $$PWD/ios/GoogleService-Info.plist
+    QMAKE_BUNDLE_DATA += google_service_json
 
-    QMAKE_LFLAGS += $(inherited) -ObjC -l "c++" -l "sqlite3" -l "z" -framework "AdSupport" -framework "AddressBook" -framework "CoreGraphics" -framework "FirebaseAnalytics" -framework "FirebaseInstanceID" -framework "FirebaseMessaging" -framework "GoogleIPhoneUtilities" -framework "GoogleInterchangeUtilities" -framework "GoogleSymbolUtilities" -framework "GoogleUtilities" -framework "SafariServices" -framework "StoreKit" -framework "SystemConfiguration"
+    QMAKE_LFLAGS += $(inherited) -ObjC -l "c++" -l "z" -framework "AdSupport" -framework "AddressBook" -framework "CoreGraphics" -framework "FirebaseAnalytics" -framework "FirebaseInstanceID" -framework "FirebaseMessaging" -framework "GoogleIPhoneUtilities" -framework "GoogleInterchangeUtilities" -framework "GoogleSymbolUtilities" -framework "GoogleUtilities" -framework "SafariServices" -framework "StoreKit" -framework "SystemConfiguration"
 
     OBJECTIVE_SOURCES += ios/QtAppDelegate.mm
 
