@@ -32,7 +32,7 @@ Não utilize o *wizard* de adição de arquivos do *QtCreator*, pois ele vai adi
 1. Qt Creator for Android Versão 5.9. [Baixe aqui](http://download.qt.io/official_releases/qt/5.9/5.9.3/qt-opensource-linux-x64-5.9.3.run)
 2. Android NDK R14 ou superior. [Baixe aqui](https://dl.google.com/android/repository/android-ndk-r14b-linux-x86_64.zip)
    - No caso do NDK, é necessário apenas baixar o pacote, descompactá-lo e informar o path da pasta nas configurações do QtCreator.
-3. Android SDK Tools com os seguintes abaixo. [Baixe aqui](https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip)
+3. Android SDK Tools com os seguintes pacotes abaixo (instalação na sessão seguinte). [Baixe aqui](https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip)
    - Android SDK Build-Tools >= 26
    - Android SDK Platform-Tools >= 26
    - Android SDK Tools Versão >= 26
