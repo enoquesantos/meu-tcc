@@ -35,6 +35,7 @@ CMakeLists.txt.user
 # Gradle
 *.properties
 *.properties~
+android/*.properties
 android/local.properties
 android/local.properties~
 android/gradle.properties
