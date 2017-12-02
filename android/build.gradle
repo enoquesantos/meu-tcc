@@ -1,3 +1,11 @@
+/**
+ * Gradle plugin version >= 3.0.1 has has new options to build the APK.
+ * Please, check the follow links to more details:
+ * https://developer.android.com/studio/build/index.html
+ * https://developer.android.com/studio/build/gradle-plugin-3-0-0-migration.html#new_configurations
+ **/
+apply plugin: 'com.android.application'
+
 buildscript {
     repositories {
         mavenLocal()
@@ -21,13 +29,11 @@ allprojects {
     }
 }
 
-apply plugin: 'com.android.application'
-
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:+'
-    compile 'com.google.firebase:firebase-core:11.0.4'
-    compile 'com.google.firebase:firebase-messaging:11.0.4'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:+'
+    implementation 'com.google.firebase:firebase-core:11.0.4'
+    implementation 'com.google.firebase:firebase-messaging:11.0.4'
 }
 
 android {
@@ -44,9 +50,9 @@ android {
      * Changing them manually might break the compilation!
      *******************************************************/
 
-    compileSdkVersion androidCompileSdkVersion.toInteger()
-
     buildToolsVersion androidBuildToolsVersion
+
+    compileSdkVersion androidCompileSdkVersion.toInteger()
 
     sourceSets {
         main {
@@ -63,11 +69,29 @@ android {
 
     defaultConfig {
         applicationId "org.qtproject.example"
-        multiDexEnabled true
     }
 
-    lintOptions {
-        abortOnError false
+    buildTypes {
+        release {
+            minifyEnabled true // Enables code shrinking for the release build type.
+            multiDexEnabled true
+        }
+
+        debug {
+            debuggable true
+        }
+    }
+
+    // we need to copy the destination file to a above directory,
+    // where is the Qt deploy process search the apk file to install in device.
+    // This can be fixed in future version of qt support for android.
+    // https://github.com/flutter/flutter/issues/10630
+    applicationVariants.all { variant ->
+        variant.outputs.each  { output ->
+            // outputs file to build/app/outputs/apk/app.apk instead of build/app/outputs/apk/release/app.apk
+            // output.outputFile.name
+            output.outputFileName = "../app.apk"
+        }
     }
 }
 
