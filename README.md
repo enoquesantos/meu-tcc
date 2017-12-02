@@ -29,28 +29,28 @@ Este projeto contém apenas uma simples arquitetura de software para um projeto 
 ----
 #### Requisitos para gerar um app android:
 1. Qt Creator for Android Versão 5.9. [Baixe aqui](http://download.qt.io/official_releases/qt/5.9/5.9.3/qt-opensource-linux-x64-5.9.3.run)
-2. Android NDK R14 ou superior.
+2. Android NDK R14 ou superior. [Baixe aqui](https://dl.google.com/android/repository/android-ndk-r14b-linux-x86_64.zip)
    - No caso do NDK, é necessário apenas baixar o pacote, descompactá-lo e informar o path da pasta nas configurações do QtCreator.
-3. Android SDK (instalar os seguintes pacotes):
+3. Android SDK Tools com os seguintes abaixo. [Baixe aqui](https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip)
    - Android SDK Build-Tools >= 26
    - Android SDK Platform-Tools >= 26
    - Android SDK Tools Versão >= 26
    - Android 5.1 (API 22 SDK Platform)
    - Android 6.0 (API 23 SDK Platform)
    - Android 7.1.1 (API 25 SDK Platform)
-   - Android Support Repository REV 47
-   - Google Play Licensing Library REV 1
-   - Google Play Services REV 41
-   - Google Repository REV 53
+   - Android Support Repository
+   - Google Play Licensing Library
+   - Google Play Services
+   - Google Repository
 4. Java JDK localmente instalado.
    - [Veja como instalar no Debian 9](http://www.itzgeek.com/how-tos/linux/debian/how-to-install-oracle-java-8-on-debian-9-ubuntu-linux-mint.html)
    - [Veja como instalar no Arch Linux](https://www.ostechnix.com/install-oracle-java-8-arch-linux/)
-5. Gradle versão 4.3.1 ou acima localmente instalado. Esse projeto está confogurado para usar a versão mais recente do Gradle.
+5. Gradle versão >= 4.3.1 localmente instalado. Esse projeto está configurado para usar a versão mais recente do Gradle.
    - [Veja como instalar no seu sistema](https://gradle.org/install/). O Gradle está nos repositórios das prinicipais distribuições Linux.
    - Leia as opção de build desta versão [aqui](https://developer.android.com/studio/build/gradle-plugin-3-0-0-migration.html#new_configurations).
-   - No primeiro build, o gradle vai baixar algumas libs requeridas para compilação do projeto e salvar na home do usuário. Do segundo build em diante ele usará as as libs salvas localmente, tal como as libs do *Firebase*.
-6. Adicione os paths do JDK, Android SDK e NDK nas configurações do QtCreator. Para isso, faça:
-   - Clique no menu Tools -> Options -> Devices -> Android e informe o caminho absoluto dos kits e clique em Ok.
+   - No primeiro build, o gradle vai baixar algumas libs requeridas para compilação do projeto e salvar na home do usuário. A partir do segundo build ele usará as libs salvas localmente, tal como as libs do *Firebase*.
+6. Adicione os paths do JDK, Android SDK e NDK nas configurações do *QtCreator*. Para isso, faça:
+   - Clique no menu *Tools* -> *Options* -> *Devices* -> *Android* e informe o caminho absoluto dos kits e em seguida clique em Ok.
 
 
 ----
