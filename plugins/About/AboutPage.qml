@@ -82,6 +82,7 @@ BasePage {
             }
 
             Item {
+                id: lastLabel
                 width: parent.width * 0.80; height: applicationDescription.implicitHeight + 10
                 anchors.horizontalCenter: parent.horizontalCenter
 
