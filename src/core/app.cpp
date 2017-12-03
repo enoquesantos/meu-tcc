@@ -53,6 +53,31 @@ void App::init()
     // read the config.json file
     m_config = Utils::instance()->readFile(QStringLiteral(":/config.json")).toMap();
 
+    // the default events names used by application qml components
+    QStringList defaultEventsNames({
+        QStringLiteral("cameraImageSaved"),
+        QStringLiteral("cancel"),
+        QStringLiteral("eulaAccepted"),
+        QStringLiteral("goBack"),
+        QStringLiteral("newPushMessage"),
+        QStringLiteral("newIntentPushMessage"),
+        QStringLiteral("openDrawer"),
+        QStringLiteral("pushNotificationToken"),
+        QStringLiteral("refreshDrawerPages"),
+        QStringLiteral("requestUpdateUserProfile"),
+        QStringLiteral("saveUserProfile"),
+        QStringLiteral("submitForm"),
+        QStringLiteral("userProfileChanged")
+    });
+
+    // initialize a temporary map with the events names defined by user 
+    QVariantMap map(m_config.value(QStringLiteral("events")).toMap());
+    // append or override default events names if already defined by user
+    foreach(const QString &eventName, defaultEventsNames)
+        map.insert(eventName, eventName);
+    // replace the config events by default events names + user events
+    m_config.insert(QStringLiteral("events"), map);
+
     QApplication::setApplicationName(m_config.value(QStringLiteral("applicationName")).toString());
     QApplication::setOrganizationName(m_config.value(QStringLiteral("organizationName")).toString());
     QApplication::setOrganizationDomain(m_config.value(QStringLiteral("organizationDomain")).toString());
