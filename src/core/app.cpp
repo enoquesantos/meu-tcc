@@ -50,9 +50,6 @@ App::~App()
 
 void App::init()
 {
-    QSettings oldSettings;
-    QString previousSettingsFile(oldSettings.fileName());
-
     // read the config.json file
     m_config = Utils::instance()->readFile(QStringLiteral(":/config.json")).toMap();
 
@@ -61,14 +58,6 @@ void App::init()
     QApplication::setOrganizationDomain(m_config.value(QStringLiteral("organizationDomain")).toString());
 
     m_qsettings = new QSettings(this);
-
-    if (QFile::exists(previousSettingsFile)) {
-        QString newSettingPath(m_qsettings->fileName());
-        if (QFile::exists(newSettingPath))
-            QFile::remove(newSettingPath);
-        QFile::copy(previousSettingsFile, newSettingPath);
-        QFile::remove(previousSettingsFile);
-    }
 
     /**
      * @brief QQuickStyle::setStyle
