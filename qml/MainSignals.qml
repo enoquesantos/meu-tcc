@@ -73,7 +73,7 @@ QtObject {
             pageJson = pages[i]
             // if current user permission is not valid for this page
             // or page is not to show in TabBar, go to next visible page
-            if (!pageJson.showInTabBar || pageJson.roles.indexOf(user.profileName) < 0)
+            if (!pageJson.showInTabBar || (Config.hasLogin && user.profileName && pageJson.roles.indexOf(user.profileName) < 0))
                 continue
             component = Qt.createComponent(Qt.resolvedUrl(pageJson.absPath))
             swipeView.addItem(component.createObject(swipeView))

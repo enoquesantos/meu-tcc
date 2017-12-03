@@ -2,7 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 
 TabBar {
-    visible: true
+    visible: !Config.hasLogin || Config.hasLogin && user.isLoggedIn
     z: 2; height: visible ? 48 : 0
     currentIndex: swipeView.currentIndex
 

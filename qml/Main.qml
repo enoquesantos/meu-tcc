@@ -100,7 +100,7 @@ ApplicationWindow {
     // load the main TabBar to show pages buttons, used with swipeview if "usesTabBar" is true
     // in config.json. The app will be uses the swipeView + tabBar to swap the application pages.
     Loader {
-        active: Config.usesTabBar && user.isLoggedIn; asynchronous: false
+        active: Config.usesTabBar; asynchronous: false
         source: "TabBar.qml"
         onLoaded: footer = item
     }
@@ -109,7 +109,7 @@ ApplicationWindow {
     // to open the navigation drawer (if "usesDrawer" is defined to true in config.json)
     // and dynamic buttons defined by each page, for some actions like show a submenu or search button.
     Loader {
-        active: user.isLoggedIn; asynchronous: false
+        active: !Config.usesTabBar && (!Config.hasLogin || Config.hasLogin && user.isLoggedIn); asynchronous: false
         source: "ToolBar.qml"
         onLoaded: header = item
     }
@@ -143,7 +143,7 @@ ApplicationWindow {
         active: Config.usesTabBar; asynchronous: false
         sourceComponent: SwipeView {
             id: swipeView
-            visible: Config.usesTabBar && pageStack.depth === 0
+            visible: pageStack.depth === 0
             anchors.fill: visible ? parent : undefined
             currentIndex: footer ? footer.currentIndex : 0
         }
