@@ -44,37 +44,58 @@ BasePage {
                 }
             }
 
-            Label {
-                width: parent.width
-                text: Config.applicationName
-                color: Config.theme.colorAccent
-                font { weight: Font.ExtraBold; pointSize: 28 }
-                horizontalAlignment: Label.AlignHCenter
+            Item {
+                width: parent.width * 0.80; height: applicationName.implicitHeight + 10
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: Qt.openUrlExternally("www.google.com")
+                Label {
+                    id: applicationName
+                    width: parent.width
+                    wrapMode: Text.WrapAnywhere
+                    text: Config.applicationName
+                    color: Config.theme.colorAccent
+                    font { weight: Font.ExtraBold; pointSize: Config.fontSize.extraLarge }
+                    horizontalAlignment: Label.AlignHCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: Qt.openUrlExternally("www.google.com")
+                    }
                 }
             }
 
-            Label {
-                width: parent.width
-                text: Config.organizationName
-                color: Config.theme.colorAccent
-                font { weight: Font.DemiBold; pointSize: 18 }
-                horizontalAlignment: Label.AlignHCenter
+            Item {
+                width: parent.width * 0.80; height: organizationName.implicitHeight + 10
                 anchors.horizontalCenter: parent.horizontalCenter
+
+                Label {
+                    id: organizationName
+                    width: parent.width
+                    wrapMode: Text.WrapAnywhere
+                    text: Config.organizationName
+                    color: Config.theme.colorAccent
+                    font { weight: Font.DemiBold; pointSize: 18 }
+                    horizontalAlignment: Label.AlignHCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
             }
 
-            Label {
-                id: lastLabel
-                width: parent.width
-                text: Config.applicationDescription
-                color: Config.theme.colorAccent
-                font { weight: Font.DemiBold; pointSize: 16 }
-                horizontalAlignment: Label.AlignHCenter
+            Item {
+                width: parent.width * 0.80; height: applicationDescription.implicitHeight + 10
                 anchors.horizontalCenter: parent.horizontalCenter
+
+                Label {
+                    id: applicationDescription
+                    width: parent.width
+                    wrapMode: Text.WrapAnywhere
+                    elide: Text.ElideRight
+                    text: Config.applicationDescription
+                    color: Config.theme.colorAccent
+                    font { weight: Font.DemiBold; pointSize: 16 }
+                    horizontalAlignment: Label.AlignHCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
             }
 
             Item {
