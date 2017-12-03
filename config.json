@@ -38,19 +38,5 @@
         "pageBackgroundColor": "#fafafa",
         "toolTipBackgroundColor": "#323232"
     },
-    "events": {
-        "cameraImageSaved": "cameraImageSaved",
-        "cancel": "cancel",
-        "eulaAccepted": "eulaAccepted",
-        "goBack": "goBack",
-        "newPushMessage": "newPushMessage",
-        "newIntentPushMessage": "newIntentPushMessage",
-        "openDrawer": "openDrawer",
-        "pushNotificationToken": "pushNotificationToken",
-        "refreshDrawerPages": "refreshDrawerPages",
-        "requestUpdateUserProfile": "requestUpdateUserProfile",
-        "saveUserProfile": "saveUserProfile",
-        "submitForm": "submitForm",
-        "userProfileChanged": "userProfileChanged"
-    }
+    "events": { }
 }
