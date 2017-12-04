@@ -177,7 +177,7 @@ Rectangle {
 
                 Text {
                     id: _secondaryLabel
-                    width: parent.width; height: parent.height
+                    width: parent.width * 0.90; height: parent.height
                     color: _primaryLabel.color; opacity: 0.7
                     elide: Text.ElideRight; wrapMode: Text.WrapAnywhere
                     font { weight: Font.DemiBold; pointSize: 11 }
