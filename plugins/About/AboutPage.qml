@@ -12,7 +12,6 @@ BasePage {
     hasListView: false
     hasNetworkRequest: false
     pageBackgroundColor: Config.theme.colorPrimary
-    enableToolBarShadow: flickable.contentY > 5
 
     Flickable {
         id: flickable
@@ -51,7 +50,7 @@ BasePage {
                 Label {
                     id: applicationName
                     width: parent.width
-                    wrapMode: Text.WrapAnywhere
+                    wrapMode: Text.WordWrap
                     text: Config.applicationName
                     color: Config.theme.colorAccent
                     font { weight: Font.ExtraBold; pointSize: Config.fontSize.extraLarge }
@@ -72,7 +71,7 @@ BasePage {
                 Label {
                     id: organizationName
                     width: parent.width
-                    wrapMode: Text.WrapAnywhere
+                    wrapMode: Text.WordWrap
                     text: Config.organizationName
                     color: Config.theme.colorAccent
                     font { weight: Font.DemiBold; pointSize: 18 }
@@ -89,7 +88,7 @@ BasePage {
                 Label {
                     id: applicationDescription
                     width: parent.width
-                    wrapMode: Text.WrapAnywhere
+                    wrapMode: Text.WordWrap
                     elide: Text.ElideRight
                     text: Config.applicationDescription
                     color: Config.theme.colorAccent
