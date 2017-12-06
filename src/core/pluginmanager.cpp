@@ -148,8 +148,8 @@ void PluginManager::clearCache()
     QStringList cacheFiles(dir.entryList({QStringLiteral("*.qmlc"), QStringLiteral("*.jsc")}, QDir::Files));
 
     #ifdef QT_DEBUG
-        qDebug() << QStringLiteral("Application writable location path is: ") + dir.absolutePath();
-        qDebug() << QStringLiteral("Application cache files contains %d files ").arg(cacheFiles.size());
+        qDebug() << QStringLiteral("Application writable location path is %1").arg(dir.absolutePath());
+        qDebug() << QStringLiteral("Application cache files contains %1 files").arg(cacheFiles.size());
     #endif
 
     foreach (const QString &filePath, cacheFiles) {
@@ -175,7 +175,7 @@ void PluginManager::createDatabaseTables(const QString &pluginDirPath)
         return;
 
     #ifdef QT_DEBUG
-        qDebug() << QStringLiteral("Found a a sql file for '%s' plugin").arg(pluginDirPath);
+        qDebug() << QStringLiteral("Found a a sql file for %1 plugin").arg(pluginDirPath);
     #endif
 
     auto *worker = new Private::PluginDatabaseTableCreator(pluginDirPath + QStringLiteral("/plugin_table.sql"), this);
