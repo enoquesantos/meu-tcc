@@ -8,7 +8,6 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 #include <QtAlgorithms>
-#include <QTextStream>
 
 #ifdef QT_DEBUG
 #include <QDebug>
@@ -54,15 +53,25 @@ void PluginManager::loadPlugins()
 {
     QString savedVersion(m_app->readSetting(QStringLiteral("version")).toString());
 
+    // read the plugins directory path
+    QDir pluginsRootDir(PluginManager::pluginsDir());
+    pluginsRootDir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
+
+    // keeps the plugin root absolute path
+    QString pluginsRootDirPath(pluginsRootDir.absolutePath() + QStringLiteral("/"));
+
+    // the list of plugins folders in plugins root directory
+    QStringList pluginsDirs(pluginsRootDir.entryList());
+
     // QApplication::applicationVersion() return the current application version:
     // 1: In android, return the value for android:versionName property of the AndroidManifest.xml manifest element
-    // 2: In iOS, return the value for CFBundleVersion property of the information property list
-    // 3: On other platforms, the default is the empty string (linux desktop).
+    // 2: In iOS, return the value for CFBundleVersion property of the information property list (from in ios Info.plist)
+    // 3: On other platforms, the default is a empty string (linux desktop).
     QString applicationVersion(QApplication::applicationVersion());
 
     // we need to check the saved version with the current running version.
-    // if the execution version is the same value of saved version and 'm_forceClearCache'
-    // is not set to true, nothing to be done. Otherwise, all cached data needs to be removed to be recreated
+    // if the current running version is the same value of saved version and 'm_forceClearCache' is
+    // not true (in config.json), nothing to be done. Otherwise, all cached data needs to be removed to be recreated.
     if (!savedVersion.isEmpty() && !applicationVersion.isEmpty() && savedVersion.compare(applicationVersion) == 0 && !m_forceClearCache) {
         #ifdef QT_DEBUG
             qDebug() << QStringLiteral("Plugins ready from cache!");
@@ -70,49 +79,45 @@ void PluginManager::loadPlugins()
         emit finished(this);
     } else {
         #ifdef QT_DEBUG
-            qDebug() << QStringLiteral("Application was updated or force to load new plugins.");
+            qDebug() << QStringLiteral("Application was updated or force to reload the plugins!");
         #endif
 
-        // if the app was updated, all qml cached files will be deleted!
-        // and all plugins will be reloaded and saved.
         clearCache();
-
-        QDir dir(PluginManager::pluginsDir());
 
         QString pluginAbsPath;
         QVariantMap pluginJson;
-        foreach (const QString &pluginDir, dir.entryList()) {
-            QFile file(dir.absoluteFilePath(pluginDir + QStringLiteral("/config.json")));
+        foreach (const QString &pluginDir, pluginsDirs) {
+            QFile file(pluginsRootDirPath + pluginDir + QStringLiteral("/config.json"));
+            // set the config.json absolute path for current plugin
+            pluginAbsPath = QFileInfo(file.fileName()).absolutePath();
+            // append the plugin path with plugin name to be added in Config.json
+            m_pluginsPaths.insert(pluginDir, pluginAbsPath);
             if (file.exists()) {
-                // set the plugin absolute path
-                pluginAbsPath = QFileInfo(file.fileName()).absolutePath();
 
-                // load the plugin config.json file
+                // load the config.json
                 pluginJson = Utils::instance()->readFile(file.fileName()).toMap();
 
-                // add the plugin absolute path to plugin json
-                pluginJson.insert(QStringLiteral("absPath"), pluginAbsPath);
-
-                // append all listeners from current plugin if available
+                // append all listeners from current plugin (if available)
                 if (pluginJson.contains(QStringLiteral("listeners"))) {
-                    foreach (const QString &item, pluginJson.value(QStringLiteral("listeners")).toStringList()) {
+                    QStringList listeners(pluginJson.value(QStringLiteral("listeners")).toStringList());
+                    foreach (const QString &item, listeners) {
                         // when application running in desktop mode
                         // prepend "file:/" to absolute listener path to be loaded dynamically without in qrc
                         #ifdef Q_OS_ANDROID
-                            m_pluginsListeners << pluginAbsPath + "/" + item;
+                            m_listeners << pluginAbsPath + "/" + item;
                         #else
-                            m_pluginsListeners << QStringLiteral("file://") + pluginAbsPath + QStringLiteral("/") + item;
+                            m_listeners << QStringLiteral("file://") + pluginAbsPath + QStringLiteral("/") + item;
                         #endif
                     }
                 }
-
                 createDatabaseTables(pluginAbsPath);
-                parsePages(pluginJson);
+                parsePages(pluginAbsPath, pluginJson);
             }
         }
 
         sortPages();
         save();
+        m_app->setPluginsPaths(m_pluginsPaths);
         emit finished(this);
     }
 }
@@ -126,11 +131,11 @@ bool PluginManager::sortByKey(const QVariant &a, const QVariant &b)
 void PluginManager::save()
 {
     m_app->saveSetting(QStringLiteral("pages"), m_pages);
-    m_app->saveSetting(QStringLiteral("listeners"), m_pluginsListeners);
+    m_app->saveSetting(QStringLiteral("listeners"), m_listeners);
     m_app->saveSetting(QStringLiteral("version"), QApplication::applicationVersion());
 
     #ifdef QT_DEBUG
-        qDebug() << QStringLiteral("Application plugins was saved success!");
+        qDebug() << QStringLiteral("Application plugins, listeners and version was saved success!");
     #endif
 }
 
@@ -143,8 +148,8 @@ void PluginManager::clearCache()
     QStringList cacheFiles(dir.entryList({QStringLiteral("*.qmlc"), QStringLiteral("*.jsc")}, QDir::Files));
 
     #ifdef QT_DEBUG
-        qDebug() << QStringLiteral("Application writableLocation path  is: ") + dir.absolutePath();
-        qDebug() << QStringLiteral("Application cache files size: ") + cacheFiles.size();
+        qDebug() << QStringLiteral("Application writable location path is: ") + dir.absolutePath();
+        qDebug() << QStringLiteral("Application cache files contains %d files ").arg(cacheFiles.size());
     #endif
 
     foreach (const QString &filePath, cacheFiles) {
@@ -170,7 +175,7 @@ void PluginManager::createDatabaseTables(const QString &pluginDirPath)
         return;
 
     #ifdef QT_DEBUG
-        qDebug() << QStringLiteral("Application plugin has a sql file at: ") + pluginDirPath;
+        qDebug() << QStringLiteral("Found a a sql file for '%s' plugin").arg(pluginDirPath);
     #endif
 
     auto *worker = new Private::PluginDatabaseTableCreator(pluginDirPath + QStringLiteral("/plugin_table.sql"), this);
@@ -187,23 +192,21 @@ void PluginManager::sortPages()
     plugins.clear();
 }
 
-void PluginManager::parsePages(const QVariantMap &pluginJson)
+void PluginManager::parsePages(const QString &pluginPath, const QVariantMap &pluginConfig)
 {
     QVariantMap page;
-    QString pluginAbsPath(pluginJson.value(QStringLiteral("absPath")).toString());
-
-    foreach (auto item, pluginJson.value(QStringLiteral("pages")).toList()) {
+    foreach (auto item, pluginConfig.value(QStringLiteral("pages")).toList()) {
         page = item.toMap();
+        QString pagePath(pluginPath + "/" + page.value(QStringLiteral("qml")).toString());
 
         // the 'absPath' (absolute path) is useful to menu make binds with current page
         // turning the item selected (background color) when is the active item.
         // when application is running on ios, osx or linux desktop,
-        // we need to prepend "file:/" to absolute path
+        // we need to prepend "file://" to absolute path
         #ifndef Q_OS_ANDROID
-            page.insert(QStringLiteral("absPath"), QStringLiteral("file://") + pluginAbsPath + QStringLiteral("/") + page.value(QStringLiteral("qml")).toString());
-        #else
-            page.insert(QStringLiteral("absPath"), pluginAbsPath + "/" + page.value(QStringLiteral("qml")).toString());
+            pagePath = pagePath.prepend(QStringLiteral("file://"));
         #endif
+        page.insert(QStringLiteral("absPath"), pagePath);
 
         // set defaults properties if not set by page.
         if (!page.contains(QStringLiteral("order")))
@@ -213,15 +216,15 @@ void PluginManager::parsePages(const QVariantMap &pluginJson)
         if (!page.contains(QStringLiteral("showInTabBar")))
             page.insert(QStringLiteral("showInTabBar"), false);
         if (!page.contains(QStringLiteral("roles")))
-            page.insert(QStringLiteral("roles"), QJsonArray());
+            page.insert(QStringLiteral("roles"), QVariantList());
 
         // if the page is a login page (set the property "isLogin" to true)
         // save the absolute path to this page to qml application load the login page.
         // This feature is to reduce the hard coded set what's the login page and the home page (initial page after login)
         if (page.contains(QStringLiteral("isLoginPage")))
-            m_app->saveSetting(QStringLiteral("loginPageUrl"), page.value(QStringLiteral("absPath")).toString());
+            m_app->saveSetting(QStringLiteral("loginPageUrl"), pagePath);
         else if (page.contains(QStringLiteral("isHomePage")))
-            m_app->saveSetting(QStringLiteral("homePageUrl"), page.value(QStringLiteral("absPath")).toString());
+            m_app->saveSetting(QStringLiteral("homePageUrl"), pagePath);
 
         m_pages << page;
     }

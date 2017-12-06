@@ -63,6 +63,14 @@ public:
     QVariantMap config();
 
     /**
+     * @brief setPluginsPaths
+     * Append into Config.json a list with all plugins paths by plugin name.
+     * Can be used to qml plugins load a file or page using a syntax like this: Config.plugins.About + "About.qml"
+     * @param pluginsPaths a map with pluginNames as keys and plugins absolute paths as value
+     */
+    void setPluginsPaths(const QVariantMap &pluginsPaths);
+
+    /**
      * @brief isDeviceOnline
      * Returns true if the system is considered to be connected to another device via
      * an active network interface (Uses QNetworkConfigurationManager class). Otherwise returns false.

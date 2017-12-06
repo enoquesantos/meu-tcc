@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QJSValue>
+#include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonParseError>
@@ -121,6 +122,11 @@ void App::sendNotification(const QString &title, const QString &message, const Q
 QVariantMap App::config()
 {
     return m_config;
+}
+
+void App::setPluginsPaths(const QVariantMap &pluginsPaths)
+{
+    m_config.insert(QStringLiteral("plugins"), pluginsPaths);
 }
 
 QVariant App::readSetting(const QString &key, quint8 returnType)

@@ -2,8 +2,6 @@
 #define PLUGINMANAGER_H
 
 #include <QDir>
-#include <QJsonArray>
-#include <QJsonObject>
 #include <QObject>
 #include <QThread>
 #include <QVariant>
@@ -197,9 +195,10 @@ private:
      *  4: 'showInTabBar' - used to show page in TabBar when app uses TabBar (set in config.json);
      *  5: 'roles' - a list of user roles, required to display (or not) to current user role;
      *  6: 'absPath' - the page absolute path used to Drawer Menu push in StackView after user click in some item;
-     * @param pluginJson QVariantMap a object from some plugin (the plugin config.json content)
+     * @param pluginPath QString the pugin absolute path
+     * @param pluginConfig QVariantMap a object from some plugin (the plugin config.json content)
      */
-    void parsePages(const QVariantMap &pluginJson);
+    void parsePages(const QString &pluginPath, const QVariantMap &pluginConfig);
 
 private:
     /**
@@ -211,11 +210,19 @@ private:
     QVariantList m_pages;
 
     /**
-     * @brief m_pluginsListeners
-     * Keeps teh list of all listeners, is added in 'loadPlugins' method and is used
+     * @brief m_listeners
+     * Keeps a list of all listeners, is added in 'loadPlugins' method and is used
      * by save() method. At end, save in local settings as QStringList
      */
-    QStringList m_pluginsListeners;
+    QStringList m_listeners;
+
+    /**
+     * @brief m_pluginsListPaths
+     * Keeps a list of all plugins paths, is added in 'loadPlugins' method and is used
+     * by plugins to retrieve the abolute path for earch plugin and can be used by plugin
+     * to call a plugin file or page using the Config.plugins.pluginName -> get the absolute path to pluginName.
+     */
+    QVariantMap m_pluginsPaths;
 
     /**
      * @brief m_app
