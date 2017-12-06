@@ -76,6 +76,11 @@ QtObject {
             if (!pageJson.showInTabBar || (Config.hasLogin && user.profileName && pageJson.roles.indexOf(user.profileName) < 0))
                 continue
             component = Qt.createComponent(Qt.resolvedUrl(pageJson.absPath))
+            // if the page has a some error, go to next page
+            if (component.status === Component.Error) {
+                console.error(component.errorString())
+                continue
+            }
             swipeView.addItem(component.createObject(swipeView))
             component = Qt.createComponent(Qt.resolvedUrl("TabBarButton.qml"))
             footer.addItem(component.createObject(footer,{"checked":i === 0,"text":pageJson.title,"iconName":pageJson.icon,"showTextOnPressed":true}))
