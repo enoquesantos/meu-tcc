@@ -10,7 +10,10 @@ ToolButton {
     contentItem: Icon {
         id: toolButtonIcon
         clickEnabled: false; z: -1; size: 26
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            verticalCenter: parent.verticalCenter
+        }
     }
 
     property string action

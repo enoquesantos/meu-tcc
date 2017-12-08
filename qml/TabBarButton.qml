@@ -12,10 +12,10 @@ TabButton {
         color: icon.color
         horizontalAlignment: Text.AlignHCenter
         anchors { bottom: parent.bottom; bottomMargin: 2 }
-        elide: Text.ElideRight
+        width: control.width * 0.90; elide: Text.ElideRight
 
         Behavior on color {
-            ColorAnimation { duration: 100 }
+            ColorAnimation { duration: 200 }
         }
     }
     background: Rectangle {
@@ -33,16 +33,15 @@ TabButton {
         window.footer.tooltipText = control.text
     }
 
-    // define the awesome icon
     Awesome.Icon {
         id: icon
-        clickEnabled: false
+        clickEnabled: false; height: parent.height*2
         size: Config.showTabButtonText ? 12 : 20; opacity: control.down ? 0.7 : 1
         color: control.checked ? Config.theme.colorPrimary : Config.theme.colorAccent
         anchors {
             centerIn: Config.showTabButtonText ? undefined : parent
             top: Config.showTabButtonText ? parent.top : undefined
-            topMargin: Config.showTabButtonText ? 5 : 0
+            topMargin: Config.showTabButtonText ? -27 : 0
             horizontalCenter: Config.showTabButtonText ? parent.horizontalCenter : undefined
         }
     }
