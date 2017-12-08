@@ -43,10 +43,6 @@ App::~App()
 {
     if (m_config.size())
         m_config.clear();
-    if (m_instance)
-        delete m_instance;
-    if (m_pluginManager)
-        delete m_pluginManager;
 }
 
 void App::init()
