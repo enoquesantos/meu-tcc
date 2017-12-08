@@ -29,6 +29,9 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     QQmlContext *context = engine.rootContext();
 
+    // register the Awesome icon font loader as QML singleton type
+    qmlRegisterSingletonType(QUrl("qrc:/qml/Awesome/IconFontLoader.qml"), "Qt.project.AwesomeIconFontLoader", 1, 0, "IconFontLoaderSingleton");
+
     App app(&qApplication);
     Utils *utils(Utils::instance());
     utils->setParent(&qApplication);
