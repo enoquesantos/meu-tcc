@@ -5,16 +5,21 @@ import QtQuick.Controls.Material 2.1
 
 import "Awesome/"
 
-Rectangle {
+ItemDelegate {
     id: listItem
     width: parent.width; height: visible ? 55 : 0
     antialiasing: true; opacity: enabled ? 1 : 0.6
-    color: selected ? selectedBackgroundColor : "transparent"
     anchors.horizontalCenter: parent.horizontalCenter
     visible: secondaryLabelText.length || primaryLabelText.length
 
-    Behavior on color {
-        ColorAnimation { duration: 200 }
+    Rectangle {
+        id: backgroundRec
+        anchors.fill: parent
+        color: selected ? selectedBackgroundColor : "transparent"
+
+        Behavior on color {
+            ColorAnimation { duration: 200 }
+        }
     }
 
     property int margins: 16
@@ -41,7 +46,7 @@ Rectangle {
     property bool showShadow
     property bool showSeparator: true
 
-    property alias backgroundColor: listItem.color
+    property alias backgroundColor: backgroundRec.color
     property color selectedTextColor: primaryLabelColor
     property color selectedBackgroundColor: Qt.rgba(0,0,0,0.1)
 
@@ -53,17 +58,8 @@ Rectangle {
     property bool badgeInRightSide: false
     property real badgeWidth: listItem.height * 0.80
 
-    signal clicked(var mouse)
-    signal pressAndHold(var mouse)
     signal secondaryActionClicked(var mouse)
     signal secondaryActionPressAndHold(var mouse)
-
-    MouseArea {
-        id: listItemMouseArea
-        anchors.fill: parent
-        onClicked: listItem.clicked(mouse)
-        onPressAndHold: listItem.pressAndHold(mouse)
-    }
 
     // to enable shadow, add follow line in main.cpp (after QGuiApplication object):
     // QQuickStyle::setStyle(QStringLiteral("Material"));
@@ -153,11 +149,11 @@ Rectangle {
             Rectangle {
                 id: _firstItemText
                 color: "transparent"
-                width: parent.width; height: secondaryLabelText.length ? 27 : 55
+                width: parent.width; height: secondaryLabelText.length ? parent.height/2 : parent.height
 
                 Text {
                     id: _primaryLabel
-                    width: parent.width; height: parent.height
+                    width: parent.width * 0.90; height: parent.height
                     color: selected ? selectedTextColor : primaryLabelColor
                     font { weight: Font.Bold; pointSize: 15 }
                     wrapMode: Text.WrapAnywhere
@@ -165,7 +161,7 @@ Rectangle {
                     verticalAlignment: secondaryLabelText.length ? 0 : Text.AlignVCenter
                     anchors {
                         top: _secondaryLabel.text ? parent.top : undefined
-                        topMargin: _secondaryLabel.text ? 7 : 0
+                        topMargin: _secondaryLabel.text ? 6 : 0
                         verticalCenter: !_secondaryLabel.text ? parent.verticalCenter : undefined
                     }
                 }
@@ -180,7 +176,7 @@ Rectangle {
                     width: parent.width * 0.90; height: parent.height
                     color: _primaryLabel.color; opacity: 0.7
                     elide: Text.ElideRight; wrapMode: Text.WrapAnywhere
-                    font { weight: Font.DemiBold; pointSize: 11 }
+                    font { weight: Font.DemiBold; pointSize: 10 }
                     verticalAlignment: Text.AlignVCenter
                 }
             }
