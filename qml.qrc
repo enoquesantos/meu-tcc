@@ -43,6 +43,7 @@
 
         <file>qml/Awesome/Font.otf</file>
         <file>qml/Awesome/Icon.qml</file>
+        <file>qml/Awesome/IconFontLoader.qml</file>
         <file>qml/Awesome/Map.js</file>
     </qresource>
 </RCC>
