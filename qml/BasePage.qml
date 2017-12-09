@@ -103,7 +103,7 @@ Page {
     property string secondaryActionMessageText
 
     // set the awesome icon to pageActionMessage
-    property string actionMessageIconName
+    property string actionMessageIconName: "refresh"
 
     // a reference to busyIndicator, loaded if 'hasNetworkRequest'
     property BusyIndicator busyIndicator

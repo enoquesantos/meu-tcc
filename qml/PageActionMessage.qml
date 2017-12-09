@@ -52,7 +52,7 @@ Item {
     }
 
     Column {
-        spacing: 12
+        spacing: 25
         anchors.centerIn: parent
         visible: noItemRec.visible
 
@@ -63,7 +63,7 @@ Item {
 
             Icon {
                 id: awesomeIcon
-                size: 45; color: primaryText.color; name: "warning"
+                size: 25; color: primaryText.color; name: "warning"
                 anchors.horizontalCenter: parent.horizontalCenter; clickEnabled: false
             }
         }
