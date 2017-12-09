@@ -2,8 +2,8 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 
 TabBar {
+    z: 2
     visible: !Config.hasLogin || Config.hasLogin && user.isLoggedIn
-    z: 2; height: visible ? 48 : 0
     currentIndex: swipeView.currentIndex
 
     // tooltip is visible when user press and hold in some of TabBar buttons
