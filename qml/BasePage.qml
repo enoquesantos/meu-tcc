@@ -96,14 +96,11 @@ Page {
     // each page can set a custom color to page background using this alias
     property alias pageBackgroundColor: _pageBackgroundRec.color
 
-    // set primary text to pageActionMessage
-    property string primaryActionMessageText
-
-    // set secondary text to pageActionMessage
-    property string secondaryActionMessageText
+    // set the text to pageActionMessage
+    property string actionMessageText
 
     // set the awesome icon to pageActionMessage
-    property string actionMessageIconName: "refresh"
+    property string actionMessageIconName
 
     // a reference to busyIndicator, loaded if 'hasNetworkRequest'
     property BusyIndicator busyIndicator
@@ -146,21 +143,21 @@ Page {
         onLoaded: busyIndicator = item
     }
 
-    // page action message show a icon with two messages into a column.
+    // page action message show a icon and a message into a column.
     // the action can be clicked by user sending the requestUpdatePage() signal
     Loader {
         asynchronous: false; active: hasListView
         sourceComponent: PageActionMessage {
-            primaryActionMessageText: basePage.primaryActionMessageText
-            iconName: basePage.actionMessageIconName
             visible: listView && listViewModel.count === 0 && !isPageBusy
             onClicked: requestUpdatePage()
         }
         onLoaded: {
             item.parent = basePage
             item.anchors.centerIn = parent
-            if (basePage.secondaryActionMessageText)
-                item.secondaryActionMessageText = basePage.secondaryActionMessageText
+            if (basePage.actionMessageText)
+                item.actionMessageText = basePage.actionMessageText
+            if (basePage.actionMessageIconName)
+                item.iconName = basePage.actionMessageIconName
         }
     }
 
