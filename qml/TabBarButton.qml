@@ -9,26 +9,26 @@ TabButton {
         visible: Config.showTabButtonText
         text: control.text
         font.pointSize: Config.fontSize.small
-        color: icon.color
+        color: icon.color; opacity: icon.opacity
         horizontalAlignment: Text.AlignHCenter
         anchors { bottom: parent.bottom; bottomMargin: 2 }
         width: control.width * 0.90; elide: Text.ElideRight
 
         Behavior on color {
-            ColorAnimation { duration: 200 }
+            ColorAnimation { duration: 150 }
         }
     }
     background: Rectangle {
         id: tabButtonRectangle
-        width: control.width; height: control.height
+        width: control.width; height: control.height + 20
         color: control.checked ? Config.theme.colorAccent : Config.theme.colorPrimary
 
         Behavior on color {
-            ColorAnimation { duration: 200 }
+            ColorAnimation { duration: 150 }
         }
     }
     onPressAndHold: {
-        window.footer.tooltipX = control.x + ((control.width - control.contentItem.implicitWidth) * 0.35)
+        window.footer.tooltipX = control.x + ((control.width - control.contentItem.implicitWidth) * 0.15)
         window.footer.tooltipY = control.y - control.height
         window.footer.tooltipText = control.text
     }
@@ -40,24 +40,10 @@ TabButton {
         color: control.checked ? Config.theme.colorPrimary : Config.theme.colorAccent
         anchors {
             centerIn: Config.showTabButtonText ? undefined : parent
-            top: Config.showTabButtonText ? parent.top : undefined
-            topMargin: Config.showTabButtonText ? -27 : 0
             horizontalCenter: Config.showTabButtonText ? parent.horizontalCenter : undefined
+            top: Config.showTabButtonText ? parent.top : undefined
+            topMargin: Config.showTabButtonText ? (isDesktop ? -27 : -22) : undefined
         }
-    }
-
-    Binding {
-        target: icon
-        property: "color"
-        value: Config.theme.colorPrimary
-        when: control.checked
-    }
-
-    Binding {
-        target: icon
-        property: "color"
-        value: Config.theme.colorAccent
-        when: !control.checked
     }
 
     property alias iconName: icon.name
