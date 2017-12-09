@@ -66,9 +66,20 @@ ApplicationWindow {
     Loader {
         active: true; asynchronous: true
         sourceComponent: Binding {
+            when: window.header != null
             target: window.header
             property: "visible"
             value: pageStack.depth && pageStack.currentItem && pageStack.currentItem.showToolBar
+        }
+    }
+
+    // load a Binding object to create a bind with PageStack tunning visible when PageStack has a some item
+    Loader {
+        active: true; asynchronous: true
+        sourceComponent: Binding {
+            target: pageStack
+            property: "visible"
+            value: pageStack.depth > 0
         }
     }
 
@@ -88,9 +99,9 @@ ApplicationWindow {
     // in swipeView. The TabBar, after created, keeps a reference to window.footer and needs
     // to be visible when pageStack is empty and current page set showTabBar to true.
     Loader {
-        active: Config.usesTabBar && user.isLoggedIn; asynchronous: true
+        active: Config.usesTabBar; asynchronous: true
         sourceComponent: Binding {
-            when: user.isLoggedIn && Config.usesTabBar
+            when: window.footer != null
             target: window.footer
             property: "visible"
             value: !pageStack.depth && swipeView.currentItem && swipeView.currentItem.showTabBar
