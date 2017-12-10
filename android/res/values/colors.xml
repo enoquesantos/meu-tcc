@@ -2,8 +2,8 @@
 <resources>
     <color name="colorAccent">#91ff44</color>
     <color name="colorPrimary">#2c576c</color>
-    <color name="colorControlActivated">#483d8b</color>
+    <color name="colorControlActivated">#2c576c</color>
     <color name="colorPrimaryDark">#3b3b3b</color>
-    <color name="textColorPrimary">#483d8b</color>
-    <color name="statusBarColor">#483d8b</color>
+    <color name="textColorPrimary">#2c576c</color>
+    <color name="statusBarColor">#2c576c</color>
 </resources>

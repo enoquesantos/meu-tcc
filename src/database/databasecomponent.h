@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QVariant>
-#include <QVector>
 #include <QThread>
 
 class Database;
@@ -131,11 +130,12 @@ public:
 
     /**
      * @brief containsId
-     * Check if a value for 'id' parameter exists in m_savedIds property.
-     * @param id int the ID to check if already exists on database
+     * Check if the item parameter exists in m_savedPks property.
+     * The item can be the table primary key, to check if already exists on database
+     * @param item QVariant the item to check if already exists on database. The value can be a integer or string
      * @return bool
      */
-    Q_INVOKABLE bool containsId(int id);
+    Q_INVOKABLE bool containsId(const QVariant &item);
 
     /**
      * @brief insert
@@ -216,11 +216,11 @@ private:
     int m_totalItens;
 
     /**
-     * @brief m_savedIds
-     * A list of integers with all ID's saved in database for current table.
+     * @brief m_savedPks
+     * A QVariantList with all ID's saved in database for current table.
      * It's useful to check if the current table contains a some item and prevent to insert again.
      */
-    QVector<int> m_savedIds;
+    QVariantList m_savedPks;
 
     /**
      * @brief m_database

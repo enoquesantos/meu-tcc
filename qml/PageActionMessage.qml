@@ -8,7 +8,7 @@ Rectangle {
     id: rootItem
     anchors.centerIn: parent; radius: width
     color: "transparent"
-    width: visible ? (parent.width * 0.50) : 0; height: width
+    width: visible ? (parent.width * 0.70) : 0; height: width
     transitions: Transition {
         NumberAnimation { property: "opacity"; duration: 250 }
     }
@@ -26,7 +26,7 @@ Rectangle {
     property alias iconSize: actionMessageIcon.size
     property alias iconName: actionMessageIcon.name
     property alias textColor: actionMessage.color
-    property alias actionMessageText: actionMessage.text
+    property alias messageText: actionMessage.text
 
     signal clicked()
     signal pressAndHold()

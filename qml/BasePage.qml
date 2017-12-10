@@ -155,7 +155,7 @@ Page {
             item.parent = basePage
             item.anchors.centerIn = parent
             if (basePage.actionMessageText)
-                item.actionMessageText = basePage.actionMessageText
+                item.messageText = basePage.actionMessageText
             if (basePage.actionMessageIconName)
                 item.iconName = basePage.actionMessageIconName
         }

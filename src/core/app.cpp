@@ -59,6 +59,7 @@ void App::init()
         QStringLiteral("newPushMessage"),
         QStringLiteral("newIntentPushMessage"),
         QStringLiteral("openDrawer"),
+        QStringLiteral("drawerClosed"),
         QStringLiteral("pushNotificationToken"),
         QStringLiteral("refreshDrawerPages"),
         QStringLiteral("requestUpdateUserProfile"),

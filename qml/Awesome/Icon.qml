@@ -6,9 +6,8 @@ import Qt.project.AwesomeIconFontLoader 1.0
 
 RoundButton {
     id: widget
-    antialiasing: true; enabled: clickEnabled
+    antialiasing: true; flat: true
     opacity: enabled ? 1.0 : 0.7; width: 75; height: width
-    flat: true
 
     property string name
     property int size: 16

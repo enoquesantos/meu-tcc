@@ -2,7 +2,7 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat">
         <item name="android:windowDisablePreview">true</item>
-        <item name="android:colorBackground">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
         <item name="android:colorControlActivated">@color/colorPrimary</item>
         <item name="android:colorControlHighlight">@color/colorPrimary</item>
         <item name="android:colorAccent">@color/colorAccent</item>

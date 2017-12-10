@@ -68,7 +68,7 @@ void DatabaseComponent::load()
     // set all ids (probably the table primary key)
     // ids can be used to check if some data is already in database
     for (int i = 0; i < m_totalItens; ++i)
-        m_savedIds << result[i].toMap().value(QStringLiteral("id")).toInt();
+        m_savedPks << result[i].toMap().value(QStringLiteral("id"));
 }
 
 void DatabaseComponent::setTableName(const QString &tableName)
@@ -83,9 +83,9 @@ void DatabaseComponent::setJsonColumns(const QStringList &jsonColumns)
     m_jsonColumns = jsonColumns;
 }
 
-bool DatabaseComponent::containsId(int id)
+bool DatabaseComponent::containsId(const QVariant &item)
 {
-    return m_savedIds.contains(id);
+    return m_savedPks.contains(item);
 }
 
 void DatabaseComponent::parseData(QVariantMap *data)
@@ -110,14 +110,15 @@ void DatabaseComponent::parseData(QVariantMap *data)
 int DatabaseComponent::insert(const QVariantMap &data)
 {
     int id = data.value(QStringLiteral("id")).toInt();
-    if (m_tableName.isEmpty() || m_savedIds.contains(id))
+    if (m_tableName.isEmpty() || (id > 0 && m_savedPks.contains(id)))
         return 0;
     QVariantMap insertData(data);
     parseData(&insertData);
     id = m_database->insert(m_tableName, insertData);
-    if (insertData.size() && id)
-        m_savedIds << id;
-    m_totalItens = m_savedIds.size();
+    if (insertData.size() && id) {
+        m_savedPks << id;
+        m_totalItens = m_savedPks.size();
+    }
     return id;
 }
 
@@ -139,7 +140,7 @@ void DatabaseComponent::select(const QVariantMap &where, const QVariantMap &args
 int DatabaseComponent::update(const QVariantMap &data, const QVariantMap &where)
 {
     int id = data.value(QStringLiteral("id")).toInt();
-    if (m_tableName.isEmpty() || !m_savedIds.contains(id))
+    if (m_tableName.isEmpty() || (id > 0 && !m_savedPks.contains(id)))
         return insert(data);
     QVariantMap updateData(data);
     parseData(&updateData);
