@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <manifest package="org.qtproject.example" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.0" android:versionCode="1" android:installLocation="auto">
-    <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:theme="@style/AppTheme" android:icon="@drawable/ic_launcher" android:logo="@drawable/ic_launcher" android:label="-- %%INSERT_APP_NAME%% --">
+    <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:theme="@style/AppTheme" android:icon="@drawable/icon" android:logo="@drawable/icon" android:label="MyApp">
 
         <!-- Set custom default icon. This is used when no icon is set for incoming notification messages. See README(https://goo.gl/l4GJaQ) for more. -->
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/icon_transparent"/>
@@ -9,7 +9,7 @@
             notification message. See README(https://goo.gl/6BKBk7) for more. -->
         <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/colorPrimary"/>
 
-        <!-- Utilizado pelo Firebase para notificações no system tray - quando o app está fechado ou em background -->
+        <!-- Used by Firebase to show notification in system tray - Even when the app is on foreground or background -->
         <service android:enabled="true" android:exported="false" android:name="org.qtproject.qt5.android.bindings.FirebaseListenerService">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -25,7 +25,7 @@
             </intent-filter>
         </service>        
 
-        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation" android:name="org.qtproject.qt5.android.bindings.CustomActivity" android:label="-- %%INSERT_APP_NAME%% --" android:screenOrientation="unspecified" android:launchMode="singleTop">
+        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation" android:name="org.qtproject.qt5.android.bindings.CustomActivity" android:label="MyApp" android:screenOrientation="unspecified" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
