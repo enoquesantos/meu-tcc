@@ -66,10 +66,11 @@ QtObject {
     // The window footer in this case, keep a instance of TabBar.
     signal loadPages()
     onLoadPages: {
+        var i, length = 0, pages = [], component = {}, pageJson = {}, tabBarButtonPath = Qt.resolvedUrl("TabBarButton.qml")
         // load all saved (plugins) pages
-        var pages = App.readSetting("pages", App.SettingTypeJsonArray)
-        var component = {}, pageJson = {}
-        for (var i = 0; i < pages.length; ++i) {
+        pages = App.readSetting("pages", App.SettingTypeJsonArray)
+        length = pages.length
+        for (i = 0; i < length; ++i) {
             pageJson = pages[i]
             // if current user permission is not valid for this page
             // or page is not to show in TabBar, go to next visible page
@@ -82,9 +83,9 @@ QtObject {
                 continue
             }
             swipeView.addItem(component.createObject(swipeView))
-            component = Qt.createComponent(Qt.resolvedUrl("TabBarButton.qml"))
-            footer.addItem(component.createObject(footer,{"checked":i === 0,"text":pageJson.title,"iconName":pageJson.icon,"showTextOnPressed":true}))
+            footer.addItem(Qt.createComponent(tabBarButtonPath).createObject(footer,{"checked":i === 0,"text":pageJson.title,"iconName":pageJson.icon,"showTextOnPressed":true}))
         }
+        footer.visible = true
         pages = undefined
         component = undefined
         pageJson = undefined
@@ -106,8 +107,7 @@ QtObject {
         if (!Config.hasLogin || Config.hasLogin && user.isLoggedIn) {
             if (Config.usesTabBar) {
                 pageStack.clear()
-                _mainSignals.loadPages()
-                footer.visible = true
+                loadPages()
             } else {
                 pageStack.replace(homePageUrl, {"absPath":homePageUrl})
             }
