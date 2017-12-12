@@ -10,7 +10,7 @@ ApplicationWindow {
     onClosing: buttonPressed(close)
 
     Component.onCompleted: {
-        setActivePage()
+        mainSignals.setActivePage()
         // when runnig in desktop mode, centralize the application window.
         if (isDesktop) {
             setX(Screen.width / 2 - width / 2)
