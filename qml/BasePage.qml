@@ -185,7 +185,7 @@ Page {
         onLoaded: {
             listView = item
             listView.delegate = listViewDelegate
-            listViewModel = Qt.binding(function() { return listView.model })
+            listViewModel = item._listModel
         }
     }
 }
