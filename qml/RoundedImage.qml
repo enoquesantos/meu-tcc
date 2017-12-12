@@ -50,6 +50,8 @@ Rectangle {
         Image {
             id: img
             visible: img.source
+            sourceSize.width: img.width
+            sourceSize.height: img.height
             fillMode: Image.PreserveAspectCrop
             clip: true; cache: true; smooth: true
             asynchronous: true; anchors.fill: parent
