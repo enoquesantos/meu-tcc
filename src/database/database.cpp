@@ -21,9 +21,7 @@ Database::Database(QObject *parent) : QObject(parent)
     setFileName();
 #ifdef QT_DEBUG
     connect(this, &Database::logMessage, [this](const QString &message) {
-        qDebug() << "Database::logMessage: ";
-        qDebug() << message;
-        qDebug() << "";
+        qDebug() << "DB::message: " << message;
     });
 #endif
 }
@@ -150,14 +148,17 @@ void Database::setFileName()
 {
     // set the absolute path for the sqlite file (using the application writeable directory).
     // the m_databaseFileName define to: writeable-directory-path + the-application-name + .db
-    QString fileName(QApplication::applicationName() + QStringLiteral(".db"));
+    QString path;
 #if defined(Q_OS_IOS)
-    fileName.prepend(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/");
+    path = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/";
 #else
-    // android or desktop
-    fileName.prepend(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/");
+    // android or desktop (linux|osx)
+    path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/";
 #endif
-    m_databaseFileName = fileName;
+    QDir dir(path);
+    if (!dir.exists())
+        dir.mkpath(path);
+    m_databaseFileName = path + QApplication::applicationName() + QStringLiteral(".db");
     emit logMessage(QStringLiteral("Database absolute name defined to: ") + m_databaseFileName);
 }
 
