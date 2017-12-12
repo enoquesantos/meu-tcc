@@ -17,6 +17,7 @@
             "userName": "",
             "userPass": ""
         },
+        "apiKey": "",
         "baseUrl": "",
         "baseImagesUrl": ""
     },
