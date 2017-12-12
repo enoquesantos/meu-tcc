@@ -2,7 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 
 ListView {
-    model: ListModel { }
+    model: _listModel
     cacheBuffer: 1600
     width: window.width
     anchors.fill: parent ? parent : undefined
@@ -13,4 +13,6 @@ ListView {
         NumberAnimation { properties: "x,y"; duration: 150; easing.type: Easing.InOutQuint }
     }
     ScrollIndicator.vertical: ScrollIndicator { }
+
+    property ListModel _listModel: ListModel { }
 }
