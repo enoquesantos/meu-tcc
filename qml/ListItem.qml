@@ -36,7 +36,7 @@ ItemDelegate {
         }
     }
 
-    property int margins: 8
+    property int margins: 12
 
     property Rectangle separator
 
