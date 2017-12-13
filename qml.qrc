@@ -25,7 +25,6 @@
         <file>qml/ListenersLoader.qml</file>
         <file>qml/ListItem.qml</file>
         <file>qml/Main.qml</file>
-        <file>qml/MainSignals.qml</file>
         <file>qml/Menu.qml</file>
         <file>qml/PageStack.qml</file>
         <file>qml/PageActionMessage.qml</file>
@@ -40,6 +39,7 @@
         <file>qml/ToolBarButton.qml</file>
         <file>qml/ToolBarSearch.qml</file>
         <file>qml/UserProfile.qml</file>
+        <file>qml/Utils.qml</file>
 
         <file>qml/Awesome/Font.otf</file>
         <file>qml/Awesome/Icon.qml</file>

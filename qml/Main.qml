@@ -10,7 +10,7 @@ ApplicationWindow {
     onClosing: buttonPressed(close)
 
     Component.onCompleted: {
-        mainSignals.setActivePage()
+        utils.setActivePage()
         // when runnig in desktop mode, centralize the application window.
         if (isDesktop) {
             setX(Screen.width / 2 - width / 2)
@@ -43,24 +43,19 @@ ApplicationWindow {
     property QtObject currentPage: Config.usesTabBar ? swipeView.currentItem : pageStack.currentItem
 
     // handle the Android backButton, prevent close the app with some tricks.
-    // to more details take a look in mainSignals.buttonPressed().
+    // to more details take a look in utils.buttonPressed().
     signal buttonPressed(var button)
-    onButtonPressed: mainSignals.buttonPressed(button)
+    onButtonPressed: utils.buttonPressed(button)
 
     // the first function called by window to set the first page to the user.
-    // to more details take a look in mainSignals.setActivePage()
+    // to more details take a look in utils.setActivePage()
     signal setActivePage()
-    onSetActivePage: mainSignals.setActivePage()
+    onSetActivePage: utils.setActivePage()
 
     // show alert dialog with system platform look end feel.
-    // to more details take a look in mainSignals.alert(...)
+    // to more details take a look in utils.alert(...)
     signal alert(string title, string message, var acceptCallback, var rejectCallback)
-    onAlert: mainSignals.alert(title, message, acceptCallback, rejectCallback)
-
-    // keeps the window signals, modularized to reduce the Main.qml size. :)
-    MainSignals {
-        id: mainSignals
-    }
+    onAlert: utils.alert(title, message, acceptCallback, rejectCallback)
 
     // load a Binding object to create a bind with ToolBar and current active page in stackView.
     Loader {
@@ -162,9 +157,14 @@ ApplicationWindow {
     }
 
     // handle android back button,
-    // used to pop pages when is pressed.
+    // used to pop pages when is pressed by user.
     Item {
         Keys.onBackPressed: buttonPressed(event)
+    }
+
+    // keeps the window signals, modularized to reduce the Main.qml size. :)
+    Utils {
+        id: utils
     }
 
     // the user profile manager.
