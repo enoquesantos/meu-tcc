@@ -148,7 +148,6 @@ ApplicationWindow {
         anchors.fill: active ? parent : undefined
         active: Config.usesTabBar; asynchronous: false
         sourceComponent: SwipeView {
-            id: swipeView
             visible: pageStack.depth === 0
             anchors.fill: visible ? parent : undefined
             currentIndex: footer ? footer.currentIndex : 0
