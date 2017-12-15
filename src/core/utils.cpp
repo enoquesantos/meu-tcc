@@ -4,6 +4,7 @@
 #include <QByteArray>
 #include <QDateTime>
 #include <QFile>
+#include <QFileInfo>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -103,4 +104,12 @@ bool Utils::copyFile(const QString &fileName, const QString &newName, bool overw
     if (overwriteIfExists && file.exists())
         file.remove();
     return file.copy(newName);
+}
+
+QString Utils::fileBaseName(const QString &filePath)
+{
+    // basename contains the file name from ul origin
+    if (filePath.contains(QStringLiteral("http")))
+        return QFileInfo(QUrl(filePath).path()).fileName();
+    return QFileInfo(filePath).baseName();
 }

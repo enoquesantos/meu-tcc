@@ -135,6 +135,8 @@ public:
      */
     Q_INVOKABLE bool copyFile(const QString &fileName, const QString &newName, bool overwriteIfExists = true);
 
+    Q_INVOKABLE QString fileBaseName(const QString &filePath);
+
 private:
     /**
      * @brief m_instance
