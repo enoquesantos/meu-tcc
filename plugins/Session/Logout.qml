@@ -1,17 +1,17 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 
-import "qrc:/qml/"
+import "qrc:/qml/" as Components
 
-BasePage {
+Components.BasePage {
     title: qsTr("Logout")
     objectName: "Logout.qml"
-    hasListView: false
-    hasNetworkRequest: false
-    showToolBar: !timer.running
-    showTabBar: !timer.running // hide the tabBar after user confirm to exit
-    lockGoBack: timer.running // disable return after confirm to exit
     toolBarState: "goback"
+    hasListView: false; hasNetworkRequest: false; showToolBar: !timer.running
+    // hide the tabBar after user confirm to exit
+    showTabBar: !timer.running
+    // disable return after confirm to exit
+    lockGoBack: timer.running
 
     // countdown to pop the logout page
     Timer {
@@ -36,9 +36,8 @@ BasePage {
 
     Column {
         id: actionColumn
-        spacing: 50
-        visible: !timer.running
         anchors.centerIn: parent
+        spacing: 50; visible: !timer.running
 
         Label {
             text: qsTr("Are sure you want to quit the app?")
@@ -47,7 +46,7 @@ BasePage {
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        CustomButton {
+        Components.CustomButton {
             text: qsTr("Yes! exit now")
             onClicked: timer.running = true
             anchors.horizontalCenter: parent.horizontalCenter

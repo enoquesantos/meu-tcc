@@ -2,10 +2,9 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 
-import "qrc:/qml/"
-import "qrc:/qml/Awesome/"
+import "qrc:/qml/" as Components
 
-BasePage {
+Components.BasePage {
     id: page
     title: qsTr("About the ") + Qt.applicationName
     objectName: "AboutPage.qml"
@@ -24,7 +23,7 @@ BasePage {
             width: page.width
             anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
 
-            RoundedImage {
+            Components.RoundedImage {
                 id: logo
                 width: 64; height: 64
                 imgSource: "qrc:/app_icon.png"

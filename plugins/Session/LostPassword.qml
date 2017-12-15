@@ -1,15 +1,13 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
 
-import "qrc:/qml/"
-import "qrc:/qml/Awesome/"
+import "qrc:/qml/" as Components
+import "qrc:/qml/Awesome/" as Awesome
 
-BasePage {
+Components.BasePage {
     id: page
     objectName: "LostPassword.qml"
-    showTabBar: false
-    hasListView: false
+    showTabBar: false; hasListView: false
 
     // handle request http responses
     onRequestFinished: {
@@ -21,15 +19,14 @@ BasePage {
             window.alert(qsTr("Error!"), qsTr("An error occur in the server! Try again!"), null, null)
     }
 
-    Icon {
-        id: backButton
+    Awesome.Icon {
         z: 1; width: size*1.2; height: width
         size: 22; name: "arrow_left"; color: Config.theme.colorPrimary
         anchors { top: parent.top; topMargin: 25; left: parent.left; leftMargin: 20 }
         onClicked: pageStack.pop()
     }
 
-    Brand {
+    Components.Brand {
         id: brand
     }
 
@@ -39,14 +36,13 @@ BasePage {
         width: parent.width * 0.90
         anchors { top: brand.bottom; topMargin: 15; horizontalCenter: parent.horizontalCenter }
 
-        CustomTextField {
+        Components.CustomTextField {
             id: email
             placeholderText: qsTr("Email")
             inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhLowercaseOnly
         }
 
-        CustomButton {
-            id: submitBtn
+        Components.CustomButton {
             enabled: !isPageBusy
             text: qsTr("Submit")
             onClicked: {

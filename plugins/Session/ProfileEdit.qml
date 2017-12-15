@@ -1,13 +1,10 @@
 import QtQuick 2.8
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
-import QtQuick.Controls.Material.impl 2.1
 
-import "qrc:/qml/"
-import "qrc:/qml/Awesome/"
+import "qrc:/qml/" as Components
 
-BasePage {
+Components.BasePage {
     id: page
     title: qsTr("Edit my profile")
     objectName: "ProfileEdit.qml"
@@ -53,7 +50,7 @@ BasePage {
         }
     }
 
-    PhotoSelection {
+    Components.PhotoSelection {
         id: photoSelection
     }
 
@@ -78,8 +75,7 @@ BasePage {
                 width: parent.width; height: 150; color: "transparent"
                 anchors { top: parent.top; topMargin: 0; horizontalCenter: parent.horizontalCenter }
 
-                RoundedImage {
-                    id: drawerUserImageProfile
+                Components.RoundedImage {
                     width: 90; height: width
                     borderColor: Config.theme.colorPrimary
                     imgSource: user.profile.image_path || "qrc:/default_user_image.svg"
@@ -90,7 +86,6 @@ BasePage {
             }
 
             Rectangle {
-                id: help
                 width: parent.width * 0.90; height: 145
                 color: "transparent"
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -107,7 +102,7 @@ BasePage {
                 }
             }
 
-            CustomTextField {
+            Components.CustomTextField {
                 id: email
                 Layout.fillWidth: true
                 text: user.profile.email
@@ -118,7 +113,7 @@ BasePage {
                 onFocusChanged: if (focus) flickable.contentY = email.y
             }
 
-            CustomTextField {
+            Components.CustomTextField {
                 id: password1
                 Layout.fillWidth: true
                 nextFocusItem: password2
@@ -128,7 +123,7 @@ BasePage {
                 onFocusChanged: if (focus) flickable.contentY = email.y
             }
 
-            CustomTextField {
+            Components.CustomTextField {
                 id: password2
                 Layout.fillWidth: true
                 echoMode: TextInput.Password

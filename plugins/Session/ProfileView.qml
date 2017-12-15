@@ -2,15 +2,14 @@ import QtQuick 2.8
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
 
-import "qrc:/qml/"
-import "qrc:/qml/Awesome/"
+import "qrc:/qml/" as Components
+import "qrc:/qml/Awesome/" as Awesome
 
-BasePage {
+Components.BasePage {
     id: page
     title: qsTr("My profile")
     objectName: "ProfileView.qml"
-    hasListView: false
-    hasNetworkRequest: false
+    hasListView: false; hasNetworkRequest: false
 
     Flickable {
         id: flickable
@@ -19,15 +18,14 @@ BasePage {
 
         ColumnLayout {
             id: column
-            spacing: 0
-            width: page.width
+            spacing: 0; width: page.width
             anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
 
             Rectangle {
                 width: parent.width; height: 180; color: Config.theme.colorPrimary
                 anchors { top: parent.top; topMargin: 0; horizontalCenter: parent.horizontalCenter }
 
-                Icon {
+                Awesome.Icon {
                     width: 32; height: width
                     name: "pencil"; size: 22
                     color: Config.theme.colorAccent
@@ -35,7 +33,7 @@ BasePage {
                     anchors { top: parent.top; topMargin: 35; right: parent.right; rightMargin: 20 }
                 }
 
-                RoundedImage {
+                Components.RoundedImage {
                     id: userImageProfile
                     width: 100; height: width
                     borderColor: Config.theme.colorAccent
@@ -44,14 +42,14 @@ BasePage {
                 }
             }
 
-            ListItem {
+            Components.ListItem {
                 showSeparator: true
                 primaryLabelText: qsTr("Name")
                 secondaryLabelText: user.profile.name
                 primaryIconName: "user"
             }
 
-            ListItem {
+            Components.ListItem {
                 showSeparator: true
                 primaryLabelText: qsTr("Email")
                 secondaryLabelText: user.profile.email

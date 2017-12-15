@@ -1,6 +1,6 @@
 import QtQuick 2.8
 
-import "qrc:/qml/"
+import "qrc:/qml/" as Components
 
 Item {
     id: rootItem
@@ -26,10 +26,10 @@ Item {
             "push_notification_token": token
         })
         requestHttp.post("/token_register/", params)
-        params = ""
+        params = null
     }
 
-    RequestHttp {
+    Components.RequestHttp {
         id: requestHttp
         onFinished: {
             if (statusCode === 200) {

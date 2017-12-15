@@ -1,15 +1,12 @@
 import QtQuick 2.8
 
-import "qrc:/qml/"
+import "qrc:/qml/" as Components
 
-BasePage {
+Components.BasePage {
     id: page
     objectName: "Login.qml"
-    lockGoBack: true
-    showTabBar: false
-    showToolBar: false
-    hasListView: false
     centralizeBusyIndicator: false
+    lockGoBack: true; showTabBar: false; showToolBar: false; hasListView: false
 
     // handle request http responses
     onRequestFinished: {
@@ -23,12 +20,12 @@ BasePage {
        }
    }
 
-    property var loginResult: ({})
+    property var loginResult: null
 
     // countdown to pop the login page
     Timer {
         interval: 1200; repeat: false
-        running: "user" in loginResult
+        running: loginResult != null && "user" in loginResult
         onTriggered: user.setProfile(loginResult)
     }
 
@@ -37,7 +34,7 @@ BasePage {
         contentHeight: Math.max(content.implicitHeight, height)
         boundsBehavior: Flickable.StopAtBounds
 
-        Brand {
+        Components.Brand {
             id: brand
         }
 
@@ -47,13 +44,13 @@ BasePage {
             width: parent.width * 0.90
             anchors { top: brand.bottom; topMargin: 15; horizontalCenter: parent.horizontalCenter }
 
-            CustomTextField {
+            Components.CustomTextField {
                 id: login
                 nextFocusItem: password
                 placeholderText: qsTr("Login")
             }
 
-            CustomTextField {
+            Components.CustomTextField {
                 id: password
                 nextFocusItem: loginButton
                 echoMode: TextInput.Password
@@ -62,7 +59,7 @@ BasePage {
                 onAccepted: loginButton.clicked()
             }
 
-            CustomButton {
+            Components.CustomButton {
                 id: loginButton
                 enabled: !isPageBusy
                 text: qsTr("LOG IN")
@@ -76,7 +73,7 @@ BasePage {
                 }
             }
 
-            CustomButton {
+            loginButtonCustomButton {
                 id: lostPasswordButton
                 usesAlternativeColor: true
                 enabled: !isPageBusy
