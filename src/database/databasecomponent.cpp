@@ -62,13 +62,18 @@ void DatabaseComponent::load()
 
     // keeps the number of saved itens
     m_totalItens = result.size();
-    if (!m_totalItens)
+    // if total entries is zero or above 500, we cannot set
+    // the table keys to 'm_savedPks' to optimize the memory consumption!
+    if (!m_totalItens || m_totalItens > 1000)
         return;
 
-    // set all ids (probably the table primary key)
-    // ids can be used to check if some data is already in database
+    // set all primary keys that can be used to
+    // check if some data is already in database
+    QString pkColumn(QStringLiteral("id"));
+    if (!m_pkColumn.isEmpty())
+        pkColumn = m_pkColumn;
     for (int i = 0; i < m_totalItens; ++i)
-        m_savedPks << result[i].toMap().value(QStringLiteral("id"));
+        m_savedPks << result[i].toMap().value(pkColumn);
 }
 
 void DatabaseComponent::setTableName(const QString &tableName)
@@ -76,6 +81,11 @@ void DatabaseComponent::setTableName(const QString &tableName)
     m_tableName = tableName;
     if (!m_tableName.isEmpty())
         load();
+}
+
+void DatabaseComponent::setPkColumn(const QString &pkColumn)
+{
+    m_pkColumn = pkColumn;
 }
 
 void DatabaseComponent::setJsonColumns(const QStringList &jsonColumns)
@@ -109,17 +119,22 @@ void DatabaseComponent::parseData(QVariantMap *data)
 
 int DatabaseComponent::insert(const QVariantMap &data)
 {
-    int id = data.value(QStringLiteral("id")).toInt();
-    if (m_tableName.isEmpty() || (id > 0 && m_savedPks.contains(id)))
+    if (m_tableName.isEmpty())
+        return 0;
+    QString pkColumn(QStringLiteral("id"));
+    if (!m_pkColumn.isEmpty())
+        pkColumn = m_pkColumn;
+    QVariant id = data.value(pkColumn);
+    if (m_tableName.isEmpty() || (id.isValid() && m_savedPks.size() && m_savedPks.contains(id)))
         return 0;
     QVariantMap insertData(data);
     parseData(&insertData);
-    id = m_database->insert(m_tableName, insertData);
-    if (insertData.size() && id) {
+    int insertId = m_database->insert(m_tableName, insertData);
+    if (insertData.size() && insertId) {
         m_savedPks << id;
         m_totalItens = m_savedPks.size();
     }
-    return id;
+    return insertId;
 }
 
 void DatabaseComponent::select(const QVariantMap &where, const QVariantMap &args)
@@ -139,14 +154,13 @@ void DatabaseComponent::select(const QVariantMap &where, const QVariantMap &args
 
 int DatabaseComponent::update(const QVariantMap &data, const QVariantMap &where)
 {
-    int id = data.value(QStringLiteral("id")).toInt();
-    if (m_tableName.isEmpty() || (id > 0 && !m_savedPks.contains(id)))
-        return insert(data);
+    if (m_tableName.isEmpty())
+        return 0;
     QVariantMap updateData(data);
     parseData(&updateData);
-    id = m_database->update(m_tableName, updateData, where);
-    if (updateData.size() && id)
-        return id;
+    int updateId = m_database->update(m_tableName, updateData, where);
+    if (updateData.size() && updateId)
+        return updateId;
     return 0;
 }
 

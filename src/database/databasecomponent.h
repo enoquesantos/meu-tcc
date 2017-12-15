@@ -120,6 +120,7 @@ class DatabaseComponent : public QObject
     Q_OBJECT
     Q_PROPERTY(int totalItens MEMBER m_totalItens CONSTANT FINAL)
     Q_PROPERTY(QString tableName MEMBER m_tableName WRITE setTableName)
+    Q_PROPERTY(QString pkColumn MEMBER m_pkColumn WRITE setPkColumn)
     Q_PROPERTY(QStringList jsonColumns MEMBER m_jsonColumns WRITE setJsonColumns)
 public:
     /**
@@ -184,6 +185,15 @@ private:
     void setTableName(const QString &tableName);
 
     /**
+     * @brief setPkColumn
+     * Set in object m_pkColumn the value for primary key column when the table uses
+     * a string as table primary key. It's useful to keep all itens and prevent to insert
+     * again on the listView or in database.
+     * @param pkColumn QString
+     */
+    void setPkColumn(const QString &pkColumn);
+
+    /**
      * @brief setJsonColumns
      * Set in object m_jsonColumns the columns
      * @param jsonColumns QStringList QML can set as javascript array
@@ -221,6 +231,14 @@ private:
      * It's useful to check if the current table contains a some item and prevent to insert again.
      */
     QVariantList m_savedPks;
+
+    /**
+     * @brief m_pkColumn
+     * Set a column name when the tables uses a string column as
+     * primary key. If defined, will be used to retrieve and keept in m_savedPks
+     * and ca be useful to qml plugins check if some item from webservice is already on database.
+     */
+    QString m_pkColumn;
 
     /**
      * @brief m_database
