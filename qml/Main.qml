@@ -138,7 +138,7 @@ ApplicationWindow {
     // to listeners plugins get access to user profile data or currentPage,
     // the listeners objects needs to be loaded in this context.
     Loader {
-        active: user.isLoggedIn; asynchronous: true
+        active: Config.hasLogin ? user.isLoggedIn : true; asynchronous: true
         source: "ListenersLoader.qml"
     }
 
