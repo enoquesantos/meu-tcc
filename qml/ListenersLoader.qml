@@ -10,6 +10,10 @@ Item {
             component = Qt.createComponent(listeners[i])
             if (component.status === Component.Ready)
                 component.createObject(window, {"parent":window})
+            else
+                console.error("Error on try load a Listneter Component: ", component.errorString())
         }
+        component = null
+        listeners = null
     }
 }
