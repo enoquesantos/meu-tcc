@@ -7,7 +7,7 @@ ApplicationWindow {
     visible: true
     width: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.width/2.5) : Screen.width; height: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.height * 0.90) : Screen.height
     title: currentPage ? (currentPage.title + " - " + Config.applicationName) : (Config.applicationName + " - " + Config.applicationDescription)
-    onClosing: buttonPressed(close)
+    onClosing: utils.buttonPressed(close)
 
     Component.onCompleted: {
         utils.setActivePage()
@@ -29,11 +29,6 @@ ApplicationWindow {
 
     // keeps a reference to current visible page on the window.
     property QtObject currentPage: Config.usesTabBar ? swipeView.currentItem : pageStack.currentItem
-
-    // handle the Android backButton, prevent close the app with some tricks.
-    // to more details take a look in utils.buttonPressed().
-    signal buttonPressed(var button)
-    onButtonPressed: utils.buttonPressed(button)
 
     // the first function called by window to set the first page to the user.
     // to more details take a look in utils.setActivePage()
@@ -146,7 +141,7 @@ ApplicationWindow {
     // handle android back button,
     // used to pop pages when is pressed by user.
     Item {
-        Keys.onBackPressed: buttonPressed(event)
+        Keys.onBackPressed: utils.buttonPressed(event)
     }
 
     // keeps the window signals, modularized to reduce the Main.qml size. :)

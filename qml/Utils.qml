@@ -21,9 +21,11 @@ QtObject {
         dialog.open()
     }
 
-    // buttonPressed is a signal to handle the Android back button.
-    // on iOS this signal is ignored. the signal is emited by Keys.onBackPressed and not exists on iOS.
-    // when user click in android backButton, some rules needs to verify:
+    // buttonPressed is a signal to handle the Android back button and prevent close the app.
+    // If the platform is iOS, this signal is ignored.
+    // The signal is emited by Keys.onBackPressed and not exists on iOS.
+    // When user click in android backButton, some rules needs to be verify:
+    //
     // 1: if the alert dialog is opened, will be closed.
     // 2: if swipeView is active, and pagestack is visible in the moment,
     //    pop the current page from pageStack.
