@@ -109,6 +109,7 @@ QtObject {
                 pageStack.clear()
                 loadPages()
             } else {
+                var homePageUrl = App.readSetting("homePageUrl", App.SettingTypeString)
                 pageStack.replace(homePageUrl, {"absPath":homePageUrl})
             }
         } else {

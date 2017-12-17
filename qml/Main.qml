@@ -27,9 +27,6 @@ ApplicationWindow {
     // a flag to check if the app is running in iOS
     readonly property bool isIOS: Qt.platform.os === "ios"
 
-    // keeps the home/index page saved by some plugin
-    readonly property string homePageUrl: App.readSetting("homePageUrl", App.SettingTypeString)
-
     // keeps a instance of MessageDialog with native look and feel,
     // the instance will be created dinamically by platform type.
     property QtObject dialog
