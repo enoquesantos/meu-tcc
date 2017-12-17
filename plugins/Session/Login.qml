@@ -10,14 +10,12 @@ Components.BasePage {
 
     // handle request http responses
     onRequestFinished: {
-       if (statusCode === 403 || statusCode === 404) {
+       if (statusCode === 403 || statusCode === 404)
            window.alert(qsTr("Error!"), qsTr("Login or Password is invalid. Check your credentials and try again!"), null, null)
-       } else if (statusCode === 200) {
-           loginButton.enabled = lostPasswordButton.enabled = false
+       else if (statusCode === 200)
            loginResult = response
-       } else {
+       else
            window.alert(qsTr("Error!"), qsTr("A error occur in the server! Try again!"), null, null)
-       }
    }
 
     property var loginResult: null
@@ -61,7 +59,7 @@ Components.BasePage {
 
             Components.CustomButton {
                 id: loginButton
-                enabled: !isPageBusy
+                enabled: !isPageBusy && loginResult === null
                 text: qsTr("LOG IN")
                 onClicked: {
                     if (!login.text.length)
@@ -76,7 +74,7 @@ Components.BasePage {
             loginButtonCustomButton {
                 id: lostPasswordButton
                 usesAlternativeColor: true
-                enabled: !isPageBusy
+                enabled: !isPageBusy && loginResult === null
                 text: qsTr("Retrieve password")
                 onClicked: pageStack.push(pluginAbsPath + "LostPassword.qml")
             }
