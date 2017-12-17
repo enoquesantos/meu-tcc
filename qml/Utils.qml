@@ -36,7 +36,7 @@ QtObject {
     // @param e Event a QML event object
     signal buttonPressed(var e)
     onButtonPressed: {
-        if (!isAndroid) {
+        if (!Qt.platform.os !== "android") {
             e.accepted = true
             return
         } else if (dialog.visible) {

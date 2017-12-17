@@ -5,27 +5,18 @@ import QtQuick.Window 2.2
 ApplicationWindow {
     id: window
     visible: true
-    width: isDesktop ? (Screen.width/2.5) : Screen.width; height: isDesktop ? (Screen.height * 0.90) : Screen.height
+    width: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.width/2.5) : Screen.width; height: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.height * 0.90) : Screen.height
     title: currentPage ? (currentPage.title + " - " + Config.applicationName) : (Config.applicationName + " - " + Config.applicationDescription)
     onClosing: buttonPressed(close)
 
     Component.onCompleted: {
         utils.setActivePage()
         // when runnig in desktop mode, centralize the application window.
-        if (isDesktop) {
+        if (Qt.platform.os === "linux" || Qt.platform.os === "osx") {
             setX(Screen.width / 2 - width / 2)
             setY(Screen.height / 2 - height / 2)
         }
     }
-
-    // a flag to check if the app is running in android
-    readonly property bool isAndroid: Qt.platform.os === "android"
-
-    // a flag to check if the app is running in desktop (linux or osx)
-    readonly property bool isDesktop: !isIOS && !isAndroid
-
-    // a flag to check if the app is running in iOS
-    readonly property bool isIOS: Qt.platform.os === "ios"
 
     // keeps a instance of MessageDialog with native look and feel,
     // the instance will be created dinamically by platform type.
@@ -128,7 +119,7 @@ ApplicationWindow {
     // using the platform name for best look and fell appearence.
     Loader {
         active: true; asynchronous: false
-        source: isIOS ? "IOSDialog.qml" : "AndroidDialog.qml"
+        source: Qt.platform.os === "ios" ? "IOSDialog.qml" : "AndroidDialog.qml"
         onLoaded: dialog = item
     }
 

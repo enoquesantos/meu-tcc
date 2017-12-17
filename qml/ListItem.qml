@@ -176,7 +176,7 @@ ItemDelegate {
                     verticalAlignment: secondaryLabelText.length ? 0 : Text.AlignVCenter
                     anchors {
                         top: _secondaryLabel.text ? parent.top : undefined
-                        topMargin: _secondaryLabel.text ? isDesktop ? 6 : 8 : 0
+                        topMargin: _secondaryLabel.text ? Qt.platform.os === "linux" || Qt.platform.os === "osx" ? 6 : 8 : 0
                         verticalCenter: !_secondaryLabel.text ? parent.verticalCenter : undefined
                     }
                 }

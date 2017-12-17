@@ -31,7 +31,7 @@ ToolBar {
 
     // this property can be used by page to set a custom color to this ToolBar
     property string toolBarColor: Config.theme.colorPrimary
-    onToolBarColorChanged: if (isAndroid && toolBarColor != Config.theme.colorPrimary) SystemStatusBar.color = toolBarColor
+    onToolBarColorChanged: if (Qt.platform.os === "android" && toolBarColor !== Config.theme.colorPrimary) SystemStatusBar.color = toolBarColor
 
     // this property can be used by some page to change the color of all icons in the ToolBar
     // is read by each ToolBarButton set the icon color
@@ -73,7 +73,7 @@ ToolBar {
         onCurrentPageChanged: {
             if ("toolBarColor" in window.currentPage)
                 toolBarColor = window.currentPage.toolBarColor
-            else if (window.isAndroid)
+            else if (Qt.platform.os === "android")
                 SystemStatusBar.color = Config.theme.statusBarColor
             if (optionsToolbarMenu)
                 optionsToolbarMenu.reset = true

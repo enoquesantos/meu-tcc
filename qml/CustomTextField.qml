@@ -28,7 +28,7 @@ TextField {
 
     Loader {
         id: loader
-        active: !isIOS && parent.echoMode === TextInput.Password
+        active: Qt.platform.os !== "ios" && parent.echoMode === TextInput.Password
         asynchronous: true
         onLoaded: item.parent = textField
         sourceComponent: Awesome.Icon {

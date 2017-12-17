@@ -42,7 +42,7 @@ TabButton {
             centerIn: Config.showTabButtonText ? undefined : parent
             horizontalCenter: Config.showTabButtonText ? parent.horizontalCenter : undefined
             top: Config.showTabButtonText ? parent.top : undefined
-            topMargin: Config.showTabButtonText ? (isDesktop ? -27 : -22) : undefined
+            topMargin: Config.showTabButtonText ? (Qt.platform.os === "linux" || Qt.platform.os === "osx" ? -27 : -22) : undefined
         }
     }
 

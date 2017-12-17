@@ -56,7 +56,6 @@ Rectangle {
             id: actionMessage
             color: Config.theme.textColorPrimary; opacity: 0.8
             renderType: Text.NativeRendering; text: qsTr("None item available!")
-            fontSizeMode: isIOS ? Text.FixedSize : Text.Fit
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
             font { weight: Font.DemiBold; pointSize: Config.fontSize.normal }
