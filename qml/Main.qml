@@ -108,12 +108,13 @@ ApplicationWindow {
         onLoaded: header = item
     }
 
-    // load the navigation drawer as application menu to show pages options to the user.
-    // The Menu is a instance of QML Drawer with some customizations.
+    // load the navigation drawer to be used as application menu
+    // The Drawer is a instance of QML Drawer with some customizations
+    // and is used to show the plugins pages and work with PageStack.
     Loader {
         asynchronous: true
         active: Config.usesDrawer && Config.hasLogin && user.isLoggedIn
-        source: "Menu.qml"
+        source: "Drawer.qml"
     }
 
     // load the UserProfile and point to the window userProfile
