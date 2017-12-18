@@ -111,5 +111,5 @@ QString Utils::fileBaseName(const QString &filePath)
     // basename contains the file name from ul origin
     if (filePath.contains(QStringLiteral("http")))
         return QFileInfo(QUrl(filePath).path()).fileName();
-    return QFileInfo(filePath).baseName();
+    return QFileInfo(filePath).fileName();
 }
