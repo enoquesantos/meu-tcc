@@ -117,7 +117,7 @@ public:
     /**
      * @brief minimize
      * This method is used only in android to minimize the app, placing above others apps or
-     * focusing in the home screen. Is used when back button is pressed by user.isDeviceOnline Is used by main window
+     * focusing in the home screen. Is used when back button is pressed by user. This method is called by main window
      * from event handle 'Keys.onBackPressed' and 'onClosing'.
      * This method call the android native method 'moveTaskToBack'.
      */
