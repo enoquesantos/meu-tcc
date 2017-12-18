@@ -27,8 +27,8 @@ ApplicationWindow {
     // using the TabBar buttons put in the bottom of window.
     property SwipeView swipeView
 
-    // keeps a reference to current visible page on the window.
-    property QtObject currentPage: Config.usesTabBar ? swipeView.currentItem : pageStack.currentItem
+    // keeps a reference to the current visible page at the window.
+    property QtObject currentPage: Config.usesTabBar ? (pageStack.depth > 0 ? pageStack.currentItem : swipeView.currentItem) : pageStack.currentItem
 
     // the first function called by window to set the first page to the user.
     // to more details take a look in utils.setActivePage()
@@ -106,7 +106,7 @@ ApplicationWindow {
     // load the system menu to show pages options to the user.
     // The Menu is a instance of QML Drawer with some customizations.
     Loader {
-        active: Config.usesDrawer && user.isLoggedIn; asynchronous: true
+        active: Config.usesDrawer && Config.hasLogin && user.isLoggedIn; asynchronous: true
         source: "Menu.qml"
     }
 
@@ -114,15 +114,8 @@ ApplicationWindow {
     // using the platform name for best look and fell appearence.
     Loader {
         active: true; asynchronous: false
-        source: Qt.platform.os === "ios" ? "IOSDialog.qml" : "AndroidDialog.qml"
+        source: Qt.platform.os === "android" ? "AndroidDialog.qml" : "Dialog.qml"
         onLoaded: dialog = item
-    }
-
-    // to listeners plugins get access to user profile data or currentPage,
-    // the listeners objects needs to be loaded in this context.
-    Loader {
-        active: Config.hasLogin ? user.isLoggedIn : true; asynchronous: true
-        source: "ListenersLoader.qml"
     }
 
     // load a dynamic SwipeView container as the main page container,
@@ -137,6 +130,10 @@ ApplicationWindow {
         }
         onLoaded: { window.swipeView = item }
     }
+
+    // to listeners plugins get access to user profile data or currentPage,
+    // the listeners objects needs to be loaded in this context.
+    ListenersLoader { }
 
     // handle android back button,
     // used to pop pages when is pressed by user.
