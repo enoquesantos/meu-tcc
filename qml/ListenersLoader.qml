@@ -1,8 +1,7 @@
 import QtQuick 2.8
 
-Item {
+QtObject {
     objectName: "ListenersLoader.qml"
-    visible: false
 
     Component.onCompleted: {
         var component = ({}), listeners = App.readSetting("listeners", App.SettingTypeJsonArray)
@@ -11,7 +10,7 @@ Item {
             if (component.status === Component.Ready)
                 component.createObject(window, {"parent":window})
             else
-                console.error("Error on try load a Listneter Component: ", component.errorString())
+                console.error("Error on try load a Listener Component: ", component.errorString())
         }
         component = null
         listeners = null
