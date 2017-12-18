@@ -30,6 +30,11 @@ ApplicationWindow {
     // keeps a reference to the current visible page at the window.
     property QtObject currentPage: Config.usesTabBar ? (pageStack.depth > 0 ? pageStack.currentItem : swipeView.currentItem) : pageStack.currentItem
 
+    // keeps a instance of UserProfile if the application has UserProfile
+    // if "hasLogin" (from config.json) is defined to true.
+    // All qml components can read the user information from "user" reference.
+    property UserProfile userProfile
+
     // the first function called by window to set the first page to the user.
     // to more details take a look in utils.setActivePage()
     signal setActivePage()
@@ -111,6 +116,14 @@ ApplicationWindow {
         source: "Menu.qml"
     }
 
+    // load the UserProfile and point to the window userProfile
+    // All qml components can read the user information from "user" reference.
+    Loader {
+        asynchronous: true
+        active: Config.hasLogin
+        source: "UserProfile.qml"
+    }
+
     // load a new instance of messages dialog component,
     // using the platform name for best look and fell appearence.
     Loader {
@@ -132,8 +145,9 @@ ApplicationWindow {
         onLoaded: { window.swipeView = item }
     }
 
-    // to listeners plugins get access to user profile data or currentPage,
-    // the listeners objects needs to be loaded in this context.
+    // this component create all listeners plugins.
+    // to listeners plugins get access to user profile data or currentPage
+    // or any window object or property, the listeners needs to be loaded in this context.
     ListenersLoader { }
 
     // handle android back button,
@@ -145,12 +159,6 @@ ApplicationWindow {
     // keeps the window signals, modularized to reduce the Main.qml size. :)
     Utils {
         id: utils
-    }
-
-    // the user profile manager.
-    // All qml components can read the user information from "user" reference.
-    UserProfile {
-        id: user
     }
 
     // handle the android Snackbar widget,
