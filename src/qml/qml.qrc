@@ -1,15 +1,6 @@
-<RCC>
-    <qresource prefix="/">
-        <file alias="app_drawer.png">../images/app_drawer.png</file>
-        <file alias="app_icon.png">../images/app_icon.png</file>
-        <file alias="app_icon_transparent.png">../images/app_icon_transparent.png</file>
-        <file alias="default_user_image.svg">../images/default_user_image.svg</file>
-
-        <file>../app-eula.html</file>
-        <file>../config.json</file>
-        <file>../notification-linux-config.notifyrc</file>
-        <file>../qtquickcontrols2.conf</file>
-
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="src/qml">
         <file>AndroidDialog.qml</file>
         <file>BasePage.qml</file>
         <file>Brand.qml</file>

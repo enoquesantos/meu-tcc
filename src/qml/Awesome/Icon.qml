@@ -16,7 +16,6 @@ RoundButton {
     property alias weight: text.font.weight
     property bool rotate: widget.name.match(/.*-rotate/) !== null
     property alias clickEnabled: widget.enabled
-    readonly property var icons: Awesome.map
 
     Item {
         anchors.fill: parent
@@ -30,7 +29,7 @@ RoundButton {
             horizontalAlignment: Text.AlignHCenter
             styleColor: Qt.rgba(0,0,0,0.5)
             color: Config.theme.textColorPrimary; style: shadow ? Text.Raised : Text.Normal
-            text: widget.icons.hasOwnProperty(name) ? widget.icons[name] : ""
+            text: name in IconFontLoaderSingleton.iconsMap ? IconFontLoaderSingleton.iconsMap[name] : ""
             font { pointSize: size < 1 ? 16 : size; weight: Font.Light; family: IconFontLoaderSingleton.font }
 
             property string name: widget.name.match(/.*-rotate/) !== null ? widget.name.substring(0, widget.name.length - 7) : widget.name

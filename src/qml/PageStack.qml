@@ -6,7 +6,7 @@ StackView {
     anchors.fill: visible ? parent : undefined
 
     property int count
-    property BasePage _page
+    property Page _page
 
     function pushIfNotExists(pageAbsPath, prop) {
         // if current active page is the required page, return.

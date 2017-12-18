@@ -721,4 +721,4 @@ var map = {
     'youtube': '\uf167',
     'youtube_play': '\uf16a',
     'youtube_square': '\uf166',
-};
+}

@@ -1,6 +1,8 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 
+import "."
+
 Page {
     id: basePage
     width: window.width

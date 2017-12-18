@@ -4,8 +4,8 @@
     "description": "The application listeners",
     "pages": [],
     "listeners": [
-        "HandleUserProfileImage.qml",
-        "ManageUserProfileUpdate.qml",
+        "Listener1.qml",
+        "Listener2.qml",
         "PushNotificationRegister.qml"
     ]
 }

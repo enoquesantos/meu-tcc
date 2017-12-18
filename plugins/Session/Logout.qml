@@ -1,7 +1,7 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 
-import "qrc:/qml/" as Components
+import "qrc:/src/qml/" as Components
 
 Components.BasePage {
     title: qsTr("Logout")

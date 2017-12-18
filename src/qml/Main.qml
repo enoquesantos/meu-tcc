@@ -2,6 +2,8 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Window 2.2
 
+import "qrc:/src/qml/"
+
 ApplicationWindow {
     id: window
     visible: true
@@ -28,12 +30,12 @@ ApplicationWindow {
     property SwipeView swipeView
 
     // keeps a reference to the current visible page at the window.
-    property QtObject currentPage: Config.usesTabBar ? (pageStack.depth > 0 ? pageStack.currentItem : swipeView.currentItem) : pageStack.currentItem
+    property QtObject currentPage
 
     // keeps a instance of UserProfile if the application has UserProfile
     // if "hasLogin" (from config.json) is defined to true.
     // All qml components can read the user information from "user" reference.
-    property UserProfile userProfile
+    property QtObject userProfile
 
     // the first function called by window to set the first page to the user.
     // to more details take a look in utils.setActivePage()
@@ -103,7 +105,7 @@ ApplicationWindow {
     // The toolbar is used to show a button to open the navigation drawer (if "usesDrawer" is defined to true in config.json)
     // and dynamic buttons defined by each page, for some actions like show a submenu or search button.
     Loader {
-        active: !Config.usesTabBar && (!Config.hasLogin || Config.hasLogin && user.isLoggedIn)
+        active: !Config.usesTabBar && (!Config.hasLogin || Config.hasLogin && userProfile && userProfile.isLoggedIn)
         source: "ToolBar.qml"
         onLoaded: header = item
     }
@@ -113,7 +115,7 @@ ApplicationWindow {
     // and is used to show the plugins pages and work with PageStack.
     Loader {
         asynchronous: true
-        active: Config.usesDrawer && Config.hasLogin && user.isLoggedIn
+        active: Config.usesDrawer && Config.hasLogin && userProfile && userProfile.isLoggedIn
         source: "Drawer.qml"
     }
 
@@ -146,16 +148,16 @@ ApplicationWindow {
         onLoaded: { window.swipeView = item }
     }
 
-    // this component create all listeners plugins.
-    // to listeners plugins get access to user profile data or currentPage
-    // or any window object or property, the listeners needs to be loaded in this context.
-    ListenersLoader { }
-
     // handle android back button,
     // used to pop pages when is pressed by user.
     Item {
         Keys.onBackPressed: utils.buttonPressed(event)
     }
+
+    // this component create all listeners plugins.
+    // to listeners plugins get access to user profile data or currentPage
+    // or any window object or property, the listeners needs to be loaded in this context.
+    ListenersLoader { }
 
     // keeps the window signals, modularized to reduce the Main.qml size. :)
     Utils {

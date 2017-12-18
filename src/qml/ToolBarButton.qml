@@ -16,8 +16,7 @@ ToolButton {
         }
     }
 
-    property string action
-    property alias icon: toolButtonIcon
+    property string actionName
     property alias iconName: toolButtonIcon.name
     property alias iconColor: toolButtonIcon.color
 }

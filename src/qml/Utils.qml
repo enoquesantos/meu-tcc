@@ -37,7 +37,7 @@ QtObject {
     // @param e Event a QML event object
     signal buttonPressed(var e)
     onButtonPressed: {
-        if (!Qt.platform.os !== "android") {
+        if (Qt.platform.os !== "android") {
             e.accepted = true
             return
         } else if (dialog.visible) {
@@ -75,7 +75,7 @@ QtObject {
             pageJson = pages[i]
             // if current user permission is not valid for this page
             // or page is not to show in TabBar, go to next visible page
-            if (!pageJson.showInTabBar || (Config.hasLogin && user.profileName && pageJson.roles.indexOf(user.profileName) < 0))
+            if (!pageJson.showInTabBar || (Config.hasLogin && userProfile.profileName && pageJson.roles.indexOf(userProfile.profileName) < 0))
                 continue
             component = Qt.createComponent(Qt.resolvedUrl(pageJson.absPath))
             // if the page has a some error, go to next page
@@ -105,7 +105,7 @@ QtObject {
             pageStack.push(Qt.resolvedUrl("EulaAgreement.qml"))
             return
         }
-        if (!Config.hasLogin || Config.hasLogin && user.isLoggedIn) {
+        if (!Config.hasLogin || Config.hasLogin && userProfile && userProfile.isLoggedIn) {
             if (Config.usesTabBar) {
                 pageStack.clear()
                 loadPages()

@@ -126,7 +126,7 @@ ToolBar {
             id: toolButton2
             iconColor: defaultTextColor
             anchors.right: toolButton3.left
-            action: visible ? toolBarActions.toolButton2.action : ""
+            actionName: visible ? toolBarActions.toolButton2.action : ""
             iconName: visible ? toolBarActions.toolButton2.icon : ""
             visible: "toolButton2" in toolBarActions && toolBar.state !== "search"
         }
@@ -135,7 +135,7 @@ ToolBar {
             id: toolButton3
             iconColor: defaultTextColor
             anchors.right: toolButton4.left
-            action: visible ? toolBarActions.toolButton3.action : ""
+            actionName: visible ? toolBarActions.toolButton3.action : ""
             iconName: visible ? toolBarActions.toolButton3.icon : ""
             visible: "toolButton3" in toolBarActions && toolBar.state !== "search"
         }
@@ -144,7 +144,7 @@ ToolBar {
             id: toolButton4
             iconColor: defaultTextColor
             anchors.right: toolButtonLast.left
-            action: visible ? toolBarActions.toolButton4.action : ""
+            actionName: visible ? toolBarActions.toolButton4.action : ""
             iconName: visible ? toolBarActions.toolButton4.icon : ""
             visible: "toolButton4" in toolBarActions && toolBar.state !== "search"
             onClicked: if (action === "search") toolBar.state = "search"
@@ -154,7 +154,7 @@ ToolBar {
             id: toolButtonLast
             iconColor: defaultTextColor
             anchors.right: parent.right
-            action: "submenu"; iconName: "ellipsis_v"
+            actionName: "submenu"; iconName: "ellipsis_v"
             visible: hasMenuList && toolBar.state !== "search"
             onClicked: optionsToolbarMenu.open()
 
