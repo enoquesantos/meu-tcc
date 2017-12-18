@@ -29,13 +29,13 @@ Components.BasePage {
             var _regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             email.text = email.text.toString().trim()
             if (!email.text) {
-                window.alert(qsTr("Error!"), qsTr("The email field is blank!"), null, null)
+                utils.alert(qsTr("Error!"), qsTr("The email field is blank!"), null, null)
                 return
             } else if (!_regex.test(email.text)) {
-                window.alert(qsTr("Error!"), qsTr("The email is not valid!"), null, null)
+                utils.alert(qsTr("Error!"), qsTr("The email is not valid!"), null, null)
                 return
             } else if (password1.text !== password2.text) {
-                window.alert(qsTr("Error!"), qsTr("The passwords does not match!"), null, null)
+                utils.alert(qsTr("Error!"), qsTr("The passwords does not match!"), null, null)
                 return
             } else if (password1.text && password1.text == password2.text) {
                 page.focus = true

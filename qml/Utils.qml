@@ -1,11 +1,10 @@
 import QtQuick 2.8
 
 QtObject {
-    id: _mainSignals
 
-    // this signal is used to show alert mesages as native dialog
-    // acceptCallback is a javascript function called after user accept the message
-    // rejectCallback is a javascript function called after dialog closed by cancel button
+    // this signal is used to show alert messages with a native look and feeel dialog using the Dialog object.
+    // acceptCallback is a javascript function called after user accept the message, can be pass as javascript function() {}
+    // rejectCallback is a javascript function called after dialog closed by cancel button, can be pass as javascript function() {}
     signal alert(string title, string message, var acceptCallback, var rejectCallback)
     onAlert: {
         dialog.title = title || ""

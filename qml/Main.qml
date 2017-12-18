@@ -35,14 +35,10 @@ ApplicationWindow {
     signal setActivePage()
     onSetActivePage: utils.setActivePage()
 
-    // show alert dialog with system platform look end feel.
-    // to more details take a look in utils.alert(...)
-    signal alert(string title, string message, var acceptCallback, var rejectCallback)
-    onAlert: utils.alert(title, message, acceptCallback, rejectCallback)
-
     // load a Binding object to create a bind with ToolBar and current active page in stackView.
     Loader {
-        active: true; asynchronous: true
+        asynchronous: true
+        active: true
         sourceComponent: Binding {
             when: window.header != null
             target: window.header
@@ -51,9 +47,11 @@ ApplicationWindow {
         }
     }
 
-    // load a Binding object to create a bind with PageStack tunning visible when PageStack has a some item
+    // load a Binding object to create a bind with PageStack
+    // turnning visible when PageStack is not empty.
     Loader {
-        active: true; asynchronous: true
+        asynchronous: true
+        active: true
         sourceComponent: Binding {
             target: pageStack
             property: "visible"
@@ -61,11 +59,12 @@ ApplicationWindow {
         }
     }
 
-    // load a Binding object to create a bind with window.currentPage and swipeview and PageStack.
-    // if app uses swipeView, the currentItem point to currentPage in swipeView, otherwise point to
-    // currentPage in StackView. Some QML objects make binds with window.currentPage (toolbar).
+    // load a Binding object to create a bind with window.currentPage.
+    // If the app uses SwipeView, the currentItem point to currentPage in swipeView, otherwise point to
+    // currentPage in StackView. Some QML objects make binds with window.currentPage like the toolbar.
     Loader {
-        active: true; asynchronous: true
+        asynchronous: true
+        active: true
         sourceComponent: Binding {
             target: window
             property: "currentPage"
@@ -73,11 +72,12 @@ ApplicationWindow {
         }
     }
 
-    // load a Binding object to create a bind with TabBar and current active page
-    // in swipeView. The TabBar, after created, keeps a reference to window.footer and needs
-    // to be visible when pageStack is empty and current page set showTabBar to true.
+    // load a Binding object to create a bind with TabBar and current active page in swipeView.
+    // The TabBar, after created, keeps a reference to window.footer and needs
+    // to be visible when pageStack is empty or if current page set showTabBar to true.
     Loader {
-        active: Config.usesTabBar; asynchronous: true
+        asynchronous: true
+        active: Config.usesTabBar
         sourceComponent: Binding {
             when: window.footer != null
             target: window.footer
@@ -87,42 +87,43 @@ ApplicationWindow {
     }
 
     // load the main TabBar to show pages buttons, used with swipeview if "usesTabBar" is true
-    // in config.json. The app will be uses the swipeView + tabBar to swap the application pages.
+    // in config.json. The app can uses the swipeView + tabBar to swap the application pages.
     Loader {
-        active: Config.usesTabBar; asynchronous: false
+        active: Config.usesTabBar
         source: "TabBar.qml"
         onLoaded: footer = item
     }
 
-    // load the main toolbar if user is logged in. The toolbar is used to show a button
-    // to open the navigation drawer (if "usesDrawer" is defined to true in config.json)
+    // load the ToolBar if the app is not configured to use TabBar.
+    // The toolbar is used to show a button to open the navigation drawer (if "usesDrawer" is defined to true in config.json)
     // and dynamic buttons defined by each page, for some actions like show a submenu or search button.
     Loader {
-        active: !Config.usesTabBar && (!Config.hasLogin || Config.hasLogin && user.isLoggedIn); asynchronous: false
+        active: !Config.usesTabBar && (!Config.hasLogin || Config.hasLogin && user.isLoggedIn)
         source: "ToolBar.qml"
         onLoaded: header = item
     }
 
-    // load the system menu to show pages options to the user.
+    // load the navigation drawer as application menu to show pages options to the user.
     // The Menu is a instance of QML Drawer with some customizations.
     Loader {
-        active: Config.usesDrawer && Config.hasLogin && user.isLoggedIn; asynchronous: true
+        asynchronous: true
+        active: Config.usesDrawer && Config.hasLogin && user.isLoggedIn
         source: "Menu.qml"
     }
 
     // load a new instance of messages dialog component,
     // using the platform name for best look and fell appearence.
     Loader {
-        active: true; asynchronous: false
+        active: true
         source: Qt.platform.os === "android" ? "AndroidDialog.qml" : "Dialog.qml"
         onLoaded: dialog = item
     }
 
     // load a dynamic SwipeView container as the main page container,
-    // if "usesTabBar" (from config.json) was defined to true.
+    // if "usesTabBar" (from config.json) is defined to true.
     Loader {
         anchors.fill: active ? parent : undefined
-        active: Config.usesTabBar; asynchronous: false
+        active: Config.usesTabBar
         sourceComponent: SwipeView {
             visible: pageStack.depth === 0
             anchors.fill: visible ? parent : undefined

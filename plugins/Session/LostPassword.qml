@@ -12,11 +12,11 @@ Components.BasePage {
     // handle request http responses
     onRequestFinished: {
         if (statusCode === 404)
-            window.alert(qsTr("Error!"), qsTr("Email not found. try again!"), null, null)
+            utils.alert(qsTr("Error!"), qsTr("Email not found. try again!"), null, null)
         else if (statusCode === 200)
-            window.alert(qsTr("OK"), qsTr("Your password was sent for your email!"), null, null)
+            utils.alert(qsTr("OK"), qsTr("Your password was sent for your email!"), null, null)
         else
-            window.alert(qsTr("Error!"), qsTr("An error occur in the server! Try again!"), null, null)
+            utils.alert(qsTr("Error!"), qsTr("An error occur in the server! Try again!"), null, null)
     }
 
     Awesome.Icon {
@@ -48,9 +48,9 @@ Components.BasePage {
             onClicked: {
                 var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                 if (!email.text)
-                    window.alert(qsTr("Error!"), qsTr("Enter your Email!"), null, null)
+                    utils.alert(qsTr("Error!"), qsTr("Enter your Email!"), null, null)
                 else if (!regex.test(email.text))
-                    window.alert(qsTr("Error!"), qsTr("Enter a valid Email!"), null, null)
+                    utils.alert(qsTr("Error!"), qsTr("Enter a valid Email!"), null, null)
                 else
                     requestHttp.get("/recoverPassword/" + email.text + "/")
             }
