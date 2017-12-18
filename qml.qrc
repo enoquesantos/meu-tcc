@@ -20,12 +20,12 @@
         <file>qml/CustomTextField.qml</file>
         <file>qml/Datepicker.qml</file>
         <file>qml/Dialog.qml</file>
+        <file>qml/Drawer.qml</file>
         <file>qml/EulaAgreement.qml</file>
         <file>qml/FloatingButton.qml</file>
         <file>qml/ListenersLoader.qml</file>
         <file>qml/ListItem.qml</file>
         <file>qml/Main.qml</file>
-        <file>qml/Menu.qml</file>
         <file>qml/PageStack.qml</file>
         <file>qml/PageActionMessage.qml</file>
         <file>qml/PhotoSelection.qml</file>
