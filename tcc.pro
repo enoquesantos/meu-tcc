@@ -33,14 +33,11 @@ SOURCES += main.cpp \
     src/network/requesthttp.cpp \
     src/network/uploadmanager.cpp
 
-RESOURCES += qml.qrc \
-    translations.qrc
+RESOURCES += qml/qml.qrc translations/translations.qrc
 
-TRANSLATIONS = translations/*.ts \
-    translations/*.qm
+TRANSLATIONS = translations/*.ts translations/*.qm
 
-OTHER_FILES += config.json \
-    qtquickcontrols2.conf
+OTHER_FILES += config.json qtquickcontrols2.conf
 
 plugins.files = plugins
 plugins.path = /assets/

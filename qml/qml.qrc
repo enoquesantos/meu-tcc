@@ -1,0 +1,49 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="app_drawer.png">../images/app_drawer.png</file>
+        <file alias="app_icon.png">../images/app_icon.png</file>
+        <file alias="app_icon_transparent.png">../images/app_icon_transparent.png</file>
+        <file alias="default_user_image.svg">../images/default_user_image.svg</file>
+
+        <file>../app-eula.html</file>
+        <file>../config.json</file>
+        <file>../notification-linux-config.notifyrc</file>
+        <file>../qtquickcontrols2.conf</file>
+
+        <file>AndroidDialog.qml</file>
+        <file>BasePage.qml</file>
+        <file>Brand.qml</file>
+        <file>CameraCapture.qml</file>
+        <file>CustomButton.qml</file>
+        <file>CustomListView.qml</file>
+        <file>CustomRadioButton.qml</file>
+        <file>CustomTextField.qml</file>
+        <file>Datepicker.qml</file>
+        <file>Dialog.qml</file>
+        <file>Drawer.qml</file>
+        <file>EulaAgreement.qml</file>
+        <file>FloatingButton.qml</file>
+        <file>ListenersLoader.qml</file>
+        <file>ListItem.qml</file>
+        <file>Main.qml</file>
+        <file>PageStack.qml</file>
+        <file>PageActionMessage.qml</file>
+        <file>PhotoSelection.qml</file>
+        <file>RoundedImage.qml</file>
+        <file>RequestHttp.qml</file>
+        <file>Snackbar.qml</file>
+        <file>TabBar.qml</file>
+        <file>TabBarButton.qml</file>
+        <file>Toast.qml</file>
+        <file>ToolBar.qml</file>
+        <file>ToolBarButton.qml</file>
+        <file>ToolBarSearch.qml</file>
+        <file>UserProfile.qml</file>
+        <file>Utils.qml</file>
+
+        <file>Awesome/Font.otf</file>
+        <file>Awesome/Icon.qml</file>
+        <file>Awesome/IconFontLoader.qml</file>
+        <file>Awesome/Map.js</file>
+    </qresource>
+</RCC>
