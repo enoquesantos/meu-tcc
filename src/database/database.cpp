@@ -21,7 +21,7 @@ Database::Database(QObject *parent) : QObject(parent)
     setFileName();
 #ifdef QT_DEBUG
     connect(this, &Database::logMessage, [this](const QString &message) {
-        qDebug() << "DB::message: " << message;
+        qDebug() << message;
     });
 #endif
 }
@@ -257,7 +257,7 @@ int Database::insert(const QString &tableName, const QVariantMap &insertData)
 
     openConnection();
 
-    QString query("INSERT OR IGNORE INTO " + tableName + "(" + QString(fields.join(",")) + ") VALUES(" + QString(strValues.join(",")) + ")");
+    QString query("INSERT INTO " + tableName + "(" + QString(fields.join(",")) + ") VALUES(" + QString(strValues.join(",")) + ")");
     m_qsqlQuery.prepare(query);
 
     int k = 0;
