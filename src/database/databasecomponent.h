@@ -19,13 +19,13 @@ class AsyncSelect : public QThread {
 public:
     /**
      * @brief AsyncSelect
-     * @param tableName QString* the table name to get the query selection
-     * @param jsonColumns QStringList* a list of columns names that has serialized json string to parse for map or array
+     * @param tableName QString the table name to get the query selection
+     * @param jsonColumns QStringList a list of columns names that has serialized json string to parse for map or array
      * @param where QVariantMap a map with columns_name->value to build the query filter condition
      * @param args the selection args to customize the query predicates
      * @param parent QObject* the object parent
      */
-    explicit AsyncSelect(QString *tableName, QStringList *jsonColumns, const QVariantMap &where, const QVariantMap &args, QObject *parent = nullptr);
+    explicit AsyncSelect(const QString &tableName, const QStringList &jsonColumns, const QVariantMap &where, const QVariantMap &args, QObject *parent = nullptr);
 
 signals:
     /**
@@ -50,14 +50,14 @@ private:
      * @brief m_tableName
      * The name of the table to select in Database
      */
-    QString *m_tableName;
+    QString m_tableName;
 
     /**
      * @brief m_jsonColumns
      * The list of json columnns from current table, to be serialized as string before save
      * and parse to object or array before sent in 'itemLoaded' signal when select data.
      */
-    QStringList *m_jsonColumns;
+    QStringList m_jsonColumns;
 
     /**
      * @brief m_where
@@ -215,7 +215,7 @@ signals:
      * This signal will be emitted after load some database data in select method.
      * @param data QVariantMap a map with column_name->value loaded from database.
      */
-    void itemLoaded(const QVariantMap &data);
+    void itemLoaded(const QVariantMap &entry);
 
 private:
     /**
