@@ -39,5 +39,7 @@
         "pageBackgroundColor": "#fafafa",
         "toolTipBackgroundColor": "#323232"
     },
-    "events": { }
+    "events": {
+        "a_string_with_event_indentify": "a_string_with_event_value"
+    }
 }
