@@ -26,33 +26,32 @@ int main(int argc, char *argv[])
     qmlRegisterType<DatabaseComponent>("Database", 1, 0, "Database");
 
     QQmlApplicationEngine engine;
-    engine.addImportPath("qrc:/src/qml");
     QQmlContext *context = engine.rootContext();
 
     // register the Awesome icon font loader as QML singleton type
     qmlRegisterSingletonType(QUrl(QLatin1String("qrc:/src/qml/Awesome/IconFontLoader.qml")), "Qt.project.AwesomeIconFontLoader", 1, 0, "IconFontLoaderSingleton");
 
-    App app(&qApplication);
-    Utils *utils(Utils::instance());
+    App app;
+    Utils *utils = Utils::instance();
     utils->setParent(&qApplication);
     context->setContextProperty(QLatin1String("App"), &app);
     context->setContextProperty(QLatin1String("Utils"), utils);
     context->setContextProperty(QLatin1String("Config"), app.config());
 
 #ifdef Q_OS_ANDROID
-    AndroidFileDialog androidFileDialog(&qApplication);
+    AndroidFileDialog androidFileDialog;
     context->setContextProperty(QLatin1String("FileDialog"), &androidFileDialog);
-    AndroidStatusBar androidStatusBar(&qApplication);
+    AndroidStatusBar androidStatusBar;
     context->setContextProperty(QLatin1String("SystemStatusBar"), &androidStatusBar);
 #else
-    FileDialog fileDialog(&qApplication);
+    FileDialog fileDialog;
     context->setContextProperty(QLatin1String("FileDialog"), &fileDialog);
 #endif
+
     QTranslator translator(&qApplication);
     if (translator.load(QLocale::system().name(), QLatin1String(":/translations")))
         qApplication.installTranslator(&translator);
 
     engine.load(QLatin1String(":/src/qml/Main.qml"));
-
     return qApplication.exec();
 }
