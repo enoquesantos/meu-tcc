@@ -5,8 +5,8 @@ import QtQuick 2.8
 
 Column {
     id: root
-    z: Infinity
-    spacing: 8
+    objectName: "Toast.qml"
+    z: Infinity; spacing: 8
     anchors {
         bottom: atCenter ? undefined : parent.bottom
         bottomMargin: atCenter ? undefined : 55

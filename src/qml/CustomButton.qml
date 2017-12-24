@@ -1,9 +1,9 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
 
 Button {
     id: __customButton
+    objectName: "CustomButton.qml"
     implicitWidth: 180; implicitHeight: 38
     z: 1; radius: 25; opacity: enabled ? 1.0 : 0.7
     anchors.horizontalCenter: parent.horizontalCenter

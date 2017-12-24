@@ -3,6 +3,7 @@ import QtQuick.Controls 2.1
 
 TabBar {
     z: 2
+    objectName: "TabBar.qml"
     visible: !Config.hasLogin || (Config.hasLogin && user.isLoggedIn)
     currentIndex: swipeView.currentIndex
 

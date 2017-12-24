@@ -2,6 +2,7 @@ import QtQuick 2.8
 
 Item {
     visible: false
+    objectName: "UserProfile.qml"
 
     // this property is a shortcut to the user profile permission
     property string profileName

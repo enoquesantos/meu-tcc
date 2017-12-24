@@ -11,7 +11,7 @@ RequestHttp {
         // alert is a signal on Main.qml.
         // on iOS, the alert show a dialog with a native appearence,
         // snackbar is a object on Main.qml most used in Android to show short warnings in android.
-        if (Qt.platform.os === "ios")
+        if (["ios", "osx"].indexOf(Qt.platform.os) > -1)
             utils.alert(qsTr("Error!"), qsTr("Cannot connect to server!"), null, null)
         else
             snackbar.show(qsTr("Cannot connect to server!"))

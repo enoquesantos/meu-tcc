@@ -5,6 +5,7 @@ import "Awesome/"
 
 ToolButton {
     id: toolButton
+    objectName: "ToolBarButton.qml"
     onClicked: App.eventNotify(action, 0); z: 100
     width: visible ? toolButton.width : 0; height: parent.height
     contentItem: Icon {

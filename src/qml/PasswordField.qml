@@ -1,11 +1,11 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
 
 import "Awesome/" as Awesome
 
 TextField {
     id: textField
+    objectName: "PasswordField.qml"
     z: 0; antialiasing: true
     color: Config.theme.textColorPrimary
     width: parent.width

@@ -1,6 +1,7 @@
 import QtQuick 2.8
 
 QtObject {
+    objectName: "Utils.qml"
 
     // this signal is used to show alert messages with a native look and feeel dialog using the Dialog object.
     // acceptCallback is a javascript function called after user accept the message, can be pass as javascript function() {}

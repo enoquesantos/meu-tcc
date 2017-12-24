@@ -5,8 +5,8 @@ import "Awesome"
 
 BasePage {
     id: _cameraPage
-    title: qsTr("Capture new image")
     objectName: "CameraCapture.qml"
+    title: qsTr("Capture new image")
     toolBarState: "goback"
     hasListView: false
     hasNetworkRequest: false

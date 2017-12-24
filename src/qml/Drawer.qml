@@ -1,10 +1,9 @@
 import QtQuick 2.8
-import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
-import QtQuick.Controls.Material 2.1
 
 Drawer {
     id: menu
+    objectName: "Drawer.qml"
     width: window.width * 0.85; height: window.height
     dragMargin: user.isLoggedIn ? Qt.styleHints.startDragDistance + 10 : 0
 
@@ -68,7 +67,7 @@ Drawer {
         Text {
             color: userInfoTextColor; textFormat: Text.RichText
             text: user.profile.name + "<br><b>" + user.profile.email + "</b>"
-            font.pointSize: Config.fontSize.normal; Layout.fillWidth: true
+            font.pointSize: Config.fontSize.normal
             horizontalAlignment: Text.AlignHCenter
             anchors {
                 topMargin: 30

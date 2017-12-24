@@ -2,6 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 
 ListView {
+    objectName: "CustomListView.qml"
     model: _listModel
     cacheBuffer: 1600
     width: window.width

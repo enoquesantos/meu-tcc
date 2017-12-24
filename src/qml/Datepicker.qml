@@ -3,12 +3,12 @@ import QtQuick 2.8
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
 import Qt.labs.calendar 1.0
-import QtQuick.Controls.Material 2.1
 
 import "Awesome/" as Awesome
 
 Popup {
     id: _datepicker
+    objectName: "Datepicker.qml"
     modal: true; focus: true
     x: window.width / 2 - width / 2
     y: window.height * 0.05
@@ -250,8 +250,7 @@ Popup {
             text: qsTr("CANCEL")
             font.bold: true
             highlighted: false
-            Material.elevation: 0
-            Material.foreground: Material.BlueGrey
+            flat: true
             onClicked: _datepicker.close()
         }
 
@@ -259,8 +258,7 @@ Popup {
             text: qsTr("OK")
             font.bold: true
             highlighted: false
-            Material.elevation: 0
-            Material.foreground: Material.BlueGrey
+            flat: true
             onClicked: {
                 _datepicker.dateSelected(currentDay, _datepicker.currentMonth+1, _datepicker.currentYear)
                 _datepicker.close()

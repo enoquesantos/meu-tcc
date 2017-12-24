@@ -7,6 +7,7 @@ import QtQuick.Controls 2.1
 
 Item {
     id: snackbar
+    objectName: "Snackbar.qml"
     width: parent.width; height: 48
     anchors { bottom: parent.bottom; bottomMargin: initialMargin }
 
@@ -37,10 +38,9 @@ Item {
                 reopen.start()
             isOpened = false
             closePending = false
-            if (typeof closeCallback[0] === "function") {
+            if (closeCallback.length > 0 && typeof closeCallback[0] === "function") {
                 closeCallback[0]()
-                closeCallback.reverse()
-                closeCallback.pop()
+                closeCallback.splice(0, 1)
             }
         }
     }

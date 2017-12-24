@@ -3,6 +3,7 @@ import QtQuick.Controls 2.2
 
 Popup {
     id: _dialog
+    objectName: "AndroidDialog.qml"
     x: Math.round((window.width - width) / 2)
     y: Math.round(window.height / 3.6)
     width: Math.round(Math.min(window.width, window.height) / 3 * 2.5)

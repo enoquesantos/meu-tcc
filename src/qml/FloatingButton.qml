@@ -6,6 +6,7 @@ import "Awesome/" as Awesome
 
 CustomButton {
     id: button
+    objectName: "FloatingButton.qml"
     z: 10
     borderColor: backgroundColor
     radius: 200; width: 50; height: width

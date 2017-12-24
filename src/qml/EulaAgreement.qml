@@ -4,6 +4,7 @@ import QtQuick.Controls 2.1
 
 BasePage {
     id: page
+    objectName: "EulaAgreement.qml"
     title: qsTr("Terms of Use")
     hasListView: false
     hasNetworkRequest: false

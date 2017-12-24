@@ -5,6 +5,7 @@ import "."
 
 Page {
     id: basePage
+    objectName: "BasePage.qml"
     width: window.width
     background: Rectangle {
         id: _pageBackgroundRec

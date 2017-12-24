@@ -2,11 +2,12 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 
 Item {
+    objectName: "ToolBarSearch.qml"
     width: parent.width * 0.65; height: parent.height
 
     property alias searchText: __searchInput.text
 
-    CustomTextField {
+    TextField {
         id: __searchInput
         visible: parent.visible
         focus: visible

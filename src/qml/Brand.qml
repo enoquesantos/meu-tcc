@@ -2,6 +2,7 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 
 Rectangle {
+    objectName: "Brand.qml"
     color: "transparent"
     width: parent.width; height: 150
     anchors {

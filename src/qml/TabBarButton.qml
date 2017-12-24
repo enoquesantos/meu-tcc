@@ -5,6 +5,7 @@ import "Awesome/" as Awesome
 
 TabButton {
     id: control
+    objectName: "TabBarButton.qml"
     contentItem: Text {
         visible: Config.showTabButtonText
         text: control.text

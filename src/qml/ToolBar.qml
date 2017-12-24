@@ -5,6 +5,7 @@ import QtGraphicalEffects 1.0
 
 ToolBar {
     id: toolBar
+    objectName: "ToolBar.qml"
     visible: window.currentPage && window.currentPage.showToolBar && pageStack.depth > 0
     height: visible ? 55 : 0
     state: window.currentPage ? window.currentPage.toolBarState : ""
