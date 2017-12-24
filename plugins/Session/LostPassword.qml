@@ -36,7 +36,7 @@ Components.BasePage {
         width: parent.width * 0.90
         anchors { top: brand.bottom; topMargin: 15; horizontalCenter: parent.horizontalCenter }
 
-        Components.CustomTextField {
+        Components.PasswordField {
             id: email
             placeholderText: qsTr("Email")
             inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhLowercaseOnly

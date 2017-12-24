@@ -102,7 +102,7 @@ Components.BasePage {
                 }
             }
 
-            Components.CustomTextField {
+            Components.PasswordField {
                 id: email
                 Layout.fillWidth: true
                 text: user.profile.email
@@ -113,7 +113,7 @@ Components.BasePage {
                 onFocusChanged: if (focus) flickable.contentY = email.y
             }
 
-            Components.CustomTextField {
+            Components.PasswordField {
                 id: password1
                 Layout.fillWidth: true
                 nextFocusItem: password2
@@ -123,7 +123,7 @@ Components.BasePage {
                 onFocusChanged: if (focus) flickable.contentY = email.y
             }
 
-            Components.CustomTextField {
+            Components.PasswordField {
                 id: password2
                 Layout.fillWidth: true
                 echoMode: TextInput.Password
