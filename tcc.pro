@@ -79,12 +79,9 @@ android: {
     OTHER_FILES += \
         android/AndroidManifest.xml \
         android/google-services.json \
-        android/gradle/wrapper/gradle-wrapper.jar \
-        android/gradlew \
-        android/res/values/libs.xml \
         android/build.gradle \
         android/gradle/wrapper/gradle-wrapper.properties \
-        android/gradlew.bat \
+        android/res/values/*.xml
 
     OTHER_FILES += android/src/org/qtproject/qt5/android/bindings/*.java
 
