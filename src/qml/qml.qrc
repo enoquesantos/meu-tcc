@@ -7,8 +7,6 @@
         <file>CameraCapture.qml</file>
         <file>CustomButton.qml</file>
         <file>CustomListView.qml</file>
-        <file>CustomRadioButton.qml</file>
-        <file>CustomTextField.qml</file>
         <file>Datepicker.qml</file>
         <file>Dialog.qml</file>
         <file>Drawer.qml</file>
@@ -19,6 +17,7 @@
         <file>Main.qml</file>
         <file>PageStack.qml</file>
         <file>PageActionMessage.qml</file>
+        <file>PasswordField.qml</file>
         <file>PhotoSelection.qml</file>
         <file>RoundedImage.qml</file>
         <file>RequestHttp.qml</file>
