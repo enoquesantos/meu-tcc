@@ -14,7 +14,7 @@ ApplicationWindow {
     Component.onCompleted: {
         utils.setActivePage()
         // when runnig in desktop mode, centralize the application window.
-        if (Qt.platform.os === "linux" || Qt.platform.os === "osx") {
+        if (["linux","osx"].indexOf(Qt.platform.os) > -1) {
             setX(Screen.width / 2 - width / 2)
             setY(Screen.height / 2 - height / 2)
         }
