@@ -9,10 +9,10 @@ ApplicationWindow {
     visible: true
     width: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.width/2.5) : Screen.width; height: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.height * 0.90) : Screen.height
     title: currentPage ? (currentPage.title + " - " + Config.applicationName) : (Config.applicationName + " - " + Config.applicationDescription)
-    onClosing: utils.buttonPressed(close)
+    onClosing: functions.buttonPressed(close)
 
     Component.onCompleted: {
-        utils.setActivePage()
+        functions.setActivePage()
         // when runnig in desktop mode, centralize the application window.
         if (["linux","osx"].indexOf(Qt.platform.os) > -1) {
             setX(Screen.width / 2 - width / 2)
@@ -38,9 +38,9 @@ ApplicationWindow {
     property QtObject userProfile
 
     // the first function called by window to set the first page to the user.
-    // to more details take a look in utils.setActivePage()
+    // to more details take a look in functions.setActivePage()
     signal setActivePage()
-    onSetActivePage: utils.setActivePage()
+    onSetActivePage: functions.setActivePage()
 
     // load a Binding object to create a bind with ToolBar and current active page in stackView.
     Loader {
@@ -151,7 +151,7 @@ ApplicationWindow {
     // handle android back button,
     // used to pop pages when is pressed by user.
     Item {
-        Keys.onBackPressed: utils.buttonPressed(event)
+        Keys.onBackPressed: functions.buttonPressed(event)
     }
 
     // this component create all listeners plugins.
@@ -160,8 +160,8 @@ ApplicationWindow {
     ListenersLoader { }
 
     // keeps the window signals, modularized to reduce the Main.qml size. :)
-    Utils {
-        id: utils
+    Functions {
+        id: functions
     }
 
     // handle the android Snackbar widget,

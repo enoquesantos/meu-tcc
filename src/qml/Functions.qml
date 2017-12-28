@@ -1,7 +1,7 @@
 import QtQuick 2.8
 
 QtObject {
-    objectName: "Utils.qml"
+    objectName: "Functions.qml"
 
     // this signal is used to show alert messages with a native look and feeel dialog using the Dialog object.
     // acceptCallback is a javascript function called after user accept the message, can be pass as javascript function() {}
@@ -65,32 +65,29 @@ QtObject {
     // if Config.usesTabBar is true (in config.json), load all pages and add a button
     // for each page into window tabbar (window footer) using page icon and page name
     // and create a new Page and add to swipeView container.
-    // The window footer in this case, keep a instance of TabBar.
+    // The window footer in this case, keeps a instance of TabBar.
     signal loadPages()
     onLoadPages: {
-        var i, length = 0, pages = [], component = {}, pageJson = {}, tabBarButtonPath = Qt.resolvedUrl("TabBarButton.qml")
+        var i, length = 0, pages = [], component = {}, page = {}, tabBarButtonPath = Qt.resolvedUrl("TabBarButton.qml")
         // load all saved (plugins) pages
         pages = App.readSetting("pages", App.SettingTypeJsonArray)
         length = pages.length
         for (i = 0; i < length; ++i) {
-            pageJson = pages[i]
+            page = pages[i]
             // if current user permission is not valid for this page
             // or page is not to show in TabBar, go to next visible page
-            if (!pageJson.showInTabBar || (Config.hasLogin && userProfile.profileName && pageJson.roles.indexOf(userProfile.profileName) < 0))
+            if (!page.showInTabBar || (Config.hasLogin && userProfile.profileName && page.roles.indexOf(userProfile.profileName) < 0))
                 continue
-            component = Qt.createComponent(Qt.resolvedUrl(pageJson.absPath))
-            // if the page has a some error, go to next page
+            component = Qt.createComponent(Qt.resolvedUrl(page.absPath))
+            // if the page has a some error, continue to next page
             if (component.status === Component.Error) {
                 console.error(component.errorString())
                 continue
             }
             swipeView.addItem(component.createObject(swipeView))
-            footer.addItem(Qt.createComponent(tabBarButtonPath).createObject(footer,{"checked":i === 0,"text":pageJson.title,"iconName":pageJson.icon,"showTextOnPressed":true}))
+            footer.addItem(Qt.createComponent(tabBarButtonPath).createObject(window.footer,{"checked":!i,"text":page.title,"iconName":page.icon}))
         }
         footer.visible = true
-        pages = undefined
-        component = undefined
-        pageJson = undefined
     }
 
     // first method called by application window to set
@@ -109,6 +106,13 @@ QtObject {
         if (!Config.hasLogin || Config.hasLogin && userProfile && userProfile.isLoggedIn) {
             if (Config.usesTabBar) {
                 pageStack.clear()
+                //
+                // folow code can be used to create the swipeview pages in c++, insteade of loadPages()
+                // But, the plugins needs to import your self directory from assets plugins to use the files in plugin dir, like this: assets:/plugins/plugin_name
+                //
+                // var pages = App.readSetting("pages", App.SettingTypeJsonArray)
+                // Utils.createSwipeViewPages(pages, swipeView, window.footer, userProfile ? userProfile.profileName : "")
+                //
                 loadPages()
             } else {
                 var homePageUrl = App.readSetting("homePageUrl", App.SettingTypeString)

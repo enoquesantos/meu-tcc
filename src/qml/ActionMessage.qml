@@ -6,7 +6,7 @@ import "Awesome/" as Awesome
 
 Rectangle {
     id: rootItem
-    objectName: "PageActionMessage.qml"
+    objectName: "ActionMessage.qml"
     anchors.centerIn: parent; radius: width
     color: "transparent"
     width: visible ? (parent.width * 0.70) : 0; height: width

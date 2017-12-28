@@ -99,10 +99,10 @@ Page {
     // each page can set a custom color to page background using this alias
     property alias pageBackgroundColor: _pageBackgroundRec.color
 
-    // set the text to pageActionMessage
+    // set the text to actionMessage
     property string actionMessageText
 
-    // set the awesome icon to pageActionMessage
+    // set the awesome icon to actionMessage
     property string actionMessageIconName
 
     // a reference to busyIndicator, loaded if 'hasNetworkRequest'
@@ -122,9 +122,9 @@ Page {
     // component defined by child page to handle the ListView delegate
     property Component listViewDelegate
 
-    // this signal is emited when user click on PageActionMessage
-    // the page can connect with this signal to reload page or make some action
-    // the PageActionMessage is visible when page has ListView and the listViewModel is empty
+    // this signal is emited when user click in ActionMessage button.
+    // the page can connect with this signal to reload page or make some action.
+    // the ActionMessage is visible when page has ListView and the ListView Model is empty.
     signal requestUpdatePage()
 
     // this signal is emited after request http send a response
@@ -150,7 +150,7 @@ Page {
     // the action can be clicked by user sending the requestUpdatePage() signal
     Loader {
         asynchronous: false; active: hasListView
-        sourceComponent: PageActionMessage {
+        sourceComponent: ActionMessage {
             visible: listView && listViewModel.count === 0 && !isPageBusy
             onClicked: requestUpdatePage()
         }

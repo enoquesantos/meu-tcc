@@ -1,6 +1,7 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
     <qresource prefix="src/qml">
+        <file>ActionMessage.qml</file>
         <file>AndroidDialog.qml</file>
         <file>BasePage.qml</file>
         <file>Brand.qml</file>
@@ -16,7 +17,6 @@
         <file>ListItem.qml</file>
         <file>Main.qml</file>
         <file>PageStack.qml</file>
-        <file>PageActionMessage.qml</file>
         <file>PasswordField.qml</file>
         <file>PhotoSelection.qml</file>
         <file>RoundedImage.qml</file>
@@ -29,7 +29,7 @@
         <file>ToolBarButton.qml</file>
         <file>ToolBarSearch.qml</file>
         <file>UserProfile.qml</file>
-        <file>Utils.qml</file>
+        <file>Functions.qml</file>
 
         <file>Awesome/Font.otf</file>
         <file>Awesome/Icon.qml</file>
