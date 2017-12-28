@@ -54,6 +54,6 @@ int main(int argc, char *argv[])
     if (translator.load(QLocale::system().name(), QLatin1String(":/translations")))
         qApplication.installTranslator(&translator);
 
-    engine.load(QLatin1String(":/src/qml/Main.qml"));
+    engine.load(QLatin1String(":/src/qml/private/Main.qml"));
     return qApplication.exec();
 }

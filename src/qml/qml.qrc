@@ -1,39 +1,46 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
     <qresource prefix="src/qml">
+        <!-- Start components used by plugins -->
         <file>ActionMessage.qml</file>
-        <file>AndroidDialog.qml</file>
         <file>BasePage.qml</file>
         <file>Brand.qml</file>
         <file>CameraCapture.qml</file>
         <file>CustomButton.qml</file>
         <file>CustomListView.qml</file>
         <file>Datepicker.qml</file>
-        <file>Dialog.qml</file>
-        <file>Drawer.qml</file>
-        <file>EulaAgreement.qml</file>
         <file>FloatingButton.qml</file>
-        <file>ListenersLoader.qml</file>
         <file>ListItem.qml</file>
-        <file>Main.qml</file>
-        <file>PageStack.qml</file>
         <file>PasswordField.qml</file>
         <file>PhotoSelection.qml</file>
-        <file>RoundedImage.qml</file>
         <file>RequestHttp.qml</file>
-        <file>Snackbar.qml</file>
-        <file>TabBar.qml</file>
-        <file>TabBarButton.qml</file>
-        <file>Toast.qml</file>
-        <file>ToolBar.qml</file>
-        <file>ToolBarButton.qml</file>
-        <file>ToolBarSearch.qml</file>
-        <file>UserProfile.qml</file>
-        <file>Functions.qml</file>
+        <file>RoundedImage.qml</file>
+        <!-- end components used by plugins -->
 
+        <!-- Start components used by application -->
+        <file>private/AndroidDialog.qml</file>
+        <file>private/Dialog.qml</file>
+        <file>private/Drawer.qml</file>
+        <file>private/EulaAgreement.qml</file>
+        <file>private/Functions.qml</file>
+        <file>private/ListenersLoader.qml</file>
+        <file>private/Main.qml</file>
+        <file>private/PageStack.qml</file>
+        <file>private/Snackbar.qml</file>
+        <file>private/TabBar.qml</file>
+        <file>private/TabBarButton.qml</file>
+        <file>private/Toast.qml</file>
+        <file>private/ToolBar.qml</file>
+        <file>private/ToolBarButton.qml</file>
+        <file>private/ToolBarSearch.qml</file>
+        <file>private/UserProfile.qml</file>
+        <!-- End components used by application -->
+
+        <!-- Start components used by application and plugins -->
         <file>Awesome/Font.otf</file>
         <file>Awesome/Icon.qml</file>
         <file>Awesome/IconFontLoader.qml</file>
         <file>Awesome/Map.js</file>
+        <!-- End components used by application and plugins -->
     </qresource>
 </RCC>
