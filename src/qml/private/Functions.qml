@@ -68,26 +68,25 @@ QtObject {
     // The window footer in this case, keeps a instance of TabBar.
     signal loadPages()
     onLoadPages: {
-        var i, length = 0, pages = [], component = {}, page = {}, tabBarButtonPath = Qt.resolvedUrl("TabBarButton.qml")
+        var i, length = 0, pages = [], comp = {}, page = {}, tabBarButtonPath = Qt.resolvedUrl("TabBarButton.qml")
         // load all saved (plugins) pages
         pages = App.readSetting("pages", App.SettingTypeJsonArray)
         length = pages.length
         for (i = 0; i < length; ++i) {
             page = pages[i]
             // if current user permission is not valid for this page
-            // or page is not to show in TabBar, go to next visible page
+            // or page is not to show in TabBar, continue to next visible page!
             if (!page.showInTabBar || (Config.hasLogin && userProfile.profileName && page.roles.indexOf(userProfile.profileName) < 0))
                 continue
-            component = Qt.createComponent(Qt.resolvedUrl(page.absPath))
+            comp = Qt.createComponent(Qt.resolvedUrl(page.absPath))
             // if the page has a some error, continue to next page
-            if (component.status === Component.Error) {
-                console.error(component.errorString())
+            if (comp.status === Component.Error) {
+                console.error(comp.errorString())
                 continue
             }
-            swipeView.addItem(component.createObject(swipeView))
-            footer.addItem(Qt.createComponent(tabBarButtonPath).createObject(window.footer,{"checked":!i,"text":page.title,"iconName":page.icon}))
+            swipeView.addItem(comp.createObject(swipeView))
+            window.footer.addItem(Qt.createComponent(tabBarButtonPath).createObject(window.footer,{"checked":!i,"text":page.title,"iconName":page.icon}))
         }
-        footer.visible = true
     }
 
     // first method called by application window to set
