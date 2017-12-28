@@ -55,7 +55,7 @@ BasePage {
             visible: Config.forceEulaAgreement
             text: qsTr("NOT AGREE")
             anchors { left: parent.left; leftMargin: 20; verticalCenter: parent.verticalCenter; horizontalCenter: undefined }
-            onClicked: utils.alert(qsTr("Warning!"), qsTr("You need to read and accept the terms! Otherwise you will cannot use the application!!"), function() { return; }, function() { Qt.quit(); })
+            onClicked: functions.alert(qsTr("Warning!"), qsTr("You need to read and accept the terms! Otherwise you will cannot use the application!!"), function() { return; }, function() { Qt.quit(); })
         }
 
         CustomButton {
