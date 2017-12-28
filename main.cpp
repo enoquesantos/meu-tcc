@@ -1,13 +1,12 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QQuickWindow>
 #include <QTranslator>
 
 #ifdef Q_OS_ANDROID
 #include "src/extras/androidfiledialog.h"
-#include "src/extras/JavaCppConnect.h"
 #include "src/extras/androidstatusbar.h"
+#include "src/extras/JavaCppConnect.h"
 #else
 #include "src/core/filedialog.h"
 #endif
@@ -32,15 +31,18 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonType(QUrl(QLatin1String("qrc:/src/qml/Awesome/IconFontLoader.qml")), "Qt.project.AwesomeIconFontLoader", 1, 0, "IconFontLoaderSingleton");
 
     App app;
+    context->setContextProperty(QLatin1String("App"), &app);
+    context->setContextProperty(QLatin1String("Config"), app.config());
+
     Utils *utils = Utils::instance();
     utils->setParent(&qApplication);
-    context->setContextProperty(QLatin1String("App"), &app);
+    utils->setQmlEngine(&engine);
     context->setContextProperty(QLatin1String("Utils"), utils);
-    context->setContextProperty(QLatin1String("Config"), app.config());
 
 #ifdef Q_OS_ANDROID
     AndroidFileDialog androidFileDialog;
     context->setContextProperty(QLatin1String("FileDialog"), &androidFileDialog);
+
     AndroidStatusBar androidStatusBar;
     context->setContextProperty(QLatin1String("SystemStatusBar"), &androidStatusBar);
 #else
