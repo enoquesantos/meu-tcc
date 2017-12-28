@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QUrl>
 #include <QVariant>
+#include <QQmlContext>
+#include <QQmlComponent>
 
 class QFile;
 class QJsonArray;
@@ -60,6 +62,32 @@ public:
      * @return Utils*
      */
     static Utils *instance();
+
+    /**
+     * @brief setQmlEngine
+     * Set a pointer to the QQmlApplicationEngine, create on the main.cpp
+     * @param engine QQmlEngine*
+     */
+    void setQmlEngine(QQmlEngine *engine);
+
+    /**
+     * @brief createSwipeViewPages
+     * Create the application pages object (QQuickPageItem) to append in SwipeView loaded in the main window.
+     * This function is needed to optimize the startup and to reduce the logical code in QML.
+     * @param pages QVariantList a object list with the application pages, define by plugins
+     * @param swipeView A pointer to QML SwipeView object. Is needed to call "addItem" after create the page
+     * @param tabBar A pointer to QML TabBar object. Is needed to add page button (TabBarButton), calling "addItem" after create the page
+     * @param userProfileName QString if application is defined to use User Profile, the profile name is used to check if page required roles contains the user role
+     */
+    Q_INVOKABLE void createSwipeViewPages(const QVariantList &pages, QObject *swipeView, QObject *tabBar, const QString &userProfileName = QStringLiteral(""));
+
+    /**
+     * @brief createTabBarButton
+     * @param isChecked
+     * @param page
+     * @param tabBar
+     */
+    void createTabBarButton(bool isChecked, const QVariant &pageTitle, const QVariant pageIcon, QObject *tabBar);
 
     /**
      * @brief stringfyJson
@@ -135,6 +163,13 @@ public:
      */
     Q_INVOKABLE bool copyFile(const QString &fileName, const QString &newName, bool overwriteIfExists = true);
 
+    /**
+     * @brief fileBaseName
+     * Extract the base name from any local or remote file:
+     * Ex: fileBaseName("/tmp/archive.tar.gz"); // return "archive.tar.gz"
+     * @param filePath QString from a local or remote file (http://.../image.png)
+     * @return QString
+     */
     Q_INVOKABLE QString fileBaseName(const QString &filePath);
 
 private:
@@ -143,6 +178,12 @@ private:
      * A pointer to class instance
      */
     static Utils *m_instance;
+
+    /**
+     * @brief m_engine
+     * A pointer to QQmlEngine
+     */
+    QQmlEngine *m_engine;
 };
 
 #endif // UTILS_H
