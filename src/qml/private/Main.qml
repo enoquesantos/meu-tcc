@@ -7,8 +7,9 @@ import "qrc:/src/qml/private"
 ApplicationWindow {
     id: window
     visible: true
-    width: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.width/2.5) : Screen.width; height: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.height * 0.90) : Screen.height
-    title: currentPage ? (currentPage.title + " - " + Config.applicationName) : (Config.applicationName + " - " + Config.applicationDescription)
+    width: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.width / 2.5) : Screen.width
+    height: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.height * 0.90) : Screen.height
+    title: currentPage ? (currentPage.title || qsTr("Welcome") + " - " + Config.applicationName) : (Config.applicationName + " - " + Config.applicationDescription)
     onClosing: functions.buttonPressed(close)
 
     Component.onCompleted: {
@@ -27,7 +28,7 @@ ApplicationWindow {
     // swipe view is used when app set 'usesTabBar' to true in config.json.
     // If true, the app pages can be changed by swiping or
     // using the TabBar buttons put in the bottom of window.
-    property SwipeView swipeView
+    property QtObject swipeView
 
     // keeps a reference to the current visible page at the window.
     property QtObject currentPage
@@ -41,57 +42,6 @@ ApplicationWindow {
     // to more details take a look in functions.setActivePage()
     signal setActivePage()
     onSetActivePage: functions.setActivePage()
-
-    // load a Binding object to create a bind with ToolBar and current active page in stackView.
-    Loader {
-        asynchronous: true
-        active: true
-        sourceComponent: Binding {
-            when: window.header != null
-            target: window.header
-            property: "visible"
-            value: pageStack.depth && pageStack.currentItem && pageStack.currentItem.showToolBar
-        }
-    }
-
-    // load a Binding object to create a bind with PageStack
-    // turnning visible when PageStack is not empty.
-    Loader {
-        asynchronous: true
-        active: true
-        sourceComponent: Binding {
-            target: pageStack
-            property: "visible"
-            value: pageStack.depth > 0
-        }
-    }
-
-    // load a Binding object to create a bind with window.currentPage.
-    // If the app uses SwipeView, the currentItem point to currentPage in swipeView, otherwise point to
-    // currentPage in StackView. Some QML objects make binds with window.currentPage like the toolbar.
-    Loader {
-        asynchronous: true
-        active: true
-        sourceComponent: Binding {
-            target: window
-            property: "currentPage"
-            value: Config.usesTabBar && !pageStack.depth ? swipeView.currentItem : pageStack.currentItem
-        }
-    }
-
-    // load a Binding object to create a bind with TabBar and current active page in swipeView.
-    // The TabBar, after created, keeps a reference to window.footer and needs
-    // to be visible when pageStack is empty or if current page set showTabBar to true.
-    Loader {
-        asynchronous: true
-        active: Config.usesTabBar
-        sourceComponent: Binding {
-            when: window.footer != null
-            target: window.footer
-            property: "visible"
-            value: !pageStack.depth && swipeView.currentItem && swipeView.currentItem.showTabBar
-        }
-    }
 
     // load the main TabBar to show pages buttons, used with swipeview if "usesTabBar" is true
     // in config.json. The app can uses the swipeView + tabBar to swap the application pages.
@@ -148,8 +98,9 @@ ApplicationWindow {
         onLoaded: { window.swipeView = item }
     }
 
-    // handle android back button,
-    // used to pop pages when is pressed by user.
+    // handle the android back button and is
+    // used to pop pages when is pressed by user or,
+    // paginate the SwipeView pages (calling decrementCurrentIndex())
     Item {
         Keys.onBackPressed: functions.buttonPressed(event)
     }
@@ -158,6 +109,10 @@ ApplicationWindow {
     // to listeners plugins get access to user profile data or currentPage
     // or any window object or property, the listeners needs to be loaded in this context.
     ListenersLoader { }
+
+    // create the application bindings with main window widgets
+    // like SwipeView with TabBar(window.footer) and StackView with ToolBar (window.header)
+    Bindings { }
 
     // keeps the window signals, modularized to reduce the Main.qml size. :)
     Functions {
