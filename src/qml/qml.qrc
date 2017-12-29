@@ -19,6 +19,7 @@
 
         <!-- Start components used by application -->
         <file>private/AndroidDialog.qml</file>
+        <file>private/Bindings.qml</file>
         <file>private/Dialog.qml</file>
         <file>private/Drawer.qml</file>
         <file>private/EulaAgreement.qml</file>
