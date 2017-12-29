@@ -75,6 +75,7 @@ ApplicationWindow {
         asynchronous: true
         active: Config.hasLogin
         source: "UserProfile.qml"
+        onLoaded: userProfile = item
     }
 
     // load a new instance of messages dialog component,
@@ -95,7 +96,7 @@ ApplicationWindow {
             anchors.fill: visible ? parent : undefined
             currentIndex: footer ? footer.currentIndex : 0
         }
-        onLoaded: { window.swipeView = item }
+        onLoaded: swipeView = item
     }
 
     // handle the android back button and is
