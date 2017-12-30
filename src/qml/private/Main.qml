@@ -124,7 +124,6 @@ ApplicationWindow {
     // used to show some application warnings.
     Snackbar {
         id: snackbar
-        z: 1
     }
 
     // handle the android Toast widget,
