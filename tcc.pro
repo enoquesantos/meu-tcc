@@ -13,7 +13,9 @@ CONFIG += c++11
 HEADERS += src/core/app.h \
     src/core/filedialog.h \
     src/core/notification.h \
+    src/core/observer.h \
     src/core/pluginmanager.h \
+    src/core/subject.h \
     src/core/utils.h \
     src/database/database.h \
     src/database/databasecomponent.h \
@@ -25,8 +27,10 @@ SOURCES += main.cpp \
     src/core/app.cpp \
     src/core/filedialog.cpp \
     src/core/notification.cpp \
-    src/core/utils.cpp \
+    src/core/observer.cpp \
     src/core/pluginmanager.cpp \
+    src/core/subject.cpp \
+    src/core/utils.cpp \
     src/database/database.cpp \
     src/database/databasecomponent.cpp \
     src/network/downloadmanager.cpp \
