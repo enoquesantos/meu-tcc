@@ -14,6 +14,7 @@
 #include "src/core/app.h"
 #include "src/core/utils.h"
 #include "src/core/observer.h"
+#include "src/core/subject.h"
 #include "src/database/databasecomponent.h"
 #include "src/network/requesthttp.h"
 
@@ -26,12 +27,12 @@ int main(int argc, char *argv[])
     qmlRegisterType<RequestHttp>("RequestHttp", 1, 0, "RequestHttp");
     qmlRegisterType<DatabaseComponent>("Database", 1, 0, "Database");
     qmlRegisterType<Observer>("Observer", 1, 0, "Observer");
+ 
+    // register the Awesome icon font loader as QML singleton type
+    qmlRegisterSingletonType(QUrl(QLatin1String("qrc:/src/qml/Awesome/IconFontLoader.qml")), "Qt.project.AwesomeIconFontLoader", 1, 0, "IconFontLoaderSingleton");
 
     QQmlApplicationEngine engine;
     QQmlContext *context = engine.rootContext();
-
-    // register the Awesome icon font loader as QML singleton type
-    qmlRegisterSingletonType(QUrl(QLatin1String("qrc:/src/qml/Awesome/IconFontLoader.qml")), "Qt.project.AwesomeIconFontLoader", 1, 0, "IconFontLoaderSingleton");
 
     App app;
     context->setContextProperty(QLatin1String("App"), &app);
@@ -41,6 +42,9 @@ int main(int argc, char *argv[])
     utils->setParent(&qApplication);
     utils->setQmlEngine(&engine);
     context->setContextProperty(QLatin1String("Utils"), utils);
+
+    Subject subject;
+    context->setContextProperty(QStringLiteral("Subject"), &subject);
 
 #ifdef Q_OS_ANDROID
     AndroidFileDialog androidFileDialog;
