@@ -16,11 +16,11 @@ public:
     QStringList events();
     void setSubject(Subject *subject);
     void setEvents(const QStringList &events);
-    void update(const QString &eventName, const QVariant &args, QQuickItem *sender);
+    void update(const QString &eventName, const QVariant &args, QObject *sender);
 
 signals:
     void eventsChanged(const QStringList &events);
-    void updated(const QString &eventName, const QVariant &args, QQuickItem *sender);
+    void updated(const QString &eventName, const QVariant &args, QObject *sender);
 
 private:
     QStringList m_events;

@@ -34,13 +34,13 @@ void Subject::attach(Observer *observer, const QString &event)
     m_attacheds.insert(event, attacheds);
 }
 
-void Subject::attach(Observer *observer, const QVariantList &events)
+void Subject::attach(Observer *observer, const QStringList &events)
 {
-    foreach (const QVariant &qv, events)
-        attach(observer, qv.toString());
+    foreach (const QString &event, events)
+        attach(observer, event);
 }
 
-void Subject::dettach(Observer *observer, const QString &event)
+void Subject::detach(Observer *observer, const QString &event)
 {
     QVector<Observer *> attacheds = m_attacheds.value(event);
     if (attacheds.count() > 0) {
@@ -52,7 +52,13 @@ void Subject::dettach(Observer *observer, const QString &event)
     attacheds = m_attacheds.value(event);
 }
 
-void Subject::notify(const QString &event, const QVariant &args, QQuickItem *sender)
+void Subject::detach(Observer *observer, const QStringList &events)
+{
+    foreach (const QString &event, events)
+        detach(observer, event);
+}
+
+void Subject::notify(const QString &event, const QVariant &args, QObject *sender)
 {
     QVector<Observer *> observers = m_attacheds.value(event);
     int size = observers.size();

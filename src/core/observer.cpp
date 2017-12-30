@@ -7,10 +7,8 @@ Observer::Observer(QObject *parent) : QObject(parent)
 
 Observer::~Observer()
 {
-    if (m_subject && m_events.size()) {
-        foreach (const QString &event, m_events)
-            m_subject->dettach(this, event);
-    }
+    if (m_subject && m_events.size())
+        m_subject->detach(this, m_events);
 }
 
 QStringList Observer::events()
@@ -29,7 +27,7 @@ void Observer::setEvents(const QStringList &events)
     emit eventsChanged(m_events);
 }
 
-void Observer::update(const QString &eventName, const QVariant &args, QQuickItem *sender)
+void Observer::update(const QString &eventName, const QVariant &args, QObject *sender)
 {
     // will be execute in the same thread of Worker thread
     emit updated(eventName, args, sender);
