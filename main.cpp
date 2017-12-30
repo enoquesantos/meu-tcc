@@ -13,6 +13,7 @@
 
 #include "src/core/app.h"
 #include "src/core/utils.h"
+#include "src/core/observer.h"
 #include "src/database/databasecomponent.h"
 #include "src/network/requesthttp.h"
 
@@ -21,8 +22,10 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication qApplication(argc, argv);
 
+    // register custom types to be used by application componentes and plugins
     qmlRegisterType<RequestHttp>("RequestHttp", 1, 0, "RequestHttp");
     qmlRegisterType<DatabaseComponent>("Database", 1, 0, "Database");
+    qmlRegisterType<Observer>("Observer", 1, 0, "Observer");
 
     QQmlApplicationEngine engine;
     QQmlContext *context = engine.rootContext();
