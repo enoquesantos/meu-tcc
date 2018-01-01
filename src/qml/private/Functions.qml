@@ -62,7 +62,7 @@ QtObject {
         e.accepted = false
     }
 
-    // if Config.usesTabBar is true (in config.json), load all pages and add a button
+    // if Config.usesSwipeView is true (in config.json), load all pages and add a button
     // for each page into window tabbar (window footer) using page icon and page name
     // and create a new Page and add to swipeView container.
     // The window footer in this case, keeps a instance of TabBar.
@@ -103,7 +103,7 @@ QtObject {
             return
         }
         if (!Config.hasLogin || Config.hasLogin && userProfile && userProfile.isLoggedIn) {
-            if (Config.usesTabBar) {
+            if (Config.usesSwipeView) {
                 pageStack.clear()
                 //
                 // folow code can be used to create the swipeview pages in c++, insteade of loadPages()

@@ -4,13 +4,13 @@
     "organizationName": "My App",
     "organizationDomain": "myapp.org",
     "applicationDescription": "The app description",
-    "hasLogin": true,
-    "usesTabBar": false,
-    "showTabButtonText": false,
-    "usesDrawer": true,
     "applicationStyle": "Material",
-    "showEula": false,
     "forceEulaAgreement": false,
+    "hasLogin": true,
+    "showEula": false,
+    "showTabButtonText": false,
+    "usesSwipeView": false,
+    "usesDrawer": true,
     "restService": {
         "authentication" : {
             "type": "basic",

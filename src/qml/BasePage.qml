@@ -69,7 +69,7 @@ Page {
     property bool lockGoBack: false
 
     // flag to hide/show the application tabBar (window.footer), loaded in Main.qml
-    // TabBar is loaded only if the value for property 'usesTabBar' is set to true in settings.json
+    // TabBar is loaded only if the value for property 'usesSwipeView' is set to true in settings.json
     // if TabBar is loaded, will be placed in the app footer and make a bind with SwipeView,
     // showing a page navigation buttons in window bottom to each application page
     property bool showTabBar: true

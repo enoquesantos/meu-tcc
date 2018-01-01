@@ -34,7 +34,7 @@ Item {
         sourceComponent: Binding {
             target: window
             property: "currentPage"
-            value: Config.usesTabBar && !pageStack.depth ? swipeView.currentItem : pageStack.currentItem
+            value: Config.usesSwipeView && !pageStack.depth ? swipeView.currentItem : pageStack.currentItem
         }
     }
 
@@ -43,7 +43,7 @@ Item {
     // to be visible when pageStack is empty or if current page set showTabBar to true.
     Loader {
         asynchronous: true
-        active: Config.usesTabBar
+        active: Config.usesSwipeView
         sourceComponent: Binding {
             when: window.footer != null
             target: window.footer

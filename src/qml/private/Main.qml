@@ -25,7 +25,7 @@ ApplicationWindow {
     // the instance will be created dinamically by platform type.
     property QtObject dialog
 
-    // swipe view is used when app set 'usesTabBar' to true in config.json.
+    // swipe view is used when app set 'usesSwipeView' to true in config.json.
     // If true, the app pages can be changed by swiping or
     // using the TabBar buttons put in the bottom of window.
     property QtObject swipeView
@@ -43,10 +43,10 @@ ApplicationWindow {
     signal setActivePage()
     onSetActivePage: functions.setActivePage()
 
-    // load the main TabBar to show pages buttons, used with swipeview if "usesTabBar" is true
+    // load the main TabBar to show pages buttons, used with swipeview if "usesSwipeView" is true
     // in config.json. The app can uses the swipeView + tabBar to swap the application pages.
     Loader {
-        active: Config.usesTabBar
+        active: Config.usesSwipeView
         source: "TabBar.qml"
         onLoaded: footer = item
     }
@@ -55,7 +55,7 @@ ApplicationWindow {
     // The toolbar is used to show a button to open the navigation drawer (if "usesDrawer" is defined to true in config.json)
     // and dynamic buttons defined by each page, for some actions like show a submenu or search button.
     Loader {
-        active: !Config.usesTabBar && (!Config.hasLogin || Config.hasLogin && userProfile && userProfile.isLoggedIn)
+        active: !Config.usesSwipeView && (!Config.hasLogin || Config.hasLogin && userProfile && userProfile.isLoggedIn)
         source: "ToolBar.qml"
         onLoaded: header = item
     }
@@ -87,10 +87,10 @@ ApplicationWindow {
     }
 
     // load a dynamic SwipeView container as the main page container,
-    // if "usesTabBar" (from config.json) is defined to true.
+    // if "usesSwipeView" (from config.json) is defined to true.
     Loader {
         anchors.fill: active ? parent : undefined
-        active: Config.usesTabBar
+        active: Config.usesSwipeView
         sourceComponent: SwipeView {
             visible: pageStack.depth === 0
             anchors.fill: visible ? parent : undefined
