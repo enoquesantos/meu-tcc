@@ -97,14 +97,6 @@ public:
     void setApp(App *app);
 
     /**
-     * @brief setForceClearCache
-     * Set the value for 'm_forceClearCache'. The value are defined in config.json file
-     * and will be used to decide when force clear qml cached files. Useful to development mode.
-     * @param forceClearCache bool
-     */
-    void setForceClearCache(bool forceClearCache);
-
-    /**
      * @brief loadPlugins
      * Load all application plugins and apply some rules:
      * 1: Before load all plugins, check the app version with saved version (from previous execution).
@@ -230,13 +222,6 @@ private:
      * This pointer is needed to access, ready and write in application settings (QSettings)
      */
     App *m_app;
-
-    /**
-     * @brief forceClearCache
-     * This property is a flag used to decide if (or not) force the qml cache deletion.
-     * Is passed by app and the value come from config.json
-     */
-    bool m_forceClearCache;
 };
 
 #endif // PLUGINMANAGER_H

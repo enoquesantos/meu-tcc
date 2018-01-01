@@ -90,9 +90,7 @@ void App::init()
      */
     QQuickStyle::setStyle(m_config.value(QStringLiteral("applicationStyle")).toString());
 
-    // set the PluginManager parameters
     m_pluginManager->setApp(this);
-    m_pluginManager->setForceClearCache(m_config.value(QStringLiteral("forceClearCache")).toBool());
     m_pluginManager->loadPlugins();
 
 #ifdef Q_OS_LINUX
