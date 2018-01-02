@@ -185,13 +185,15 @@ void PluginManager::sortPages()
 
 void PluginManager::parsePages(const QString &pluginPath, const QVariantMap &pluginConfig)
 {
+    QString pagePath;
     QVariantMap page;
     foreach (auto item, pluginConfig.value(QStringLiteral("pages")).toList()) {
         page = item.toMap();
-        QString pagePath(pluginPath + "/" + page.value(QStringLiteral("qml")).toString());
 
-        // the 'absPath' (absolute path) is useful to menu make binds with current page
-        // turning the item selected (background color) when is the active item.
+        // the absPath (absolute path) is useful to menu make binds with current page
+        // turning the item selected (change the background color) when is the active item.
+        pagePath = pluginPath + QStringLiteral("/") + page.value(QStringLiteral("qml")).toString();
+
         // when application is running on ios, osx or linux desktop,
         // we need to prepend "file://" to absolute path
         #ifndef Q_OS_ANDROID
