@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QThread>
 #include <QVector>
+#include <QVariant>
 
 #include "observer.h"
 namespace Private {
