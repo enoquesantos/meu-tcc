@@ -58,14 +58,14 @@ void Subject::detach(Observer *observer, const QStringList &events)
         detach(observer, event);
 }
 
-void Subject::notify(const QString &event, const QVariant &args, QObject *sender)
+void Subject::notify(const QString &event, const QVariant &data, QObject *sender)
 {
     QVector<Observer *> observers = m_attacheds.value(event);
     int size = observers.size();
     for (int i = 0; i < size; ++i) {
         Observer *obs = observers.at(i);
         if (obs && !obs->objectName().isEmpty()) {
-            Private::Worker *worker = new Private::Worker(obs, event, args, sender, this);
+            Private::Worker *worker = new Private::Worker(obs, event, data, sender, this);
             connect(worker, &QThread::finished, worker, &QObject::deleteLater);
             worker->start();
         }

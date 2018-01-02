@@ -19,20 +19,20 @@ class Worker : public QThread
 {
     Q_OBJECT
 public:
-    Worker(Observer *observer, const QString &event, const QVariant &args, QObject *sender, QObject *parent = nullptr) : QThread(parent)
+    Worker(Observer *observer, const QString &event, const QVariant &data, QObject *sender, QObject *parent = nullptr) : QThread(parent)
     {
-        m_args = args;
-        m_event = event;
         m_observer = observer;
+        m_event = event;
+        m_data = data;
         m_sender = sender;
     }
 
 private:
     /**
-     * @brief m_args
-     * The event arguments
+     * @brief m_data
+     * The event data. Can be a integer, float, array or a object
      */
-    QVariant m_args;
+    QVariant m_data;
 
     /**
      * @brief m_event QString
@@ -61,7 +61,7 @@ protected:
      */
     void run() override
     {
-        m_observer->update(m_event, m_args, m_sender);
+        m_observer->update(m_event, m_data, m_sender);
     }
 };
 }
@@ -108,12 +108,12 @@ public:
 
     /**
      * @brief notify
-     * Notify all observers from event 'event', sending the args as event argument and the event issuer.
-     * @param event QString the evet name
-     * @param args QVariant the event argument. Can be a integer, float, array or a object
+     * Notify all observers from new event, sending the event data as event argument and the event issuer.
+     * @param event QString the event name
+     * @param data QVariant the event data. Can be a integer, float, array or a object
      * @param sender QObject* the event issuer. Can be any QML component
      */
-    Q_INVOKABLE void notify(const QString &event, const QVariant &args, QObject *sender);
+    Q_INVOKABLE void notify(const QString &event, const QVariant &data, QObject *sender);
 
 private:
     /**
