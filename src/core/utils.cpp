@@ -60,7 +60,7 @@ QString Utils::parseUrl(const QString &url)
     if (url.isEmpty())
         return QStringLiteral("");
     QUrl _qurl = QUrl::fromUserInput(url);
-    if (url.at(0) == "/")
+    if (url.at(0) == QStringLiteral("/"))
         return _qurl.toString();
     return _qurl.toString();
 }
