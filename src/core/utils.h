@@ -55,6 +55,14 @@ private:
      */
     void operator=(Utils const &);
 
+    /**
+     * @brief createTabBarButton
+     * @param isChecked
+     * @param page
+     * @param tabBar
+     */
+    void createTabBarButton(bool isChecked, const QVariant &pageTitle, const QVariant pageIcon, QObject *tabBar);
+
 public:
     /**
      * @brief instance
@@ -80,14 +88,6 @@ public:
      * @param userProfileName QString if application is defined to use User Profile, the profile name is used to check if page required roles contains the user role
      */
     Q_INVOKABLE void createSwipeViewPages(const QVariantList &pages, QObject *swipeView, QObject *tabBar, const QString &userProfileName = QStringLiteral(""));
-
-    /**
-     * @brief createTabBarButton
-     * @param isChecked
-     * @param page
-     * @param tabBar
-     */
-    void createTabBarButton(bool isChecked, const QVariant &pageTitle, const QVariant pageIcon, QObject *tabBar);
 
     /**
      * @brief stringfyJson
@@ -181,7 +181,9 @@ private:
 
     /**
      * @brief m_engine
-     * A pointer to QQmlEngine
+     * A pointer to QQmlEngine (QQmlApplicationEngine).
+     * This object will be used to create qml Pages in the same context of the window
+     * where the Main.qml is loaded in the main.cpp.
      */
     QQmlEngine *m_engine;
 };
