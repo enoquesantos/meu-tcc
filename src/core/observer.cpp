@@ -27,8 +27,7 @@ void Observer::setEvents(const QStringList &events)
     emit eventsChanged(m_events);
 }
 
-void Observer::update(const QString &eventName, const QVariant &args, QObject *sender)
+void Observer::update(const QString &eventName, const QVariant &eventData, QObject *sender)
 {
-    // will be execute in the same thread of Worker thread
-    emit updated(eventName, args, sender);
+    emit updated(eventName, eventData, sender);
 }
