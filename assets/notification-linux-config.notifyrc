@@ -5,6 +5,6 @@ Name=Notification
 
 [Event/Notify]
 Name=Notification ...
-Comment=The application needs attention!
+Comment=Qt Application
 Icon=app-icon
 Action=Popup

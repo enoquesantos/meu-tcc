@@ -1,8 +1,0 @@
-<RCC>
-    <qresource>
-        <file>app-eula.html</file>
-        <file>config.json</file>
-        <file>notification-linux-config.notifyrc</file>
-        <file>qtquickcontrols2.conf</file>
-    </qresource>
-</RCC>

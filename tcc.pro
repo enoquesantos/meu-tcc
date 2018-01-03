@@ -38,15 +38,18 @@ SOURCES += main.cpp \
     src/network/uploadmanager.cpp
 
 RESOURCES += src/qml/qml.qrc \
-    config.qrc \
-    images/images.qrc \
+    assets/assets.qrc \
     translations/translations.qrc
 
 TRANSLATIONS = translations/*.ts \
     translations/*.qm
 
 OTHER_FILES += config.json \
-    qtquickcontrols2.conf
+    assets/*.conf \
+    assets/*.json \
+    assets/*.png \
+    assets/*.svg \
+    assets/*.jpg
 
 plugins.files = plugins
 plugins.path = /assets/
@@ -57,7 +60,7 @@ linux:!android {
     QT += KNotifications
 
     # plasma KDE required notification file
-    OTHER_FILES += notification-linux-config.notifyrc
+    OTHER_FILES += assets/notification-linux-config.notifyrc
 
     pluginsDestinationPath = $$OUT_PWD/plugins
     # remove plugins directory before build
