@@ -44,13 +44,6 @@ RESOURCES += src/qml/qml.qrc \
 TRANSLATIONS = translations/*.ts \
     translations/*.qm
 
-OTHER_FILES += config.json \
-    assets/*.conf \
-    assets/*.json \
-    assets/*.png \
-    assets/*.svg \
-    assets/*.jpg
-
 plugins.files = plugins
 plugins.path = /assets/
 INSTALLS += plugins
