@@ -76,7 +76,7 @@ void App::init()
     // replace the config events by default events names + user events
     m_config.insert(QStringLiteral("events"), map);
 
-    QApplication::setApplicationName(m_config.value(QStringLiteral("applicationName")).toString());
+    QApplication::setApplicationName(m_config.value(QStringLiteral("appName")).toString());
     QApplication::setOrganizationName(m_config.value(QStringLiteral("organizationName")).toString());
     QApplication::setOrganizationDomain(m_config.value(QStringLiteral("organizationDomain")).toString());
 

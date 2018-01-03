@@ -16,7 +16,7 @@ Rectangle {
     Image {
         id: logo
         width: 100; height: width
-        source: "qrc:/app_icon.png"
+        source: "qrc:/icon.png"
         anchors.centerIn: parent
     }
 }

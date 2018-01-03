@@ -1,9 +1,8 @@
 {
-    "forceClearCache": false,
-    "applicationName": "MyApp",
+    "appName": "MyApp",
+    "appDescription": "The app description",
     "organizationName": "My App",
     "organizationDomain": "myapp.org",
-    "applicationDescription": "The app description",
     "applicationStyle": "Material",
     "forceEulaAgreement": false,
     "hasLogin": true,
