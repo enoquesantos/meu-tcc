@@ -3,7 +3,6 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
 
 import "qrc:/src/qml/" as Components
-import "qrc:/src/qml/Awesome/" as Awesome
 
 Components.BasePage {
     id: page
@@ -25,7 +24,7 @@ Components.BasePage {
                 width: parent.width; height: 180; color: Config.theme.colorPrimary
                 anchors { top: parent.top; topMargin: 0; horizontalCenter: parent.horizontalCenter }
 
-                Awesome.Icon {
+                Components.AwesomeIcon {
                     width: 32; height: width
                     name: "pencil"; size: 22
                     color: Config.theme.colorAccent

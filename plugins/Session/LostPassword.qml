@@ -2,7 +2,6 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 
 import "qrc:/src/qml/" as Components
-import "qrc:/src/qml/Awesome/" as Awesome
 
 Components.BasePage {
     id: page
@@ -19,7 +18,7 @@ Components.BasePage {
             functions.alert(qsTr("Error!"), qsTr("An error occur in the server! Try again!"), null, null)
     }
 
-    Awesome.Icon {
+    Components.AwesomeIcon {
         z: 1; width: size*1.2; height: width
         size: 22; name: "arrow_left"; color: Config.theme.colorPrimary
         anchors { top: parent.top; topMargin: 25; left: parent.left; leftMargin: 20 }

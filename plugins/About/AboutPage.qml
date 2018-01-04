@@ -26,7 +26,7 @@ Components.BasePage {
             Components.RoundedImage {
                 id: logo
                 width: 64; height: 64
-                imgSource: "qrc:/app_icon.png"
+                imgSource: "qrc:/icon.png"
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: animationTerminator.running = !animationTerminator.running
 
