@@ -48,14 +48,14 @@ void PluginManager::loadPlugins()
     QString savedVersion(m_app->readSetting(QStringLiteral("version")).toString());
 
     // read the plugins directory path
-    QDir pluginsRootDir(PluginManager::pluginsDir());
-    pluginsRootDir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
+    QDir pluginsDir(PluginManager::pluginsDir());
+    pluginsDir.setFilter(QDir::Dirs|QDir::NoDotAndDotDot);
 
     // keeps the plugin root absolute path
-    QString pluginsRootDirPath(pluginsRootDir.absolutePath() + QStringLiteral("/"));
+    QString pluginsDirPath(pluginsDir.absolutePath() + QStringLiteral("/"));
 
     // the list of plugins folders in plugins root directory
-    QStringList pluginsDirs(pluginsRootDir.entryList());
+    QStringList pluginsDirs(pluginsDir.entryList());
 
     // QApplication::applicationVersion() return the current application version:
     // 1: In android, return the value for android:versionName property of the AndroidManifest.xml manifest element
@@ -64,11 +64,11 @@ void PluginManager::loadPlugins()
     QString applicationVersion(QApplication::applicationVersion());
 
     // if the application is not running in DEBUG mode
-    // the plugins is reloaded only if the application are updated
+    // the plugins will be reloaded only if the application are updated
 #ifndef QT_DEBUG
     // check the saved version with the current running version.
     // if the current running version is the same value of saved version
-    // nothing to be done. Otherwise, all cached data needs to be removed to be recreated.
+    // nothing to be done. Otherwise, all cached data needs to be removed to be recreated and plugins and pages will be re-reload.
     if (!savedVersion.isEmpty() && !applicationVersion.isEmpty() && savedVersion.compare(applicationVersion) == 0) {
         emit finished(this);
         return;
@@ -79,10 +79,10 @@ void PluginManager::loadPlugins()
     QString pluginAbsPath;
     QVariantMap pluginJson;
     foreach (const QString &pluginDir, pluginsDirs) {
-        QFile file(pluginsRootDirPath + pluginDir + QStringLiteral("/config.json"));
+        QFile file(pluginsDirPath + pluginDir + QStringLiteral("/config.json"));
         // set the config.json absolute path for current plugin
         pluginAbsPath = QFileInfo(file.fileName()).absolutePath();
-        // append the plugin path with plugin name to be added in Config.json
+        // append the plugin path with plugin name to be added in Config.json to be read by qml plugins
         m_pluginsPaths.insert(pluginDir, pluginAbsPath);
         if (file.exists()) {
 
@@ -93,10 +93,10 @@ void PluginManager::loadPlugins()
             if (pluginJson.contains(QStringLiteral("listeners"))) {
                 QStringList listeners(pluginJson.value(QStringLiteral("listeners")).toStringList());
                 foreach (const QString &item, listeners) {
-                    // when application running in desktop mode
-                    // prepend "file:/" to absolute listener path to be loaded dynamically without in qrc
+                    // when application running in desktop mode we need to prepend
+                    // the "file:/" in absolute listener path
                     #ifdef Q_OS_ANDROID
-                        m_listeners << pluginAbsPath + "/" + item;
+                        m_listeners << pluginAbsPath + QStringLiteral("/") + item;
                     #else
                         m_listeners << QStringLiteral("file://") + pluginAbsPath + QStringLiteral("/") + item;
                     #endif
