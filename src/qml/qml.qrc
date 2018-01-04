@@ -1,8 +1,9 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
     <qresource prefix="src/qml">
-        <!-- Start components used by plugins -->
+        <!-- public components used by plugins -->
         <file>ActionMessage.qml</file>
+        <file>AwesomeIcon.qml</file>
         <file>BasePage.qml</file>
         <file>Brand.qml</file>
         <file>CameraCapture.qml</file>
@@ -15,9 +16,9 @@
         <file>PhotoSelection.qml</file>
         <file>RequestHttp.qml</file>
         <file>RoundedImage.qml</file>
-        <!-- end components used by plugins -->
+        <!-- end public components used by plugins -->
 
-        <!-- Start components used by application -->
+        <!-- Start private components used only by application -->
         <file>private/AndroidDialog.qml</file>
         <file>private/Bindings.qml</file>
         <file>private/Dialog.qml</file>
@@ -35,13 +36,9 @@
         <file>private/ToolBarButton.qml</file>
         <file>private/ToolBarSearch.qml</file>
         <file>private/UserProfile.qml</file>
-        <!-- End components used by application -->
-
-        <!-- Start components used by application and plugins -->
         <file>Awesome/Font.otf</file>
-        <file>Awesome/Icon.qml</file>
         <file>Awesome/IconFontLoader.qml</file>
         <file>Awesome/Map.js</file>
-        <!-- End components used by application and plugins -->
+        <!-- end private components used only by application -->
     </qresource>
 </RCC>

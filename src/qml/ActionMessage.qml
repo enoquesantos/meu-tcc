@@ -2,8 +2,6 @@ import QtQuick 2.8
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
-import "Awesome/" as Awesome
-
 Rectangle {
     id: rootItem
     objectName: "ActionMessage.qml"
@@ -43,7 +41,7 @@ Rectangle {
         spacing: 20
         anchors.centerIn: parent
 
-        Awesome.Icon {
+        AwesomeIcon {
             id: actionMessageIcon
             size: 50; color: actionMessage.color; name: "warning"
             clickEnabled: false

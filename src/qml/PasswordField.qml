@@ -1,8 +1,6 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 
-import "Awesome/" as Awesome
-
 TextField {
     id: textField
     objectName: "PasswordField.qml"
@@ -31,7 +29,7 @@ TextField {
         active: Qt.platform.os !== "ios" && parent.echoMode === TextInput.Password
         asynchronous: true
         onLoaded: item.parent = textField
-        sourceComponent: Awesome.Icon {
+        sourceComponent: AwesomeIcon {
             id: icon
             width: 25; height: width; y: 1
             clickEnabled: iconClickEnabled

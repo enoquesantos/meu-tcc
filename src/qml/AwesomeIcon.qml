@@ -1,7 +1,6 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 
-import "Map.js" as Awesome
 import Qt.project.AwesomeIconFontLoader 1.0
 
 RoundButton {

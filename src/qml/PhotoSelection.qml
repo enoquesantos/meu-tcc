@@ -3,8 +3,6 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 
-import "Awesome/"
-
 Popup {
     id: _dialog
     objectName: "PhotoSelection.qml"

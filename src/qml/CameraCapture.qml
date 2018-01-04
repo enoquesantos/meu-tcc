@@ -1,8 +1,6 @@
 import QtQuick 2.8
 import QtMultimedia 5.8
 
-import "Awesome"
-
 BasePage {
     id: _cameraPage
     objectName: "CameraCapture.qml"
@@ -83,7 +81,7 @@ BasePage {
         width: window.width; height: 50
         anchors { bottom: parent.bottom; bottomMargin: 0 }
 
-        Icon {
+        AwesomeIcon {
             z: 2
             color: "#fafafa"
             anchors { left: parent.left; leftMargin: 15; verticalCenter: parent.verticalCenter }
@@ -96,7 +94,7 @@ BasePage {
             }
         }
 
-        Icon {
+        AwesomeIcon {
             z: 2
             color: "#fafafa"
             anchors.centerIn: parent
@@ -104,7 +102,7 @@ BasePage {
             onClicked: capture()
         }
 
-        Icon {
+        AwesomeIcon {
             z: 2
             color: "#fafafa"
             anchors { right: parent.right; rightMargin: 15; verticalCenter: parent.verticalCenter }

@@ -4,8 +4,6 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
 import Qt.labs.calendar 1.0
 
-import "Awesome/" as Awesome
-
 Popup {
     id: _datepicker
     objectName: "Datepicker.qml"
@@ -83,7 +81,7 @@ Popup {
                 color: Config.theme.colorControlHighlight
                 radius: 4; anchors.left: parent.left
 
-                Awesome.Icon {
+                AwesomeIcon {
                     id: previousYearIcon
                     name: "chevron_left"; opacity: 0.7
                     width: 25; height: width; color: previousYear.color
@@ -144,7 +142,7 @@ Popup {
                     }
                 }
 
-                Awesome.Icon {
+                AwesomeIcon {
                     id: nextYearIcon
                     name: "chevron_right"; opacity: 0.7
                     width: 25; height: width; color: nextYear.color

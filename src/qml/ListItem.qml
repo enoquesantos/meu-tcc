@@ -3,8 +3,6 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
 
-import "Awesome/"
-
 ItemDelegate {
     id: listItem
     objectName: "ListItem.qml"
@@ -138,7 +136,7 @@ ItemDelegate {
                 onImageReady: primaryActionIcon.visible = false
             }
 
-            Icon {
+            AwesomeIcon {
                 id: primaryActionIcon
                 size: _primaryLabel.font.pointSize*1.4
                 color: _primaryLabel.color; clickEnabled: false
@@ -222,7 +220,7 @@ ItemDelegate {
                 anchors { verticalCenter: parent.verticalCenter; horizontalCenter: parent.horizontalCenter }
             }
 
-            Icon {
+            AwesomeIcon {
                 id: secondaryActionIcon
                 color: _primaryLabel.color
                 width: visible ? parent.width * 0.70 : 0; height: width; clickEnabled: false

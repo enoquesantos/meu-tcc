@@ -2,8 +2,6 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtGraphicalEffects 1.0
 
-import "Awesome/" as Awesome
-
 CustomButton {
     id: button
     objectName: "FloatingButton.qml"
@@ -11,7 +9,7 @@ CustomButton {
     borderColor: backgroundColor
     radius: 200; width: 50; height: width
     maximumWidth: width; maximumHeigth: width
-    contentItem: Awesome.Icon {
+    contentItem: AwesomeIcon {
         id: contentIcon; clickEnabled: false; size: 18
         name: "plus"; anchors.centerIn: parent; color: Config.theme.colorAccent
     }
