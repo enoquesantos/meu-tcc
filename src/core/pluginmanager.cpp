@@ -78,12 +78,12 @@ void PluginManager::loadPlugins()
 
     QString pluginAbsPath;
     QVariantMap pluginJson;
-    foreach (const QString &pluginDir, pluginsDirs) {
-        QFile file(pluginsDirPath + pluginDir + QStringLiteral("/config.json"));
+    foreach (const QString &pluginDirName, pluginsDirs) {
+        QFile file(pluginsDirPath + pluginDirName + QStringLiteral("/config.json"));
         // set the config.json absolute path for current plugin
         pluginAbsPath = QFileInfo(file.fileName()).absolutePath();
         // append the plugin path with plugin name to be added in Config.json to be read by qml plugins
-        m_pluginsPaths.insert(pluginDir, pluginAbsPath);
+        m_pluginsPaths.insert(pluginDirName.toLower(), pluginAbsPath + QStringLiteral("/"));
         if (file.exists()) {
 
             // load the config.json
@@ -109,7 +109,6 @@ void PluginManager::loadPlugins()
 
     sortPages();
     save();
-    m_app->setPluginsPaths(m_pluginsPaths);
     emit finished(this);
 }
 
@@ -124,6 +123,8 @@ void PluginManager::save()
     m_app->saveSetting(QStringLiteral("pages"), m_pages);
     m_app->saveSetting(QStringLiteral("listeners"), m_listeners);
     m_app->saveSetting(QStringLiteral("version"), QApplication::applicationVersion());
+
+    m_app->setPluginsPaths(m_pluginsPaths);
 
     #ifdef QT_DEBUG
         qDebug() << QStringLiteral("Application plugins, listeners and version was saved success!");
