@@ -9,7 +9,7 @@ ApplicationWindow {
     visible: true
     width: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.width / 2.5) : Screen.width
     height: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.height * 0.90) : Screen.height
-    title: currentPage ? (currentPage.title || qsTr("Welcome") + " - " + Config.applicationName) : (Config.applicationName + " - " + Config.applicationDescription)
+    title: currentPage ? (currentPage.title || qsTr("Welcome - %1".arg(Config.appName))) : "%1 - %2".arg(Config.appName).arg(Config.appDescription)
     onClosing: functions.buttonPressed(close)
 
     Component.onCompleted: {
