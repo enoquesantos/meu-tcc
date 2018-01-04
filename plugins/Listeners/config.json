@@ -1,6 +1,5 @@
 {
     "name": "Listeners",
-    "alias": "listeners",
     "description": "The application listeners",
     "pages": [],
     "listeners": [

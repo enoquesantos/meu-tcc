@@ -1,6 +1,5 @@
 {
     "name": "Session",
-    "alias": "session",
     "description": "Login, logout and lost password pages to the app",
     "pages": [
         {
