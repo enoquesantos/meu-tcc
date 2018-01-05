@@ -1,6 +1,8 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 
+import "../" as Componentes
+
 TabButton {
     id: control
     objectName: "TabBarButton.qml"
@@ -32,7 +34,7 @@ TabButton {
         window.footer.tooltipText = control.text
     }
 
-    AwesomeIcon {
+    Componentes.AwesomeIcon {
         id: icon
         clickEnabled: false; height: parent.height*2
         size: Config.showTabButtonText ? 12 : 20; opacity: control.down ? 0.7 : 1
