@@ -10,6 +10,7 @@
     "showTabButtonText": false,
     "usesSwipeView": false,
     "usesDrawer": true,
+    "showDrawerImage": false,
     "restService": {
         "authentication" : {
             "type": "basic",
@@ -39,6 +40,6 @@
         "toolTipBackgroundColor": "#323232"
     },
     "events": {
-        "a_string_with_event_indentify": "a_string_with_event_value"
+        "event_name": "event_value"
     }
 }
