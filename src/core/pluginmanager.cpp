@@ -120,11 +120,10 @@ bool PluginManager::sortByKey(const QVariant &a, const QVariant &b)
 
 void PluginManager::save()
 {
-    m_app->saveSetting(QStringLiteral("pages"), m_pages);
     m_app->saveSetting(QStringLiteral("listeners"), m_listeners);
+    m_app->saveSetting(QStringLiteral("pages"), m_pages);
+    m_app->saveSetting(QStringLiteral("pluginsPaths"), m_pluginsPaths);
     m_app->saveSetting(QStringLiteral("version"), QApplication::applicationVersion());
-
-    m_app->setPluginsPaths(m_pluginsPaths);
 
     #ifdef QT_DEBUG
         qDebug() << QStringLiteral("Application plugins, listeners and version was saved success!");
@@ -156,8 +155,9 @@ void PluginManager::clearCache()
         qDebug() << QStringLiteral("All application cached files was success deleted!");
     #endif
 
-    m_app->removeSetting(QStringLiteral("pages"));
     m_app->removeSetting(QStringLiteral("listeners"));
+    m_app->removeSetting(QStringLiteral("pages"));
+    m_app->removeSetting(QStringLiteral("pluginsPaths"));
     m_app->removeSetting(QStringLiteral("version"));
 }
 
