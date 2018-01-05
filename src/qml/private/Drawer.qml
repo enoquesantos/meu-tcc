@@ -1,11 +1,13 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 
+import "../" as QML
+
 Drawer {
     id: menu
     objectName: "Drawer.qml"
     width: window.width * 0.85; height: window.height
-    dragMargin: user.isLoggedIn ? Qt.styleHints.startDragDistance + 10 : 0
+    dragMargin: window.userProfile && !window.userProfile.isLoggedIn ? 0 : (Qt.styleHints.startDragDistance + 10)
 
     Component.onCompleted: {
         // fix first open effect
@@ -31,8 +33,6 @@ Drawer {
                 open()
             else if (eventName === Config.events.refreshDrawerPages)
                 listVIew.model = App.readSetting("pages", App.SettingTypeJsonArray)
-            else if (eventName === Config.events.userProfileChanged && user.profile.hasOwnProperty("image_path"))
-                drawerUserImageProfile.imgSource = user.profile.image_path
         }
     }
 
@@ -56,17 +56,25 @@ Drawer {
         width: parent.width; height: 200
         anchors { top: parent.top; topMargin: 0; horizontalCenter: parent.horizontalCenter }
 
-        RoundedImage {
+        Image {
+            visible: Config.showDrawerImage
+            source: "qrc:/drawer.jpg"
+            anchors.fill: parent; z: 2
+            asynchronous: true; cache: true; smooth: true
+        }
+
+        QML.RoundedImage {
             id: drawerUserImageProfile
-            width: 100; height: width
+            width: 100; height: width; z: 3
             borderColor: Config.theme.colorAccent
-            imgSource: user.profile.image_path
+            imgSource: window.userProfile ? window.userProfile.image_path : ""
             anchors { top: parent.top; topMargin: 15; horizontalCenter: parent.horizontalCenter }
         }
 
         Text {
+            z: 3
             color: userInfoTextColor; textFormat: Text.RichText
-            text: user.profile.name + "<br><b>" + user.profile.email + "</b>"
+            text: window.userProfile ? (window.userProfile.profile.name + "<br><b>" + window.userProfile.profile.email + "</b>") : ""
             font.pointSize: Config.fontSize.normal
             horizontalAlignment: Text.AlignHCenter
             anchors {
@@ -96,8 +104,8 @@ Drawer {
         anchors { top: userInfoRect.bottom; topMargin: 0; bottom: parent.bottom }
         boundsBehavior: Flickable.StopAtBounds
         ScrollIndicator.vertical: ScrollIndicator { }
-        delegate: ListItem {
-            visible: (modelData.showInDrawer && modelData.title && modelData.roles.length && modelData.roles.indexOf(user.profileName) > -1)
+        delegate: QML.ListItem {
+            visible: (modelData.showInDrawer && modelData.title && modelData.roles.length && Config.hasLogin && modelData.roles.indexOf(window.userProfile.profileName) > -1)
             primaryIconName: modelData.icon
             primaryLabelText: modelData.title
             primaryLabelColor: menuItemTextColor
@@ -106,7 +114,7 @@ Drawer {
             onClicked: {
                 // if the clicked page already exists in the stackview, focus in the Page.
                 // otherwise, create a new page and push in the stack.
-                pageStack.pushIfNotExists(modelData.absPath, {"absPath":modelData.absPath})
+                pageStack.pushIfNotExists(modelData.absPath, {})
                 close()
             }
         }
