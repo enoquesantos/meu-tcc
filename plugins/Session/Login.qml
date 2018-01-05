@@ -5,6 +5,7 @@ import "qrc:/src/qml/" as Components
 Components.BasePage {
     id: page
     objectName: "Login.qml"
+    absPath: Config.plugins.session + objectName
     centralizeBusyIndicator: false
     lockGoBack: true; showTabBar: false; showToolBar: false; hasListView: false
 
@@ -76,7 +77,7 @@ Components.BasePage {
                 usesAlternativeColor: true
                 enabled: !isPageBusy && loginResult === null
                 text: qsTr("Retrieve password")
-                onClicked: pageStack.push(pluginAbsPath + "LostPassword.qml")
+                onClicked: pageStack.push(Config.plugins.session + "LostPassword.qml")
             }
         }
     }

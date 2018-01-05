@@ -6,6 +6,7 @@ import "qrc:/src/qml/" as Components
 Components.BasePage {
     id: page
     objectName: "LostPassword.qml"
+    absPath: Config.plugins.session + objectName
     showTabBar: false; hasListView: false
 
     // handle request http responses
