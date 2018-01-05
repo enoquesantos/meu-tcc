@@ -52,13 +52,9 @@ Page {
     // when user click in this button, the page is poped from pageStack.
     property string toolBarState: "normal"
 
-    // keeps the absolute page path, used to bind with menu (turn item selected) and is
-    // used by pageStack to check if page is already on the stack, moving to top if exists on the stack
+    // keeps the page absolute path to bind with menu item (turning selected id the page is active).
+    // is used too by pageStack to check if the page is already on the stack, moving to top if true.
     property string absPath: ""
-
-    // keeps the page absolute path without page extension type
-    // for this works, the objectName needs to be set
-    property string pluginAbsPath: absPath.replace(objectName,"")
 
     // flag to enable bottom shadow in app toolbar. Can be used to enable shadow
     // when user scroll the listView to down or page flickable to down (if page uses a Flickable)
