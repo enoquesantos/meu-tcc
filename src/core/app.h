@@ -65,10 +65,9 @@ public:
     /**
      * @brief setPluginsPaths
      * Append into Config.json a list with all plugins paths by plugin name.
-     * Can be used to qml plugins load a file or page using a syntax like this: Config.plugins.About + "About.qml"
-     * @param pluginsPaths a map with pluginNames as keys and plugins absolute paths as value
+     * Can be used to qml plugins load a file or page using a syntax like this: Config.plugins.about + "About.qml"
      */
-    void setPluginsPaths(const QVariantMap &pluginsPaths);
+    void setPluginsPaths();
 
     /**
      * @brief isDeviceOnline

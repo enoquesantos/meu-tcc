@@ -92,6 +92,7 @@ void App::init()
 
     m_pluginManager->setApp(this);
     m_pluginManager->loadPlugins();
+    setPluginsPaths();
 
 #ifdef Q_OS_LINUX
     #ifndef Q_OS_ANDROID
@@ -119,9 +120,9 @@ QVariantMap App::config()
     return m_config;
 }
 
-void App::setPluginsPaths(const QVariantMap &pluginsPaths)
+void App::setPluginsPaths()
 {
-    m_config.insert(QStringLiteral("plugins"), pluginsPaths);
+    m_config.insert(QStringLiteral("plugins"), readSetting(QStringLiteral("pluginsPaths"), settingTypeJsonObject));
 }
 
 QVariant App::readSetting(const QString &key, quint8 returnType)
