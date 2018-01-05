@@ -38,6 +38,11 @@ ApplicationWindow {
     // All qml components can read the user information from "user" reference.
     property QtObject userProfile
 
+    // keeps a instance of Menu.qml where is a instance of QuickControls.Drawer
+    // if "hasLogin" (from config.json) is defined to true.
+    // All qml components can read the user information from "user" reference.
+    property QtObject drawer
+
     // the first function called by window to set the first page to the user.
     // to more details take a look in functions.setActivePage()
     signal setActivePage()
@@ -67,6 +72,7 @@ ApplicationWindow {
         asynchronous: true
         active: Config.usesDrawer && Config.hasLogin && userProfile && userProfile.isLoggedIn
         source: "Drawer.qml"
+        onLoaded: drawer = item
     }
 
     // load the UserProfile and point to the window userProfile
