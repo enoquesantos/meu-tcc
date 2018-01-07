@@ -7,8 +7,8 @@ TabBar {
     visible: !Config.hasLogin || (Config.hasLogin && user.isLoggedIn)
     currentIndex: swipeView.currentIndex
 
-    // tooltip is visible when user press and hold in some of TabBar buttons
-    // and the text displayed in tooltip is the current pressed button text.
+    // tooltip can be visible when user press and hold in any of buttons from TabBar
+    // and the text displayed in tooltip is the pressed button text.
     ToolTip {
         id: tooltip
         visible: text.length > 0; timeout: 1500
