@@ -3,53 +3,10 @@
 
 #include <QDir>
 #include <QObject>
-#include <QThread>
 #include <QVariant>
 
-#include "../database/database.h"
-
 class App;
-
-namespace Private {
-/**
- * @brief The PluginDatabaseCreator class
- * @extends QThread
- * This class create a plugin database table in application SQLITE database, executing in background thread.
- * The table file can contains a table creation or update rules.
- * A instance of this class is created for each plugin that contains the 'plugin_table.sql' file.
- */
-class PluginDatabaseTableCreator : public QThread
-{
-    Q_OBJECT
-public:
-    /**
-     * @brief PluginDatabaseCreator
-     * @param pluginSqlFilePath QString a string with absolute path to 'plugin_table.sql' file
-     * @param parent QObject* the parent of this instance
-     */
-    PluginDatabaseTableCreator(const QString &pluginSqlFilePath, QObject *parent = nullptr) : QThread(parent)
-    {
-        _database = Database::instance();
-        _pluginSqlFilePath = pluginSqlFilePath;
-    }
-
-protected:
-    /**
-     * @brief run
-     * @overload
-     * Start the thread execution
-     * @return void
-     */
-    void run() override
-    {
-        _database->createTable(_pluginSqlFilePath);
-    }
-
-private:
-    Database *_database;
-    QString _pluginSqlFilePath;
-};
-}
+class PluginDatabaseTableCreator;
 
 /**
  * @brief The PluginManager class has follow responsibilities:

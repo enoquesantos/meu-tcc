@@ -15,8 +15,10 @@ HEADERS += src/core/app.h \
     src/core/notification.h \
     src/core/observer.h \
     src/core/pluginmanager.h \
+    src/core/plugindatabasetablecreator.h \
     src/core/subject.h \
     src/core/utils.h \
+    src/database/asyncselect.h \
     src/database/database.h \
     src/database/databasecomponent.h \
     src/network/downloadmanager.h \
@@ -29,8 +31,10 @@ SOURCES += main.cpp \
     src/core/notification.cpp \
     src/core/observer.cpp \
     src/core/pluginmanager.cpp \
+    src/core/plugindatabasetablecreator.cpp \
     src/core/subject.cpp \
     src/core/utils.cpp \
+    src/database/asyncselect.cpp \
     src/database/database.cpp \
     src/database/databasecomponent.cpp \
     src/network/downloadmanager.cpp \

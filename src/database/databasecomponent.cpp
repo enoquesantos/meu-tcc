@@ -1,49 +1,11 @@
 #include "databasecomponent.h"
 #include "database.h"
+#include "asyncselect.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
-
-Private::AsyncSelect::AsyncSelect(const QString &tableName, const QStringList &jsonColumns, const QVariantMap &where, const QVariantMap &args, QObject *parent) :
-    QThread(parent), m_tableName(tableName), m_jsonColumns(jsonColumns), m_where(where), m_args(args)
-{
-    m_database = Database::instance();
-}
-
-void Private::AsyncSelect::run()
-{
-    if (m_tableName.isEmpty())
-        return;
-    QVariantList result(m_database->select(m_tableName, m_where, m_args));
-    int resultSize = result.size();
-    if (!resultSize)
-        return;
-    QVariantMap map;
-    QJsonDocument json;
-    QJsonParseError jsonParseError;
-    // iterate in all entries to parse json objects if exists
-    for (int i = 0; i < resultSize; ++i) {
-        map = result[i].toMap();
-        // iterate the map to try parse property to object or array
-        // if was saved as string. This is needed to qml receive as array or object
-        // and prevent qml objects to make JSON.parse(...)
-        // JSON.parse can't parse deep json arrays or objects!
-        foreach (const QString &key, m_jsonColumns) {
-            // try create a json document if data type is a valid json (from a string),
-            // otherwise (is a plain string or number) continue to next key
-            json = QJsonDocument::fromJson(map[key].toByteArray(), &jsonParseError);
-            if (jsonParseError.error == QJsonParseError::NoError) {
-                if (json.isObject() && !json.isEmpty())
-                    map.insert(key, json.object().toVariantMap());
-                else if (json.isArray() && !json.isEmpty())
-                    map.insert(key, json.array().toVariantList());
-            }
-        }
-        emit itemLoaded(map);
-    }
-}
 
 DatabaseComponent::DatabaseComponent(QObject *parent) : QObject(parent)
   ,m_totalItens(0)
@@ -145,13 +107,13 @@ int DatabaseComponent::insert(const QVariantMap &data)
 void DatabaseComponent::select(const QVariantMap &where, const QVariantMap &args)
 {
     // make a asynchronous selection in database, using another thread created by Private::AsyncSelect
-    auto *worker = new Private::AsyncSelect(m_tableName, m_jsonColumns, where, args, this);
+    auto *worker = new AsyncSelect(m_tableName, m_jsonColumns, where, args, this);
 
     // after thread finished, delete the worker pointer
     connect(worker, &QThread::finished, worker, &QObject::deleteLater);
 
     // after worker thread load all result, we needs to emit the itemLoaded signal to QML object
-    connect(worker, &Private::AsyncSelect::itemLoaded, this, &DatabaseComponent::itemLoaded);
+    connect(worker, &AsyncSelect::itemLoaded, this, &DatabaseComponent::itemLoaded);
 
     // start thread execution, internally call the 'run' method, where is the selection in database
     worker->start();

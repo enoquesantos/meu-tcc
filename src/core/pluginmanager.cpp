@@ -1,4 +1,5 @@
 #include "pluginmanager.h"
+#include "plugindatabasetablecreator.h"
 #include "app.h"
 #include "utils.h"
 
@@ -8,6 +9,7 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 #include <QtAlgorithms>
+#include <QThread>
 
 #ifdef QT_DEBUG
 #include <QDebug>
@@ -170,7 +172,7 @@ void PluginManager::createDatabaseTables(const QString &pluginDirPath)
         qDebug() << QStringLiteral("Found a a sql file for %1 plugin").arg(pluginDirPath);
     #endif
 
-    auto *worker = new Private::PluginDatabaseTableCreator(pluginDirPath + QStringLiteral("/plugin_table.sql"), this);
+    auto *worker = new PluginDatabaseTableCreator(pluginDirPath + QStringLiteral("/plugin_table.sql"), this);
     connect(worker, &QThread::finished, worker, &QObject::deleteLater);
     worker->start();
 }
