@@ -76,7 +76,6 @@ public:
         Meta_Key_Value_Int
     };
 
-public:
     /**
      * @brief instance
      * Return the pointer to this object
