@@ -11,7 +11,6 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonParseError>
-#include <QNetworkConfigurationManager>
 #include <QQuickStyle>
 #include <QSettings>
 #include <QStandardPaths>
@@ -27,14 +26,8 @@
 App* App::m_instance = nullptr;
 
 App::App(QObject *parent) : QObject(parent)
-  ,m_pluginManager(new PluginManager(this))
 {
     App::m_instance = this;
-
-    // a connection to delete the plugin manager when it is no longer needed
-    connect(m_pluginManager, &PluginManager::finished, [this](PluginManager *pm) {
-        pm->deleteLater();
-    });
 
     init();
 }
@@ -90,8 +83,22 @@ void App::init()
      */
     QQuickStyle::setStyle(m_config.value(QStringLiteral("applicationStyle")).toString());
 
-    m_pluginManager->setApp(this);
-    m_pluginManager->loadPlugins();
+    /**
+     * @brief m_pluginManager
+     * This object manage the application plugins and require a reference to
+     * qsettings object to save the plugins pages, application version and others data.
+     * PluginManager compare the app version value from previous saved value using QApplication::ApplicationVersion()
+     * to decide if remove all qml cached files (*.qmlc and *.jsc) to refresh new changes
+     */
+    PluginManager pluginManager(this);
+
+    connect(&pluginManager, &PluginManager::finished, [this](PluginManager *pm) {
+        pm->deleteLater();
+    });
+
+    pluginManager.setApp(this);
+    pluginManager.loadPlugins();
+
     setPluginsPaths();
 
 #ifdef Q_OS_LINUX
@@ -103,19 +110,13 @@ void App::init()
 #endif
 }
 
-bool App::isDeviceOnline()
-{
-    QNetworkConfigurationManager qcm(this);
-    return qcm.isOnline();
-}
-
 void App::sendNotification(const QString &title, const QString &message, const QString &actionName, const QVariant &actionValue)
 {
     Notification notification(this);
     notification.sendNotification(title, message, actionName, actionValue);
 }
 
-QVariantMap App::config()
+QVariantMap App::config() const
 {
     return m_config;
 }

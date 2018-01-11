@@ -7,6 +7,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
+#include <QNetworkConfigurationManager>
 #include <QQuickItem>
 #include <QQmlEngine>
 
@@ -112,6 +113,12 @@ QString Utils::fileBaseName(const QString &filePath)
     if (filePath.contains(QStringLiteral("http")))
         return QFileInfo(QUrl(filePath).path()).fileName();
     return QFileInfo(filePath).fileName();
+}
+
+bool Utils::isDeviceOnline()
+{
+    QNetworkConfigurationManager qcm(this);
+    return qcm.isOnline();
 }
 
 void Utils::setQmlEngine(QQmlEngine *engine)

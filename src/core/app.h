@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QVariant>
 
-class PluginManager;
 class QSettings;
 class Notification;
 
@@ -56,11 +55,11 @@ public:
     /**
      * @brief config
      * Get the application config.json as QMap<QString, QVariant> object and
-     * is used by QML objects to get colors and others properties like
-     * webservice informations: base url, images url and authentication parameters
-     * @return QVariantMap with config.json content
+     * is used by QML objects to get window properties, the colors used in widgets and
+     * others properties like webservice informations (base url, images url and authentication parameters)
+     * @return QVariantMap
      */
-    QVariantMap config();
+    QVariantMap config() const;
 
     /**
      * @brief setPluginsPaths
@@ -70,19 +69,13 @@ public:
     void setPluginsPaths();
 
     /**
-     * @brief isDeviceOnline
-     * Returns true if the system is considered to be connected to another device via
-     * an active network interface (Uses QNetworkConfigurationManager class). Otherwise returns false.
-     * @return bool
-     */
-    Q_INVOKABLE bool isDeviceOnline();
-
-    /**
      * @brief sendNotification
-     * @param title
-     * @param message
-     * @param actionName
-     * @param actionValue
+     * Show a system notification using a title, message and some action.
+     * The action is used to pass arguments to application after user click in notification
+     * @param title QString the notification title
+     * @param message QString the notification message
+     * @param actionName QString the action name to identify the argument value
+     * @param actionValue QVariant the action value that will be passed to application when user click in notification
      */
     Q_INVOKABLE void sendNotification(const QString &title, const QString &message, const QString &actionName = QStringLiteral(""), const QVariant &actionValue = QStringLiteral(""));
 
@@ -116,8 +109,8 @@ public:
     /**
      * @brief minimize
      * This method is used only in android to minimize the app, placing above others apps or
-     * focusing in the home screen. Is used when back button is pressed by user. This method is called by main window
-     * from event handle 'Keys.onBackPressed' and 'onClosing'.
+     * focusing in the home screen. Is used when back button is pressed by user.
+     * This method is called by main window from event handle 'Keys.onBackPressed' and 'onClosing'.
      * This method call the android native method 'moveTaskToBack'.
      */
     Q_INVOKABLE void minimize();
@@ -157,15 +150,6 @@ private:
      * This object handle the application settings using key->value to save/read data.
      */
     QSettings *m_qsettings;
-
-    /**
-     * @brief m_pluginManager
-     * This object manage the application plugins and require a reference to
-     * qsettings object to save the plugins pages, application version and others data.
-     * PluginManager compare the app version value from previous saved value using QApplication::ApplicationVersion()
-     * to decide if remove all qml cached files (*.qmlc and *.jsc) to refresh new changes
-     */
-    PluginManager *m_pluginManager;
 
     /**
      * @brief m_config

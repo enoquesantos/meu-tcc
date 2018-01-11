@@ -172,6 +172,14 @@ public:
      */
     Q_INVOKABLE QString fileBaseName(const QString &filePath);
 
+    /**
+     * @brief isDeviceOnline
+     * Returns true if the system is considered to be connected to another device via
+     * an active network interface (Uses QNetworkConfigurationManager class). Otherwise returns false.
+     * @return bool
+     */
+    Q_INVOKABLE bool isDeviceOnline();
+
 private:
     /**
      * @brief m_instance
