@@ -1,11 +1,13 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 
+import "qrc:/src/qml/"
+
 ToolButton {
     id: toolButton
     objectName: "ToolBarButton.qml"
-    onClicked: App.eventNotify(action, 0); z: 100
-    width: visible ? toolButton.width : 0; height: parent.height
+    onClicked: if (actionName) App.eventNotify(actionName, 0)
+    width: visible ? toolButton.width : 0; height: parent ? parent.height : 0
     contentItem: AwesomeIcon {
         id: toolButtonIcon
         clickEnabled: false; z: -1; size: 26
