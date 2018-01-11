@@ -1,0 +1,55 @@
+    {
+    "name": "PagesPlugin",
+    "description": "Sample pages plugin for Stack View layout",
+    "pages": [
+        {
+            "qml": "Page1.qml",
+            "title": "Page 1",
+            "icon": "commenting",
+            "order": 3,
+            "roles": ["Customer"],
+            "showInDrawer": true
+        },
+        {
+            "qml": "Page2.qml",
+            "title": "Page 2",
+            "icon": "calendar",
+            "order": 4,
+            "roles": ["Customer"],
+            "showInDrawer": true
+        },
+        {
+            "qml": "Page3.qml",
+            "title": "Page 3",
+            "icon": "code_fork",
+            "isHomePage": true,
+            "order": 5,
+            "roles": ["Customer"],
+            "showInDrawer": true
+        },
+        {
+            "qml": "Page4.qml",
+            "title": "Page 4",
+            "icon": "calendar",
+            "order": 6,
+            "roles": ["Administrator"],
+            "showInDrawer": true
+        },
+        {
+            "qml": "Page5.qml",
+            "title": "Page 5",
+            "icon": "github",
+            "order": 7,
+            "roles": ["Administrator"],
+            "showInDrawer": true
+        },
+        {
+            "qml": "Page6.qml",
+            "title": "Page 6",
+            "icon": "mobile_phone",
+            "order": 8,
+            "roles": ["Editor"],
+            "showInDrawer": true
+        }
+    ]
+}
