@@ -7,9 +7,9 @@
     "forceEulaAgreement": false,
     "hasLogin": true,
     "showEula": false,
-    "showTabButtonText": false,
-    "usesSwipeView": false,
-    "usesDrawer": true,
+    "showTabButtonText": true,
+    "usesSwipeView": true,
+    "usesDrawer": false,
     "showDrawerImage": false,
     "restService": {
         "authentication" : {

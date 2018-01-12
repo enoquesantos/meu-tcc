@@ -3,8 +3,8 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
 import QtGraphicalEffects 1.0
 
-import "qrc:/src/qml/"
-import "qrc:/src/qml/private"
+import "qrc:/src/qml/" as Components
+import "qrc:/src/qml/private" as Private
 
 ToolBar {
     id: toolBar
@@ -60,7 +60,7 @@ ToolBar {
       */
     Component {
         id: toolButonsComponent
-        ToolBarButton { }
+        Components.ToolBarButton { }
     }
 
     /**
@@ -165,7 +165,7 @@ ToolBar {
         id: toolBarItens
         anchors { fill: parent; leftMargin: 8; rightMargin: 8; top: parent.top; topMargin: 0 }
 
-        ToolBarButton {
+        Components.ToolBarButton {
             id: toolButtonFirst
             iconColor: defaultTextColor
             // onClicked: if (actionName === Config.events.cancel) toolBar.state = "normal"
@@ -186,7 +186,7 @@ ToolBar {
             font { weight: Font.DemiBold; pointSize: Config.fontSize.normal }
         }
 
-        ToolBarSearch {
+        Private.ToolBarSearch {
             id: searchToolbar
             visible: toolBar.state === "search"
             anchors { left: title.right; leftMargin: 4; bottom: parent.bottom; bottomMargin: -1 }
