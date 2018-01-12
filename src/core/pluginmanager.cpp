@@ -84,12 +84,15 @@ void PluginManager::loadPlugins()
         QFile file(pluginsDirPath + pluginDirName + QStringLiteral("/config.json"));
         // set the config.json absolute path for current plugin
         pluginAbsPath = QFileInfo(file.fileName()).absolutePath();
-        // append the plugin path with plugin name to be added in Config.json to be read by qml plugins
-        m_pluginsPaths.insert(pluginDirName.toLower(), pluginAbsPath + QStringLiteral("/"));
         if (file.exists()) {
-
             // load the config.json
             pluginJson = Utils::instance()->readFile(file.fileName()).toMap();
+
+            if (pluginJson.isEmpty() || pluginJson.value(QStringLiteral("name")).toString().isEmpty() || pluginJson.value(QStringLiteral("description")).toString().isEmpty())
+                continue;
+
+            // append the plugin path with plugin name to be added in Config.json to be read by qml plugins
+            m_pluginsPaths.insert(pluginDirName.toLower(), pluginAbsPath + QStringLiteral("/"));
 
             // append all listeners from current plugin (if available)
             if (pluginJson.contains(QStringLiteral("listeners"))) {
