@@ -72,7 +72,7 @@ QtObject {
         // load all saved (plugins) pages
         pages = App.readSetting("pages", App.SettingTypeJsonArray)
         length = pages.length
-        for (i = 0; i < length; ++i) {
+        for (i = 0; i < length; i++) {
             page = pages[i]
             // if current user permission is not valid for this page
             // or page is not to show in TabBar, continue to next visible page!
@@ -85,7 +85,7 @@ QtObject {
                 continue
             }
             swipeView.addItem(comp.createObject(swipeView))
-            window.footer.addItem(Qt.createComponent(tabBarButtonPath).createObject(window.footer,{"checked":!i,"text":page.title,"iconName":page.icon}))
+            window.footer.addItem(Qt.createComponent(tabBarButtonPath).createObject(window.footer,{"checked": !window.footer.count, "text": page.title, "iconName": page.icon}))
         }
     }
 
