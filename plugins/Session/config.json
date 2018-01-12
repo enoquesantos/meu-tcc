@@ -14,7 +14,8 @@
             "roles": ["Administrator", "Customer", "Editor"],
             "icon": "user",
             "order": 1,
-            "showInDrawer": true
+            "showInDrawer": true,
+            "showInTabBar": true
         },
         {
             "qml": "Logout.qml",
@@ -22,7 +23,8 @@
             "roles": ["Administrator", "Customer", "Editor"],
             "icon": "sign_out",
             "order": -1,
-            "showInDrawer": true
+            "showInDrawer": true,
+            "showInTabBar": true
         }
     ]
 }

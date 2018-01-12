@@ -8,7 +8,8 @@
             "icon": "question_circle",
             "roles": ["Customer"],
             "order": 0,
-            "showInDrawer": true
+            "showInDrawer": true,
+            "showInTabBar": true
         }
     ]
 }

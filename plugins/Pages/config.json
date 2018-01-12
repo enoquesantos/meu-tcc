@@ -8,7 +8,8 @@
             "icon": "commenting",
             "order": 3,
             "roles": ["Customer"],
-            "showInDrawer": true
+            "showInDrawer": true,
+            "showInTabBar": true
         },
         {
             "qml": "Page2.qml",
@@ -16,7 +17,8 @@
             "icon": "calendar",
             "order": 4,
             "roles": ["Customer"],
-            "showInDrawer": true
+            "showInDrawer": true,
+            "showInTabBar": true
         },
         {
             "qml": "Page3.qml",
@@ -25,7 +27,8 @@
             "isHomePage": true,
             "order": 5,
             "roles": ["Customer"],
-            "showInDrawer": true
+            "showInDrawer": true,
+            "showInTabBar": true
         },
         {
             "qml": "Page4.qml",
@@ -33,7 +36,8 @@
             "icon": "calendar",
             "order": 6,
             "roles": ["Administrator"],
-            "showInDrawer": true
+            "showInDrawer": true,
+            "showInTabBar": true
         },
         {
             "qml": "Page5.qml",
@@ -41,7 +45,8 @@
             "icon": "github",
             "order": 7,
             "roles": ["Administrator"],
-            "showInDrawer": true
+            "showInDrawer": true,
+            "showInTabBar": true
         },
         {
             "qml": "Page6.qml",
@@ -49,7 +54,8 @@
             "icon": "mobile_phone",
             "order": 8,
             "roles": ["Editor"],
-            "showInDrawer": true
+            "showInDrawer": true,
+            "showInTabBar": true
         }
     ]
 }
