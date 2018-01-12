@@ -47,7 +47,24 @@ Item {
     }
 
     signal opened()
+    onOpened: {
+        if (!animateShowOpacity.running) {
+            message.text = messageTemp
+            if (countdownToClose.running)
+                countdownToClose.restart()
+            else
+                countdownToClose.start()
+            if (animateShowOpacity.running)
+                animateShowOpacity.stop()
+            animateShowOpacity.start()
+        }
+    }
+
     signal closed()
+    onClosed: {
+        if (!animateHideOpacity.running)
+            animateHideOpacity.start()
+    }
 
     property bool isOpened: false
     property bool openPending: false
@@ -74,24 +91,6 @@ Item {
             close()
         } else {
             opened()
-        }
-    }
-
-    onClosed: {
-        if (!animateHideOpacity.running)
-            animateHideOpacity.start()
-    }
-
-    onOpened: {
-        if (!animateShowOpacity.running) {
-            message.text = messageTemp
-            if (countdownToClose.running)
-                countdownToClose.restart()
-            else
-                countdownToClose.start()
-            if (animateShowOpacity.running)
-                animateShowOpacity.stop()
-            animateShowOpacity.start()
         }
     }
 
