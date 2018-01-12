@@ -11,9 +11,9 @@ Popup {
     x: 18; y : 10
     width: window.width * 0.90; height: window.height * 0.80
     onVisibleChanged: {
-//        var d = new Date();
-//        outer.currentIndex = d.getUTCHours() % 12
-//        inner.currentIndex = d.getMinutes() / 10
+        var d = new Date()
+        outer.currentIndex = d.getUTCHours() % 12
+        inner.currentIndex = d.getMinutes() / 10
         timeSelected("%1:%2:%3".arg(h.text).arg(m.text).arg(15))
     }
 
@@ -21,21 +21,18 @@ Popup {
 
     RowLayout {
         anchors.centerIn: parent
-
         Text {
             id: h
             font.pixelSize: 30
             font.bold: true
             text: outer.currentItem.text
         }
-
         Text {
             id: div
             font.pixelSize: 30
             font.bold: true
             text: qsTr(":")
         }
-
         Text {
             id: m
             font.pixelSize: 30

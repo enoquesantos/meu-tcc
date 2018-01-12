@@ -4,9 +4,9 @@
     "pages": [
         {
             "qml": "AboutPage.qml",
-            "title": "About the app",
+            "title": "Sobre",
             "icon": "question_circle",
-            "roles": [],
+            "roles": ["Customer"],
             "order": 0,
             "showInDrawer": true
         }

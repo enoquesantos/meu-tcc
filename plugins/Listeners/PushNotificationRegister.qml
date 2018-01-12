@@ -13,16 +13,16 @@ Item {
 
     signal sendTokenToServer()
     onSendTokenToServer: {
-        if (!user.profile.id)
+        if (!window.userProfile || !window.userProfile.profile.id)
             return
         if (!rootItem.token)
             rootItem.token = Utils.readFirebaseToken()
-        if (!rootItem.token || user.profile.push_notification_token && user.profile.push_notification_token === rootItem.token) {
+        if (!rootItem.token || window.userProfile.profile.push_notification_token && window.userProfile.profile.push_notification_token === rootItem.token) {
             rootItem.destroy()
             return
         }
         var params = JSON.stringify({
-            "id": user.profile.id,
+            "id": window.userProfile.profile.id,
             "push_notification_token": token
         })
         requestHttp.post("/token_register/", params)
@@ -33,7 +33,7 @@ Item {
         id: requestHttp
         onFinished: {
             if (statusCode === 200) {
-                user.setProperty("push_notification_token", rootItem.token)
+                App.eventNotify(Config.events.setUserProfileData, {"key": "push_notification_token", "value": rootItem.token})
                 App.removeSetting(Config.events.pushNotificationToken)
                 rootItem.destroy()
             }

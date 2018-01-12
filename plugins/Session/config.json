@@ -10,16 +10,16 @@
         },
         {
             "qml": "ProfileView.qml",
-            "title": "Perfil",
-            "roles": ["teacher","student","coordinator"],
+            "title": "Meu perfil",
+            "roles": ["Administrator", "Customer", "Editor"],
             "icon": "user",
-            "order": 20,
+            "order": 1,
             "showInDrawer": true
         },
         {
             "qml": "Logout.qml",
             "title": "Sair",
-            "roles": ["teacher","student","coordinator"],
+            "roles": ["Administrator", "Customer", "Editor"],
             "icon": "sign_out",
             "order": -1,
             "showInDrawer": true

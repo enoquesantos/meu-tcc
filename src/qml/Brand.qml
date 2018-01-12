@@ -5,11 +5,7 @@ Rectangle {
     objectName: "Brand.qml"
     color: "transparent"
     width: parent.width; height: 150
-    anchors {
-        top: parent.top
-        topMargin: 50
-        horizontalCenter: parent.horizontalCenter
-    }
+    anchors { top: parent.top; topMargin: 50; horizontalCenter: parent.horizontalCenter }
 
     property alias imgSource: logo.source
 

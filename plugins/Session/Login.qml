@@ -24,8 +24,9 @@ Components.BasePage {
     // countdown to pop the login page
     Timer {
         interval: 1200; repeat: false
-        running: loginResult != null && "user" in loginResult
-        onTriggered: user.setProfile(loginResult)
+        running: loginResult != null
+        onTriggered: App.eventNotify(Config.events.saveUserProfile, loginResult)
+        onRunningChanged: if (running) busyIndicator.visible = true
     }
 
     Flickable {
@@ -68,7 +69,7 @@ Components.BasePage {
                     else if (!password.text.length)
                         functions.alert(qsTr("Error!"), qsTr("Please! Enter your password!"), null, null)
                     else
-                        requestHttp.post("/login/", JSON.stringify({"login":login.text,"password":password.text}))
+                        requestHttp.post("/login", JSON.stringify({"login":login.text,"password":password.text}))
                 }
             }
 

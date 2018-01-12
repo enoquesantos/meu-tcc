@@ -18,8 +18,8 @@
             "userPass": ""
         },
         "apiKey": "",
-        "baseUrl": "",
-        "baseImagesUrl": ""
+        "baseUrl": "http://localhost/lara/api",
+        "baseImagesUrl": "http://localhost/lara"
     },
     "fontSize": {
         "small": 10,

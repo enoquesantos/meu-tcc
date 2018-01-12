@@ -1,6 +1,7 @@
 import QtQuick 2.8
 
 Item {
+    visible: false
     // load a Binding object to create a bind with ToolBar and current active page in stackView.
     Loader {
         asynchronous: true

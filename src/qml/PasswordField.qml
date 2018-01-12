@@ -4,11 +4,9 @@ import QtQuick.Controls 2.1
 TextField {
     id: textField
     objectName: "PasswordField.qml"
-    z: 0; antialiasing: true
+    z: 0; antialiasing: true; width: parent.width
     color: Config.theme.textColorPrimary
-    width: parent.width
-    selectByMouse: true
-    cursorVisible: focus
+    selectByMouse: true; cursorVisible: focus
     anchors.horizontalCenter: parent.horizontalCenter
     renderType: Text.NativeRendering
     background: Rectangle {
@@ -17,6 +15,7 @@ TextField {
         width: textField.width; height: textField.activeFocus ? 2 : 1
         border { width: 1; color: textField.color }
     }
+
     onAccepted: if (nextFocusItem) nextFocusItem.focus = true
     onEditingFinished: text = text.trim()
 
@@ -26,8 +25,8 @@ TextField {
 
     Loader {
         id: loader
-        active: Qt.platform.os !== "ios" && parent.echoMode === TextInput.Password
         asynchronous: true
+        active: Qt.platform.os !== "ios" && parent.echoMode === TextInput.Password
         onLoaded: item.parent = textField
         sourceComponent: AwesomeIcon {
             id: icon

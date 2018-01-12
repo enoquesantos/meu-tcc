@@ -47,16 +47,18 @@ void App::init()
     QStringList defaultEventsNames({
         QStringLiteral("cameraImageSaved"),
         QStringLiteral("cancel"),
+        QStringLiteral("drawerClosed"),
         QStringLiteral("eulaAccepted"),
         QStringLiteral("goBack"),
+        QStringLiteral("logoutApplication"),
         QStringLiteral("newPushMessage"),
         QStringLiteral("newIntentPushMessage"),
         QStringLiteral("openDrawer"),
-        QStringLiteral("drawerClosed"),
         QStringLiteral("pushNotificationToken"),
         QStringLiteral("refreshDrawerPages"),
         QStringLiteral("requestUpdateUserProfile"),
         QStringLiteral("saveUserProfile"),
+        QStringLiteral("setUserProfileData"),
         QStringLiteral("submitForm"),
         QStringLiteral("userProfileChanged")
     });
@@ -104,7 +106,7 @@ void App::init()
 #ifdef Q_OS_LINUX
     #ifndef Q_OS_ANDROID
         // set application icon if running at desktop linux or osx
-        qApp->setWindowIcon(QIcon::fromTheme(":/app_icon.png"));
+        qApp->setWindowIcon(QIcon::fromTheme(":/icon.png"));
         QApplication::addLibraryPath(qApp->applicationDirPath() + "/plugins");
     #endif
 #endif

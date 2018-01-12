@@ -70,7 +70,7 @@ ApplicationWindow {
     // and is used to show the plugins pages and work with PageStack.
     Loader {
         asynchronous: true
-        active: Config.usesDrawer && Config.hasLogin && userProfile && userProfile.isLoggedIn
+        active: Config.usesDrawer && Config.hasLogin
         source: "Drawer.qml"
         onLoaded: drawer = item
     }
@@ -78,7 +78,6 @@ ApplicationWindow {
     // load the UserProfile and point to the window userProfile
     // All qml components can read the user information from "user" reference.
     Loader {
-        asynchronous: true
         active: Config.hasLogin
         source: "UserProfile.qml"
         onLoaded: userProfile = item

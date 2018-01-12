@@ -7,53 +7,53 @@ import "qrc:/src/qml/" as Components
 Components.BasePage {
     id: page
     title: qsTr("My profile")
-    objectName: "ProfileView.qml"
-    hasListView: false; hasNetworkRequest: false
+    hasNetworkRequest: false
+    absPath: Config.plugins.session + "ProfileView.qml"
+    listViewDelegate: Components.ListItem {
+        showSeparator: true
+        primaryLabelText: field
+        secondaryLabelText: value
+        primaryIconName: icon
+    }
 
-    Flickable {
-        id: flickable
-        anchors.fill: parent
-        contentHeight: Math.max(column.implicitHeight + 50, height)
+    Component.onCompleted: {
+        listView.anchors.topMargin = rec.height
+        for (var i = 0; i < fields.length; ++i)
+            listViewModel.append(fields[i])
+    }
 
-        ColumnLayout {
-            id: column
-            spacing: 0; width: page.width
-            anchors { top: parent.top; horizontalCenter: parent.horizontalCenter }
+    property var fields: [
+        {
+            "field": qsTr("Name"),
+            "value": userProfile.profile.name,
+            "icon": "user"
+        },
+        {
+            "field": qsTr("Email"),
+            "value": userProfile.profile.email,
+            "icon": "envelope"
+        }
+    ]
 
-            Rectangle {
-                width: parent.width; height: 180; color: Config.theme.colorPrimary
-                anchors { top: parent.top; topMargin: 0; horizontalCenter: parent.horizontalCenter }
+    Rectangle {
+        id: rec
+        width: parent.width; height: 180; color: Config.theme.colorPrimary
+        anchors { top: parent.top; topMargin: 0; horizontalCenter: parent.horizontalCenter }
 
-                Components.AwesomeIcon {
-                    width: 32; height: width
-                    name: "pencil"; size: 22
-                    color: Config.theme.colorAccent
-                    onClicked: pageStack.push(pluginAbsPath + "ProfileEdit.qml", {"pluginAbsPath":pluginAbsPath})
-                    anchors { top: parent.top; topMargin: 35; right: parent.right; rightMargin: 20 }
-                }
+        Components.AwesomeIcon {
+            width: 32; height: width
+            name: "pencil"; size: 22
+            color: Config.theme.colorAccent
+            onClicked: pageStack.push(Config.plugins.session + "ProfileEdit.qml")
+            anchors { top: parent.top; topMargin: 35; right: parent.right; rightMargin: 20 }
+        }
 
-                Components.RoundedImage {
-                    id: userImageProfile
-                    width: 100; height: width
-                    borderColor: Config.theme.colorAccent
-                    imgSource: user.profile.image_path || "qrc:/default_user_image.svg"
-                    anchors.centerIn: parent
-                }
-            }
-
-            Components.ListItem {
-                showSeparator: true
-                primaryLabelText: qsTr("Name")
-                secondaryLabelText: user.profile.name
-                primaryIconName: "user"
-            }
-
-            Components.ListItem {
-                showSeparator: true
-                primaryLabelText: qsTr("Email")
-                secondaryLabelText: user.profile.email
-                primaryIconName: "envelope"
-            }
+        Components.RoundedImage {
+            id: userImageProfile
+            width: 100; height: width
+            borderColor: Config.theme.colorAccent
+            imgSource: userProfile.profile.image_url || "qrc:/default_user_image.svg"
+            anchors.centerIn: parent
         }
     }
 }

@@ -5,19 +5,17 @@ import "qrc:/src/qml/" as Components
 
 Components.BasePage {
     title: qsTr("Logout")
-    objectName: "Logout.qml"
-    toolBarState: "goback"
+    toolBarState: "goBack"
+    absPath: Config.plugins.session + "Logout.qml"
     hasListView: false; hasNetworkRequest: false; showToolBar: !timer.running
-    // hide the tabBar after user confirm to exit
-    showTabBar: !timer.running
-    // disable return after confirm to exit
-    lockGoBack: timer.running
+    showTabBar: !timer.running // hide the tabBar after user confirm to exit
+    lockGoBack: timer.running // disable return to previous page, after user confirm to exit
 
     // countdown to pop the logout page
     Timer {
         id: timer
-        interval: 5000
-        onTriggered: user.setProfile(false)
+        interval: 2000
+        onTriggered: App.eventNotify(Config.events.logoutApplication, 0)
     }
 
     BusyIndicator {

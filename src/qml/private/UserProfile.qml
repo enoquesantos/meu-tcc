@@ -16,39 +16,39 @@ Item {
             return
 
         // check user profile image
-        if (!profile.image_path)
-            setProperty("image_path", "qrc:/default_user_image.svg")
-        else if (profile.image_path.indexOf("file:/") < 0 && profile.image_path.indexOf("qrc:/") < 0 && profile.image_path.indexOf("http") < 0)
-            setProperty("image_path", Config.restService.baseImagesUrl + profile.image_path)
+        if (!profile.image_url)
+            setProperty("image_url", "qrc:/default_user_image.svg")
+        else if (!isLocalImagePath() && profile.image_url.indexOf("http") < 0)
+            setProperty("image_url", (Config.restService.baseImagesUrl || Config.restService.baseUrl) + profile.image_url)
 
         // save the new user profile in local settings
         App.saveSetting("user_profile_data", profile)
 
         // notify pages and components that make bind with user profile
-        App.eventNotify(Config.events.userProfileChanged, null)
+        App.eventNotify(Config.events.userProfileChanged, profile)
 
         // if profileName is not defined, set the user permission name
         if (!profileName)
-            profileName = profile.roles.description
+            profileName = profile.user_role.description
+    }
+
+    function isLocalImagePath() {
+        return profile.image_url.indexOf("file:/") > -1 || profile.image_url.indexOf("qrc:/") > -1
     }
 
     // set a new property value in user profile
     function setProperty(key, value) {
+        if (!key || profile[key] === value) return
         profile[key] = value
         profile = profile
     }
 
     // this signal is used to set user profile data
     // and is called by login page after a login success response
-    signal setProfile(var newUserData)
-    onSetProfile: {
-        if (newUserData && "user" in newUserData && "email" in newUserData.user) {
-            if ("program" in newUserData)
-                newUserData.user.program = newUserData.program
-            profile = newUserData.user
+    function initProfile(userData) {
+        if (userData && "email" in userData) {
+            profile = userData
             isLoggedIn = true
-            newUserData = {}
-            delete newUserData
         } else {
             isLoggedIn = false
             App.saveSetting("user_profile_data", "")
@@ -56,5 +56,17 @@ Item {
         // after user login or logout,
         // the application page needs to be updated
         window.setActivePage()
+    }
+
+    Connections {
+        target: App
+        onEventNotify: {
+            if (eventName === Config.events.saveUserProfile)
+                initProfile(eventData)
+            else if (eventName === Config.events.setUserProfileData)
+                setProperty(eventData.key, eventData.value)
+            else if (eventName === Config.events.logoutApplication)
+                initProfile(false)
+        }
     }
 }

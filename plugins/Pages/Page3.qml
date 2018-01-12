@@ -7,19 +7,20 @@ Components.BasePage {
     id: page
     hasListView: false
     hasNetworkRequest: false
-    title: qsTr("Welcome to the home page!")
+    absPath: Config.plugins.pages + "Page3.qml"
+    title: qsTr("Welcome!")
 
     property var toolBarButtons: [
         {
             "iconName": "gear",
             "callback": function() {
-                console.log("clicou::gear")
+                console.log("gear...")
             }
         },
         {
             "iconName": "calendar",
             "callback": function() {
-                console.log("clicou::calendar")
+                console.log("calendar...")
             }
         },
         {
@@ -27,11 +28,11 @@ Components.BasePage {
             "submenu": [
                 {
                     "text": qsTr("Show in grid"),
-                    "callback": function () { console.log("cickou!!!") }
+                    "callback": function () { console.log("Show in grid...") }
                 },
                 {
                     "text": qsTr("Open drawer"),
-                    "callback": function () { console.log("cickou!!!") }
+                    "callback": function () { console.log("Open drawer...") }
                 }
             ]
         }

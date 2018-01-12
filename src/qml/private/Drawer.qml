@@ -1,7 +1,7 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 
-import "../" as QML
+import "qrc:/src/qml/"
 
 Drawer {
     id: menu
@@ -63,11 +63,11 @@ Drawer {
             asynchronous: true; cache: true; smooth: true
         }
 
-        QML.RoundedImage {
+        RoundedImage {
             id: drawerUserImageProfile
             width: 100; height: width; z: 3
             borderColor: Config.theme.colorAccent
-            imgSource: window.userProfile ? window.userProfile.image_path : ""
+            imgSource: window.userProfile && "image_url" in window.userProfile ? window.userProfile.image_url : "qrc:/default_user_profile.svg"
             anchors { top: parent.top; topMargin: 15; horizontalCenter: parent.horizontalCenter }
         }
 
@@ -104,15 +104,15 @@ Drawer {
         anchors { top: userInfoRect.bottom; topMargin: 0; bottom: parent.bottom }
         boundsBehavior: Flickable.StopAtBounds
         ScrollIndicator.vertical: ScrollIndicator { }
-        delegate: QML.ListItem {
-            visible: (modelData.showInDrawer && modelData.title && modelData.roles.length && Config.hasLogin && modelData.roles.indexOf(window.userProfile.profileName) > -1)
+        delegate: ListItem {
+            visible: modelData.showInDrawer && modelData.title && (!window.userProfile || window.userProfile.profileName && modelData.roles.indexOf(window.userProfile.profileName) > -1)
             primaryIconName: modelData.icon
             primaryLabelText: modelData.title
             primaryLabelColor: menuItemTextColor
-            selected: window.currentPage && modelData.absPath === window.currentPage.absPath
+            selected: window.currentPage && window.currentPage.absPath === modelData.absPath.replace("file://", "")
             anchors { horizontalCenter: undefined; left: undefined; right: undefined }
             onClicked: {
-                // if the clicked page already exists in the stackview, focus in the Page.
+                // if the clicked page already exists in the StackView, the page will be moved to top.
                 // otherwise, create a new page and push in the stack.
                 pageStack.pushIfNotExists(modelData.absPath, {})
                 close()

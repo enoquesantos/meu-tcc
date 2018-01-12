@@ -7,6 +7,7 @@ Components.BasePage {
     hasListView: false
     hasNetworkRequest: false
     title: qsTr("Page 2")
+    absPath: Config.plugins.pages + "Page2.qml"
 
     Label {
         anchors.centerIn: parent

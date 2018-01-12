@@ -16,6 +16,8 @@
         <file>PhotoSelection.qml</file>
         <file>RequestHttp.qml</file>
         <file>RoundedImage.qml</file>
+        <file>TimePicker.qml</file>
+        <file>ToolBarButton.qml</file>
         <!-- end public components used by plugins -->
 
         <!-- Start private components used only by application -->
@@ -33,7 +35,6 @@
         <file>private/TabBarButton.qml</file>
         <file>private/Toast.qml</file>
         <file>private/ToolBar.qml</file>
-        <file>private/ToolBarButton.qml</file>
         <file>private/ToolBarSearch.qml</file>
         <file>private/UserProfile.qml</file>
         <file>Awesome/Font.otf</file>

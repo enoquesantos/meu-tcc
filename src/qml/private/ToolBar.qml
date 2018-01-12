@@ -3,32 +3,19 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
 import QtGraphicalEffects 1.0
 
+import "qrc:/src/qml/"
+import "qrc:/src/qml/private"
+
 ToolBar {
     id: toolBar
     objectName: "ToolBar.qml"
     visible: window.currentPage && window.currentPage.showToolBar && pageStack.depth > 0
+    state: window.currentPage ? window.currentPage.toolBarState : "normal"
     height: visible ? 55 : 0
-    state: window.currentPage ? window.currentPage.toolBarState : ""
-    states: [
-        State {
-            name: "normal"
-            PropertyChanges { target: toolButtonFirst; iconName: "bars"; action: Config.events.openDrawer }
-        },
-        State {
-            name: "goback"
-            PropertyChanges { target: toolButtonFirst; iconName: "arrow_left"; action: Config.events.goBack }
-        },
-        State {
-            name: "search"
-            PropertyChanges { target: toolButtonFirst; iconName: "arrow_left"; action: Config.events.cancel }
-        }
-    ]
 
+    // show a shadow effect when user flickable to bottom
+    // and the ToolBar shadow is turn visible
     property bool enableToolBarShadow: window.currentPage && "enableToolBarShadow" in window.currentPage && window.currentPage.enableToolBarShadow === true
-
-    // if current page define a list of itens to submenu (the last item displayed in ToolBar),
-    // the itens will be append into a dropdown list
-    property bool hasMenuList: window.currentPage && window.currentPage.toolBarMenuList && window.currentPage.toolBarMenuList.length > 0
 
     // this property can be used by page to set a custom color to this ToolBar
     property string toolBarColor: Config.theme.colorPrimary
@@ -37,20 +24,6 @@ ToolBar {
     // this property can be used by some page to change the color of all icons in the ToolBar
     // is read by each ToolBarButton set the icon color
     property color defaultTextColor: Config.theme.colorAccent
-
-    /**
-     * A object to the toolbar actions to the pages when is used with pageStack.
-     * ToolBar offears 4 buttons put into a RowLayout from right to left.
-     * Each button can be used to page add some events.
-     * Each button needs the icon name and action name.
-     * The action name is send to window eventNotify.
-     * This Object needs to be a object like this:
-     *    {
-     *       "toolButton3": {"action":"delete", "icon":"trash"},
-     *       "toolButton4": {"action":"copy", "icon":"copy"}
-     *    }
-     */
-    property var toolBarActions: window.currentPage ? window.currentPage.toolBarActions : ({})
 
     Loader {
         onLoaded: toolBar.background = item
@@ -69,22 +42,123 @@ ToolBar {
         }
     }
 
+    /**
+      * Pages can add buttons dynamically to toolbar, using a object array.
+      * Each button needs a icon and a callback function.
+      * If actionName is send, will be sent to App.eventNotify(actionName, null).
+      * To add a buttons to ToolBar, the page needs to set a object like this:
+      * property var toolBarButtons: [
+      *       {
+      *           iconName: "gear"
+      *           callback: function () { ... }
+      *       },
+      *       {
+      *           iconName: "calendar"
+      *           callback: function () { ... }
+      *       }
+      * ]
+      */
+    Component {
+        id: toolButonsComponent
+        ToolBarButton { }
+    }
+
+    /**
+     * The Page can create a submenu in ToolBar and set menu-itens dinamically,
+     * like a sub-menu of options. Needs to be a list of MenuItem properties:
+     *     1: 'text' - the text to be displayed
+     *     2: a callback to handle the 'onTriggered' action, that is triggered when user touch in the item.
+     * toolBarMenuList: [
+     *    {
+     *        "text": qsTr("Show in grid")
+     *        "callback": function () { ... }
+     *    },
+     *    {
+     *        "text": qsTr("Check all")
+     *        "callback": function () { ... }
+     *    }
+     * ]
+     */
+    Component {
+        id: toolButonsMenu
+        Menu { }
+    }
+
+    // MenuItem will be used to each item in submenu
+    // if window.currentPage set a "mnenu" option in toolBarButtons list.
+    Component {
+        id: toolButonsMenuItem
+        MenuItem { }
+    }
+
     Connections {
         target: window
         onCurrentPageChanged: {
-            if ("toolBarColor" in window.currentPage)
+            // set the ToolBar color, if current page set a property color toolBarColor: "color_value"
+            if ("toolBarColor" in window.currentPage && window.currentPage.toolBarColor.length) {
                 toolBarColor = window.currentPage.toolBarColor
-            else if (Qt.platform.os === "android")
-                SystemStatusBar.color = Config.theme.statusBarColor
-            if (optionsToolbarMenu)
-                optionsToolbarMenu.reset = true
-            if (!hasMenuList)
-                return
-            var itens = window.currentPage.toolBarMenuList
-            for (var i = 0; i < itens.length; ++i)
-                optionsToolbarMenu.addItem(itens[i])
-            delete itens
+                // in android, set the System Status Bar to same color of ToolBar
+                if (Qt.platform.os === "android")
+                    SystemStatusBar.color = Config.theme.statusBarColor
+            }
+            // if previous page added buttons to toolbar,
+            // all buttons needs to be removed, to put again!
+            if (rowPageButtons.children.length)
+                for (var i = 0; i < rowPageButtons.children.length; ++i)
+                    rowPageButtons.children[i].destroy()
+            // if current page set dynamic buttons, will be added to toolBar, else return.
+            if (!window.currentPage.toolBarButtons) return
+            var j, k, menu, menuItem, btn, pageButtons = window.currentPage.toolBarButtons
+            for (j = 0; j < pageButtons.length; ++j) {
+                btn = toolButonsComponent.createObject(rowPageButtons, {"iconColor": defaultTextColor, "iconName": pageButtons[j].iconName})
+                if ("callback" in pageButtons[j])
+                    btn.clicked.connect(pageButtons[j].callback)
+                if ("submenu" in pageButtons[j]) {
+                    menu = toolButonsMenu.createObject(rowPageButtons, {"x": -15, "y": 15})
+                    btn.clicked.connect(function() { menu.open() })
+                    for (k = 0; k < pageButtons[j].submenu.length; k++) {
+                        menuItem = toolButonsMenuItem.createObject(toolBar, {"text": pageButtons[j].submenu[k].text})
+                        menuItem.triggered.connect(pageButtons[j].submenu[k].callback)
+                        menu.addItem(menuItem)
+                    }
+                }
+                btn.parent = rowPageButtons
+                rowPageButtons.children[j] = btn
+            }
         }
+    }
+
+    Binding {
+        target: toolBar
+        property: "state"
+        value: window.currentPage ? window.currentPage.toolBarState : "normal"
+    }
+
+    Binding {
+        target: toolButtonFirst
+        property: "actionName"
+        value: Config.events.openDrawer
+        when: toolBar.state === "normal"
+    }
+
+    Binding {
+        target: toolButtonFirst
+        property: "actionName"
+        value: Config.events.goBack
+        when: toolBar.state === "goBack"
+    }
+
+    Binding {
+        target: toolButtonFirst
+        property: "actionName"
+        value: Config.events.cancel
+        when: toolBar.state === "search"
+    }
+
+    Binding {
+        target: toolButtonFirst
+        property: "iconName"
+        value: toolBar.state === "search" || toolBar.state === "goBack" ? "arrow_left" : "bars"
     }
 
     RowLayout {
@@ -94,26 +168,22 @@ ToolBar {
         ToolBarButton {
             id: toolButtonFirst
             iconColor: defaultTextColor
-            onClicked: if (action === Config.events.cancel) toolBar.state = "normal"
+            // onClicked: if (actionName === Config.events.cancel) toolBar.state = "normal"
 
             NumberAnimation on rotation {
-                from: 0; to: 360; running: toolBar.state === "goback"
+                from: 0; to: 360; running: toolBar.state === "goBack"
                 duration: 350
             }
         }
 
-        Item {
+        Label {
             id: title
+            elide: Label.ElideRight
+            text: window.currentPage && window.currentPage.title || ""; color: defaultTextColor
             width: visible ? parent.width * 0.55 : 0; height: parent.height
             visible: toolBar.state !== "search"
             anchors { left: toolButtonFirst.right; leftMargin: 12; verticalCenter: parent.verticalCenter }
-
-            Text {
-                elide: Text.ElideRight
-                text: window.currentPage && window.currentPage.title || ""; color: defaultTextColor
-                anchors.verticalCenter: parent.verticalCenter
-                font { weight: Font.DemiBold; pointSize: Config.fontSize.large }
-            }
+            font { weight: Font.DemiBold; pointSize: Config.fontSize.normal }
         }
 
         ToolBarSearch {
@@ -123,55 +193,9 @@ ToolBar {
             onSearchTextChanged: window.currentPage.searchText = searchText
         }
 
-        ToolBarButton {
-            id: toolButton2
-            iconColor: defaultTextColor
-            anchors.right: toolButton3.left
-            actionName: visible ? toolBarActions.toolButton2.action : ""
-            iconName: visible ? toolBarActions.toolButton2.icon : ""
-            visible: "toolButton2" in toolBarActions && toolBar.state !== "search"
-        }
-
-        ToolBarButton {
-            id: toolButton3
-            iconColor: defaultTextColor
-            anchors.right: toolButton4.left
-            actionName: visible ? toolBarActions.toolButton3.action : ""
-            iconName: visible ? toolBarActions.toolButton3.icon : ""
-            visible: "toolButton3" in toolBarActions && toolBar.state !== "search"
-        }
-
-        ToolBarButton {
-            id: toolButton4
-            iconColor: defaultTextColor
-            anchors.right: toolButtonLast.left
-            actionName: visible ? toolBarActions.toolButton4.action : ""
-            iconName: visible ? toolBarActions.toolButton4.icon : ""
-            visible: "toolButton4" in toolBarActions && toolBar.state !== "search"
-            onClicked: if (action === "search") toolBar.state = "search"
-        }
-
-        ToolBarButton {
-            id: toolButtonLast
-            iconColor: defaultTextColor
+        RowLayout {
+            id: rowPageButtons
             anchors.right: parent.right
-            actionName: "submenu"; iconName: "ellipsis_v"
-            visible: hasMenuList && toolBar.state !== "search"
-            onClicked: optionsToolbarMenu.open()
-
-            Menu {
-                id: optionsToolbarMenu
-                x: parent ? (parent.width - width) : 0
-                transformOrigin: Menu.BottomRight
-
-                property bool reset: false
-                onResetChanged: {
-                    for (var i = 0; i < optionsToolbarMenu.contentData.length; i++) {
-                        optionsToolbarMenu.removeItem(0)
-                        optionsToolbarMenu.removeItem(i)
-                    }
-                }
-            }
         }
     }
 }

@@ -7,46 +7,39 @@ import "qrc:/src/qml/" as Components
 Components.BasePage {
     id: page
     title: qsTr("Edit my profile")
-    objectName: "ProfileEdit.qml"
-    hasListView: false
-    toolBarState: "goback"
-    hasNetworkRequest: false
+    hasListView: false; hasNetworkRequest: false
+    toolBarState: "goBack"
+    absPath: Config.plugins.session + "ProfileEdit.qml"
     enableToolBarShadow: flickable.contentY > 5
-
-    // add save icon in toolbar
-    toolBarActions: {
-        "toolButton4": {"action":Config.events.saveUserProfile,"icon":"save"}
-    }
+    toolBarButtons: [ // add save icon in window.toolbar
+        {
+            "iconName": "save",
+            "callback": function() { saveUserProfile() }
+        }
+    ]
 
     // handle click in save button from toolbar
-    Connections {
-        target: App
-        enabled: isActivePage
-        onEventNotify: {
-            // signal signature: eventNotify(string eventName, var eventData)
-            if (eventName !== Config.events.saveUserProfile)
-                return
-            var _regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            email.text = email.text.toString().trim()
-            if (!email.text) {
-                functions.alert(qsTr("Error!"), qsTr("The email field is blank!"), null, null)
-                return
-            } else if (!_regex.test(email.text)) {
-                functions.alert(qsTr("Error!"), qsTr("The email is not valid!"), null, null)
-                return
-            } else if (password1.text !== password2.text) {
-                functions.alert(qsTr("Error!"), qsTr("The passwords does not match!"), null, null)
-                return
-            } else if (password1.text && password1.text == password2.text) {
-                page.focus = true
-                toast.show(qsTr("Profile updating..."), true)
-                var args = ({})
-                args.id = user.profile.id
-                args.email = email.text
-                args.password = password1.text
-                password1.text = password2.text = ""
-                window.notifyEvent(Config.events.requestUpdateUserProfile, args)
-            }
+    function saveUserProfile() {
+        var _regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        email.text = email.text.toString().trim()
+        if (!email.text) {
+            functions.alert(qsTr("Error!"), qsTr("The email field is blank!"), null, null)
+            return
+        } else if (!_regex.test(email.text)) {
+            functions.alert(qsTr("Error!"), qsTr("The email is not valid!"), null, null)
+            return
+        } else if (password1.text !== password2.text) {
+            functions.alert(qsTr("Error!"), qsTr("The passwords does not match!"), null, null)
+            return
+        } else if (password1.text && password1.text == password2.text) {
+            page.focus = true
+            toast.show(qsTr("Updating profile..."), true)
+            var args = ({})
+            args.id = userProfile.profile.id
+            args.email = email.text
+            args.password = password1.text
+            password1.text = password2.text = ""
+            window.notifyEvent(Config.events.requestUpdateUserProfile, args)
         }
     }
 
@@ -57,7 +50,7 @@ Components.BasePage {
     Flickable {
         id: flickable
         anchors.fill: parent
-        contentHeight: Math.max(content.implicitHeight, height*1.5)
+        contentHeight: Math.max(content.implicitHeight, height * 1.5)
 
         Behavior on contentY {
             NumberAnimation {
@@ -78,7 +71,7 @@ Components.BasePage {
                 Components.RoundedImage {
                     width: 90; height: width
                     borderColor: Config.theme.colorPrimary
-                    imgSource: user.profile.image_path || "qrc:/default_user_image.svg"
+                    imgSource: userProfile.profile.image_url || "qrc:/default_user_image.svg"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors { bottom: parent.bottom; bottomMargin: 15 }
                     onClicked: photoSelection.open()
@@ -105,7 +98,7 @@ Components.BasePage {
             Components.PasswordField {
                 id: email
                 Layout.fillWidth: true
-                text: user.profile.email
+                text: userProfile.profile.email
                 font.capitalization: Font.AllLowercase
                 renderType: Text.NativeRendering
                 inputMethodHints: Qt.ImhEmailCharactersOnly

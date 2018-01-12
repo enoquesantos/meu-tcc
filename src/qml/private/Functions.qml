@@ -66,8 +66,8 @@ QtObject {
     // for each page into window tabbar (window footer) using page icon and page name
     // and create a new Page and add to swipeView container.
     // The window footer in this case, keeps a instance of TabBar.
-    signal loadPages()
-    onLoadPages: {
+    signal loadSwipeViewPages()
+    onLoadSwipeViewPages: {
         var i, length = 0, pages = [], comp = {}, page = {}, tabBarButtonPath = Qt.resolvedUrl("TabBarButton.qml")
         // load all saved (plugins) pages
         pages = App.readSetting("pages", App.SettingTypeJsonArray)
@@ -106,26 +106,24 @@ QtObject {
             if (Config.usesSwipeView) {
                 pageStack.clear()
                 //
-                // folow code can be used to create the swipeview pages in c++, insteade of loadPages()
+                // folow code can be used to create the swipeview pages in c++, insteade of loadSwipeViewPages()
                 // But, the plugins needs to import your self directory from assets plugins to use the files in plugin dir, like this: assets:/plugins/plugin_name
                 //
                 // var pages = App.readSetting("pages", App.SettingTypeJsonArray)
                 // Utils.createSwipeViewPages(pages, swipeView, window.footer, userProfile ? userProfile.profileName : "")
                 //
-                loadPages()
+                loadSwipeViewPages()
             } else {
-                var homePageUrl = App.readSetting("homePageUrl", App.SettingTypeString)
-                pageStack.replace(homePageUrl, {"absPath":homePageUrl})
+                pageStack.replace(App.readSetting("homePageUrl", App.SettingTypeString))
             }
         } else {
             // get the login page url defined by some plugin
             var loginPageUrl = App.readSetting("loginPageUrl", App.SettingTypeString)
             // if pageStack has more of one item, like user logout, replace last page by login.
             if (pageStack.depth > 0)
-                pageStack.replace(loginPageUrl, null)
+                pageStack.replace(loginPageUrl)
             else
-                pageStack.push(loginPageUrl, null)
-            loginPageUrl = ""
+                pageStack.push(loginPageUrl)
         }
     }
 }

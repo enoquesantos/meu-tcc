@@ -9,43 +9,40 @@ Page {
     width: window.width
     background: Rectangle {
         id: _pageBackgroundRec
-        anchors.fill: parent
-        color: Config.theme.pageBackgroundColor
+        anchors.fill: parent; color: Config.theme.pageBackgroundColor
     }
 
-    /**
-     * A object with toolbar actions used when the page is on the pageStack
-     * ToolBar offears 4 buttons put into a RowLayout from right to left.
-     * Each button can be used to page add some events.
-     * Each button needs the icon and action name propertys.
-     * The action name is send to window eventNotify and the page
-     * needs a connection to manager the clicks on each button.
-     * This Object needs to be a object like this:
-     *    {
-     *       "toolButton3": {"action":"delete", "icon":"trash"},
-     *       "toolButton4": {"action":"copy", "icon":"copy"}
-     *    }
-     */
-    property var toolBarActions: ({})
-
-    /**
-     * This property is read by toolbar dinamically
-     * This property can be used to page show a list of itens in last icon of toolbar
-     * like a sub-menu of options. Needs to be a list of MenuItem with two propertys for each item:
-     *     1: 'text' - the text to be displayed
-     *     2: a event handle for onTriggered action, that is triggered when user touch in the item.
-     * toolBarMenuList: [
-     *    MenuItem {
-     *        text: qsTr("Show in grid")
-     *        onTriggered: listView.visible = !listView.visible
-     *    },
-     *    MenuItem {
-     *        text: checkedAll ? qsTr("Uncheck all") : qsTr("Check all")
-     *        onTriggered: { ... }
-     *    }
-     * ]
-     */
-    property list<MenuItem> toolBarMenuList
+    // This property can be used to show buttons in window ToolBar
+    // when layout is StackView. The toolbar look for this property to
+    // add dynamic buttons into a row layout.
+    //    property var toolBarButtons: [
+    //        {
+    //            "iconName": "gear",
+    //            "callback": function() {
+    //                console.log("clicou::gear")
+    //            }
+    //        },
+    //        {
+    //            "iconName": "calendar",
+    //            "callback": function() {
+    //                console.log("clicou::calendar")
+    //            }
+    //        },
+    //        {
+    //            "iconName": "ellipsis_v",
+    //            "submenu": [
+    //                {
+    //                    "text": qsTr("Show in grid"),
+    //                    "callback": function () { console.log("cickou!!!") }
+    //                },
+    //                {
+    //                    "text": qsTr("Open drawer"),
+    //                    "callback": function () { console.log("cickou!!!") }
+    //                }
+    //            ]
+    //        }
+    //    ]
+    property var toolBarButtons: []
 
     // used by toolbar when page is on the pageStack to make bind with action button
     // if page set to 'goback' value, the toolbar show a arrow-left icon as back button
@@ -178,8 +175,7 @@ Page {
     // if the page not set 'hasListView' to false,
     // this loader create a instance of ListView
     Loader {
-        anchors.fill: parent
-        asynchronous: false; active: hasListView
+        active: hasListView; asynchronous: false; anchors.fill: parent
         sourceComponent: CustomListView { }
         onLoaded: {
             listView = item

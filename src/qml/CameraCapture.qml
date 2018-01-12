@@ -5,9 +5,8 @@ BasePage {
     id: _cameraPage
     objectName: "CameraCapture.qml"
     title: qsTr("Capture new image")
-    toolBarState: "goback"
-    hasListView: false
-    hasNetworkRequest: false
+    toolBarState: "goBack"
+    hasListView: false; hasNetworkRequest: false
     pageBackgroundColor: "black"
     isPageBusy: countdowToHide.running || countdowToStart.running
 

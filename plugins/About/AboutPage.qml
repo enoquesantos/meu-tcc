@@ -50,7 +50,7 @@ Components.BasePage {
                     id: applicationName
                     width: parent.width
                     wrapMode: Text.WordWrap
-                    text: Config.applicationName
+                    text: Config.appName
                     color: Config.theme.colorAccent
                     font { weight: Font.ExtraBold; pointSize: Config.fontSize.extraLarge }
                     horizontalAlignment: Label.AlignHCenter
@@ -89,7 +89,7 @@ Components.BasePage {
                     width: parent.width
                     wrapMode: Text.WordWrap
                     elide: Text.ElideRight
-                    text: Config.applicationDescription
+                    text: Config.appDescription
                     color: Config.theme.colorAccent
                     font { weight: Font.DemiBold; pointSize: 16 }
                     horizontalAlignment: Label.AlignHCenter

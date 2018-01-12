@@ -6,6 +6,7 @@ Components.BasePage {
     id: page
     hasListView: false
     hasNetworkRequest: false
+    absPath: Config.plugins.pages + "Page1.qml"
     title: qsTr("Page 1")
     toolBarState: "goBack"
 
