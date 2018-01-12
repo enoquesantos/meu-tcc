@@ -10,7 +10,7 @@ TabButton {
         visible: Config.showTabButtonText
         text: control.text
         font.pointSize: Config.fontSize.small
-        color: icon.color; opacity: icon.opacity
+        color: awesomeIcon.color; opacity: awesomeIcon.opacity
         horizontalAlignment: Text.AlignHCenter
         anchors { bottom: parent.bottom; bottomMargin: 2 }
         width: control.width * 0.90; elide: Text.ElideRight
@@ -35,7 +35,7 @@ TabButton {
     }
 
     AwesomeIcon {
-        id: icon
+        id: awesomeIcon
         clickEnabled: false; height: parent.height*2
         size: Config.showTabButtonText ? 12 : 20; opacity: control.down ? 0.7 : 1
         color: control.checked ? Config.theme.colorPrimary : Config.theme.colorAccent
@@ -47,5 +47,5 @@ TabButton {
         }
     }
 
-    property alias iconName: icon.name
+    property alias iconName: awesomeIcon.name
 }
