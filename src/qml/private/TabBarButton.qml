@@ -14,10 +14,6 @@ TabButton {
         horizontalAlignment: Text.AlignHCenter
         anchors { bottom: parent.bottom; bottomMargin: 2 }
         width: control.width * 0.90; elide: Text.ElideRight
-
-        Behavior on color {
-            ColorAnimation { duration: 150 }
-        }
     }
     background: Rectangle {
         id: tabButtonRectangle
