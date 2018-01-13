@@ -60,7 +60,7 @@ ApplicationWindow {
     // The toolbar is used to show a button to open the navigation drawer (if "usesDrawer" is defined to true in config.json)
     // and dynamic buttons defined by each page, for some actions like show a submenu or search button.
     Loader {
-        active: !Config.usesSwipeView && (!Config.hasLogin || Config.hasLogin && userProfile && userProfile.isLoggedIn)
+        active: !Config.hasLogin || (Config.hasLogin && userProfile && userProfile.isLoggedIn)
         source: "ToolBar.qml"
         onLoaded: header = item
     }
