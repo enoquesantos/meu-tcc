@@ -67,7 +67,6 @@ BasePage {
             anchors { right: parent.right; rightMargin: 10; verticalCenter: parent.verticalCenter; horizontalCenter: undefined }
             onClicked: {
                 App.saveSetting("app_eula_accepted", "1")
-                App.eventNotify(Config.events.eulaAccepted, 0)
                 window.setActivePage()
             }
         }

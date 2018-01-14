@@ -27,7 +27,7 @@ StackView {
     Connections {
         target: App
         onEventNotify: {
-            if (eventName === Config.events.goBack) {
+            if (eventName === Config.events.popCurrentPage) {
                 if (_pageStack.depth > 1)
                     _pageStack.pop()
                 else if (swipeView && swipeView.count && _pageStack.depth == 1)

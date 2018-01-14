@@ -13,15 +13,14 @@ TabBar {
         onLoaded: tabBar.background = item
         asynchronous: false; active: true
         sourceComponent: Rectangle {
-            z: 0
-            color: "#fff"; border.width: 0; radius: 0
+            color: "#fff"
             width: tabBar.width; height: tabBar.height
             layer {
-                enabled: true
+                enabled: Config.applicationStyle.indexOf("Material") > -1
                 effect: DropShadow {
-                    samples: 17; radius: 15
-                    color: "#4D000000"; spread: 0.5
-                    verticalOffset: 1; horizontalOffset: 0
+                    samples: 17; radius: 12
+                    color: "#4D888888"; spread: 0.1
+                    verticalOffset: 0; horizontalOffset: 0
                 }
             }
         }

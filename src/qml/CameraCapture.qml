@@ -19,7 +19,7 @@ BasePage {
     function close() {
         camera.stop()
         // remove page from the stack
-        App.eventNotify(Config.events.goBack, null)
+        App.eventNotify(Config.events.popCurrentPage, null)
     }
 
     Timer {

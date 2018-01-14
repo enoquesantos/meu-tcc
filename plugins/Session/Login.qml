@@ -25,7 +25,7 @@ Components.BasePage {
     Timer {
         interval: 1200; repeat: false
         running: loginResult != null
-        onTriggered: App.eventNotify(Config.events.saveUserProfile, loginResult)
+        onTriggered: App.eventNotify(Config.events.initUserProfile, loginResult)
         onRunningChanged: if (running) busyIndicator.visible = true
     }
 

@@ -32,7 +32,7 @@ ToolBar {
             color: toolBarColor; border.width: 0; radius: 0
             width: toolBar.width; height: toolBar.height
             layer {
-                enabled: enableToolBarShadow
+                enabled: enableToolBarShadow && Config.applicationStyle.indexOf("Material") > -1
                 effect: DropShadow {
                     samples: 17; radius: 12
                     color: "#4D000000"; spread: 0
@@ -144,7 +144,7 @@ ToolBar {
     Binding {
         target: toolButtonFirst
         property: "actionName"
-        value: Config.events.goBack
+        value: Config.events.popCurrentPage
         when: toolBar.state === "goBack"
     }
 
@@ -168,7 +168,7 @@ ToolBar {
         Components.ToolBarButton {
             id: toolButtonFirst
             iconColor: defaultTextColor
-            // onClicked: if (actionName === Config.events.cancel) toolBar.state = "normal"
+            // onClicked: if (actionName === Config.events.cancelSearch) toolBar.state = "normal"
 
             NumberAnimation on rotation {
                 from: 0; to: 360; running: toolBar.state === "goBack"

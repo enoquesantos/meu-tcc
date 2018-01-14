@@ -3,7 +3,7 @@
     "appDescription": "The app description",
     "organizationName": "My App",
     "organizationDomain": "myapp.org",
-    "applicationStyle": "Material",
+    "applicationStyle": "Universal",
     "forceEulaAgreement": false,
     "hasLogin": true,
     "showEula": false,
@@ -13,11 +13,15 @@
     "showDrawerImage": false,
     "restService": {
         "authentication" : {
-            "type": "basic",
-            "userName": "",
-            "userPass": ""
+            "basic": {
+                "userName": "",
+                "userPass": ""
+            },
+            "headerToken": {
+                "keyName" : "",
+                "hash": ""
+            }
         },
-        "apiKey": "",
         "baseUrl": "",
         "baseImagesUrl": ""
     },

@@ -34,7 +34,7 @@ Item {
         onFinished: {
             if (statusCode === 200) {
                 App.eventNotify(Config.events.setUserProfileData, {"key": "push_notification_token", "value": rootItem.token})
-                App.removeSetting(Config.events.pushNotificationToken)
+                App.removeSetting(Config.events.newPushNotificationToken)
                 rootItem.destroy()
             }
         }
@@ -47,11 +47,11 @@ Item {
         target: App
         onEventNotify: {
             // signal signature: eventNotify(QString eventName, QVariant eventData)
-            if (eventName === Config.events.pushNotificationToken) {
+            if (eventName === Config.events.newPushNotificationToken) {
                 rootItem.token = eventData
                 sendTokenToServer()
             } else if (eventName === Config.events.userProfileChanged) {
-                rootItem.token = App.readSetting(Config.events.pushNotificationToken, App.STRING)
+                rootItem.token = App.readSetting(Config.events.newPushNotificationToken, App.STRING)
                 sendTokenToServer()
             }
         }

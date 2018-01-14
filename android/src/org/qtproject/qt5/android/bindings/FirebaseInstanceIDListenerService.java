@@ -40,7 +40,7 @@ public class FirebaseInstanceIDListenerService extends FirebaseInstanceIdService
             // ActivityToApplication.eventNotify(String eventName, String data);
             try {
                 if (CustomActivity.isRunning())
-                    ActivityToApplication.eventNotify("pushNotificationToken", token);
+                    ActivityToApplication.eventNotify("newPushNotificationToken", token);
             } catch(Exception e) {
                 // Log.e("FirebaseListenerService", e);
             }

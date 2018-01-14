@@ -17,9 +17,9 @@ Item {
 
         // check user profile image
         if (!profile.image_url)
-            setProperty("image_url", "qrc:/default_user_image.svg")
+            internal.setProperty("image_url", "qrc:/default_user_image.svg")
         else if (!isLocalImagePath() && profile.image_url.indexOf("http") < 0)
-            setProperty("image_url", (Config.restService.baseImagesUrl || Config.restService.baseUrl) + profile.image_url)
+            internal.setProperty("image_url", (Config.restService.baseImagesUrl || Config.restService.baseUrl) + profile.image_url)
 
         // save the new user profile in local settings
         App.saveSetting("user_profile_data", profile)
@@ -32,41 +32,45 @@ Item {
             profileName = profile.user_role.description
     }
 
-    function isLocalImagePath() {
-        return profile.image_url.indexOf("file:/") > -1 || profile.image_url.indexOf("qrc:/") > -1
-    }
+    QtObject {
+        id: internal
 
-    // set a new property value in user profile
-    function setProperty(key, value) {
-        if (!key || profile[key] === value) return
-        profile[key] = value
-        profile = profile
-    }
-
-    // this signal is used to set user profile data
-    // and is called by login page after a login success response
-    function initProfile(userData) {
-        if (userData && "email" in userData) {
-            profile = userData
-            isLoggedIn = true
-        } else {
-            isLoggedIn = false
-            App.saveSetting("user_profile_data", "")
+        function isLocalImagePath() {
+            return profile.image_url.indexOf("file:/") > -1 || profile.image_url.indexOf("qrc:/") > -1
         }
-        // after user login or logout,
-        // the application page needs to be updated
-        window.setActivePage()
+
+        // set a new property value in user profile
+        function setProperty(key, value) {
+            if (!key || profile[key] === value) return
+            profile[key] = value
+            profile = profile
+        }
+
+        // this signal is used to set user profile data
+        // and is called by login page after a login success response
+        function initProfile(userData) {
+            if (userData && "email" in userData) {
+                profile = userData
+                isLoggedIn = true
+            } else {
+                isLoggedIn = false
+                App.saveSetting("user_profile_data", "")
+            }
+            // after user login or logout,
+            // the application page needs to be updated
+            window.setActivePage()
+        }
     }
 
     Connections {
         target: App
         onEventNotify: {
-            if (eventName === Config.events.saveUserProfile)
-                initProfile(eventData)
+            if (eventName === Config.events.initUserProfile)
+                internal.initProfile(eventData)
             else if (eventName === Config.events.setUserProfileData)
-                setProperty(eventData.key, eventData.value)
+                internal.setProperty(eventData.key, eventData.value)
             else if (eventName === Config.events.logoutApplication)
-                initProfile(false)
+                internal.initProfile(false)
         }
     }
 }
