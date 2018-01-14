@@ -18,7 +18,7 @@ Item {
         // check user profile image
         if (!profile.image_url)
             internal.setProperty("image_url", "qrc:/default_user_image.svg")
-        else if (!isLocalImagePath() && profile.image_url.indexOf("http") < 0)
+        else if (!internal.isLocalImagePath() && profile.image_url.indexOf("http") < 0)
             internal.setProperty("image_url", (Config.restService.baseImagesUrl || Config.restService.baseUrl) + profile.image_url)
 
         // save the new user profile in local settings
