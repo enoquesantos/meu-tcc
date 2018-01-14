@@ -69,7 +69,7 @@ QtObject {
     signal loadSwipeViewPages()
     onLoadSwipeViewPages: {
         var i, length = 0, pages = [], comp = {}, page = {}, tabBarButtonPath = Qt.resolvedUrl("TabBarButton.qml")
-        // load all saved (plugins) pages
+        // load all saved pages
         pages = App.readSetting("pages", App.SettingTypeJsonArray)
         length = pages.length
         for (i = 0; i < length; i++) {
