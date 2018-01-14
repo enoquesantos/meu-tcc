@@ -3,7 +3,7 @@
     "appDescription": "The app description",
     "organizationName": "My App",
     "organizationDomain": "myapp.org",
-    "applicationStyle": "Universal",
+    "applicationStyle": "Material",
     "forceEulaAgreement": false,
     "hasLogin": true,
     "showEula": false,
