@@ -106,7 +106,7 @@ Drawer {
         ScrollIndicator.vertical: ScrollIndicator { }
         delegate: ListItem {
             visible: modelData.showInDrawer && modelData.title && (!window.userProfile || window.userProfile.profileName && modelData.roles.indexOf(window.userProfile.profileName) > -1)
-            primaryIconName: modelData.icon
+            primaryIconName: modelData.icon || "gear"
             primaryLabelText: modelData.title
             primaryLabelColor: menuItemTextColor
             selected: window.currentPage && window.currentPage.absPath === modelData.absPath.replace("file://", "")
