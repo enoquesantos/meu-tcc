@@ -9,21 +9,6 @@ ItemDelegate {
     width: parent.width; height: 60
     antialiasing: true; opacity: enabled ? 1 : 0.7
     anchors.horizontalCenter: parent.horizontalCenter
-    visible: secondaryLabelText.length || primaryLabelText.length
-
-    Binding {
-        target: listItem
-        when: visible
-        property: "height"
-        value: 60
-    }
-
-    Binding {
-        target: listItem
-        when: !visible
-        property: "height"
-        value: 0
-    }
 
     Rectangle {
         id: backgroundRec
