@@ -8,8 +8,8 @@
     "hasLogin": true,
     "showEula": false,
     "showTabButtonText": true,
-    "usesSwipeView": true,
-    "usesDrawer": false,
+    "usesSwipeView": false,
+    "usesDrawer": true,
     "showDrawerImage": false,
     "restService": {
         "authentication" : {
