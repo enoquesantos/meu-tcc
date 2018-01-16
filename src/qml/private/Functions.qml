@@ -49,14 +49,14 @@ QtObject {
             if (pageStack.depth == 1 && swipeView && swipeView.count > 0)
                 pageStack.clear()
             else if (pageStack.depth == 1 && (!swipeView || swipeView.count == 0))
-                App.minimize()
+                App.minimizeWindow()
             else
                 pageStack.pop()
         } else if (pageStack.depth === 0 && swipeView && swipeView.count && footer.currentIndex > 0) {
             swipeView.decrementCurrentIndex()
         } else {
             // App.minize call a android java to move app to background, but keep running
-            App.minimize()
+            App.minimizeWindow()
         }
         // setting button.accepted to false, prevent the ApplicationWindow to be closed
         e.accepted = false
