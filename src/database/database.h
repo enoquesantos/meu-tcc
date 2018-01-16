@@ -124,7 +124,7 @@ public:
      * @param args QVariantMap a map with some extra arguments to filter the result set
      *
      * ATTENTION!
-     * This method uses args parameter to build the query filter properties. The follow options can be passed is:
+     * This method uses args parameter to build the query filter properties. The follow options can be passed:
      * "limit"   -> integer with the SQL LIMIT of result set
      * "offset"  -> integer with the SQL OFFSET to start the result set list (useful to paginate data)
      * "order"   -> QString with the SQL "asc" or "desc" value to define the result set as descending or not
@@ -164,12 +164,17 @@ public:
      * @param tableName QString the table name to update data
      * @param updateData QVariantMap the map with column name -> value to save in database
      * @param where QVariantMap the map with column name -> condition value to filter the operation
-     * @param whereOperator QString the operator to join where properties values. The possible values is "AND" or "OR". The default is "AND"
-     * @param whereComparator QString the operator to use in comparison predicates. The possible values is "=", "!=", ">", "<", "<=", ">=" or "%LIKE%"
+     * ATTENTION!
+     * This method uses args parameter to build the query filter properties. The follow options can be passed is:
+     * "whereOperator" -> QString the with "AND" or "OR" to set the predicates clauses comparison operator for 'where' map arguments
+     * "whereComparator" -> QString with the value: "=" or "!=" or ">" or  "<" or "%LIKE%" and is used to set the predicates comparator value operator
+     * "selectType" -> integer with value to construct the result set map. If the table uses "meta_key" -> "meta_value" columns.
+     * in this case, set the "selectType" to 1 to get each map as table key and table value properties.
+     *
      * @return int return number of rows affected if success, otherwise return 0 (zero) (if occour any error).
      * To get the error details, create a connection with logMessage signal or call lastError().
      */
-    Q_INVOKABLE int update(const QString &tableName, const QVariantMap &updateData, const QVariantMap &where, const QString &whereOperator = QStringLiteral("AND"), const QString &whereComparator = QStringLiteral("="));
+    Q_INVOKABLE int update(const QString &tableName, const QVariantMap &updateData, const QVariantMap &where, const QVariantMap &args = QVariantMap());
 
     /**
      * @brief lastInsertId

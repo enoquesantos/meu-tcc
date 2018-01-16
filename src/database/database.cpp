@@ -305,7 +305,7 @@ int Database::remove(const QString &tableName, const QVariantMap &where, const Q
     return queryExec(query) ? numRowsAffected() : 0;
 }
 
-int Database::update(const QString &tableName, const QVariantMap &updateData, const QVariantMap &where, const QString &whereOperator, const QString &whereComparator)
+int Database::update(const QString &tableName, const QVariantMap &updateData, const QVariantMap &where, const QVariantMap &args)
 {
     if (tableName.isEmpty()) {
         emit logMessage(QStringLiteral("Fatal error on try update: The table name is empty!"));
@@ -318,6 +318,9 @@ int Database::update(const QString &tableName, const QVariantMap &updateData, co
     QString whereStr;
     QString updateValues;
     QVariantList values;
+
+    const QString &whereOperator(args.value(QStringLiteral("whereOperator")).toString());
+    const QString &whereComparator(args.value(QStringLiteral("whereComparator")).toString());
 
     {
         int k = 0;
