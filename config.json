@@ -12,15 +12,9 @@
     "usesDrawer": true,
     "showDrawerImage": false,
     "restService": {
-        "authentication" : {
-            "basic": {
-                "userName": "",
-                "userPass": ""
-            },
-            "headerToken": {
-                "keyName" : "",
-                "hash": ""
-            }
+        "basicAuthentication" : {
+            "userName": "",
+            "userPass": ""
         },
         "baseUrl": "",
         "baseImagesUrl": ""
