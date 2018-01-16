@@ -61,8 +61,8 @@ void RequestHttp::setBasicAuthorization(const QByteArray &username, const QByteA
 {
     if (username.isEmpty() || password.isEmpty())
         return;
-    QString usernameAndPassword(username + ":" + password);
-    m_basicAuthorization = "Basic " + QByteArray(usernameAndPassword.toLocal8Bit().toBase64());
+    QString userPass(username + QStringLiteral(":") + password);
+    m_basicAuthorization = QByteArrayLiteral("Basic ") + userPass.toLocal8Bit().toBase64();
 }
 
 QUrlQuery RequestHttp::urlQueryFromMap(const QVariantMap &map)
@@ -121,7 +121,7 @@ void RequestHttp::downloadFile(const QStringList &urls, bool saveInAppDirectory,
 
     // append request header authentication if isset
     if (!m_basicAuthorization.isEmpty())
-        requestHeaders.insert("Authorization", m_basicAuthorization);
+        requestHeaders.insert(QStringLiteral("Authorization"), m_basicAuthorization);
 
     // set status to loading
     setStatus(Status::Loading);
@@ -158,13 +158,13 @@ void RequestHttp::uploadFile(const QByteArray &url, const QStringList &filePaths
 
     // append request header authentication if isset
     if (!m_basicAuthorization.isEmpty())
-        requestHeaders.insert("Authorization", m_basicAuthorization);
+        requestHeaders.insert(QStringLiteral("Authorization"), m_basicAuthorization);
 
     // set status to loading
     setStatus(Status::Loading);
 
     // start the upload
-    uploadManager->uploadFile(m_baseUrl.isEmpty() || url.contains("http") ? url : m_baseUrl + url, filePathsList, requestHeaders, usesPutMethod);
+    uploadManager->uploadFile(m_baseUrl.isEmpty() || url.contains(QByteArrayLiteral("http")) ? url : m_baseUrl + url, filePathsList, requestHeaders, usesPutMethod);
 }
 
 void RequestHttp::get(const QByteArray &url, const QVariantMap &urlArgs, const QVariantMap &headers)
@@ -189,7 +189,7 @@ void RequestHttp::post(const QByteArray &url, const QVariant &postData, const QV
 
 void RequestHttp::initRequest(QNetworkRequest *request, const QByteArray &url, const QVariantMap &headers, const QVariantMap &urlArgs)
 {
-    QUrl qurl(m_baseUrl.isEmpty() || url.contains("http") ? url : m_baseUrl + url);
+    QUrl qurl(m_baseUrl.isEmpty() || url.contains(QByteArrayLiteral("http")) ? url : m_baseUrl + url);
 
     if (urlArgs.size())
         qurl.setQuery(urlQueryFromMap(urlArgs));
@@ -199,7 +199,7 @@ void RequestHttp::initRequest(QNetworkRequest *request, const QByteArray &url, c
     request->setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 
     if (!m_basicAuthorization.isEmpty())
-        request->setRawHeader("Authorization", m_basicAuthorization);
+        request->setRawHeader(QByteArrayLiteral("Authorization"), m_basicAuthorization);
 
     if (!headers.isEmpty())
         setHeaders(headers, request);
@@ -210,7 +210,7 @@ void RequestHttp::initRequest(QNetworkRequest *request, const QByteArray &url, c
 void RequestHttp::onError(QNetworkReply::NetworkError code)
 {
     setStatus(Status::Error);
-    emit error(code, QString("Network reply with error code %1").arg(code));
+    emit error(code, QString(QStringLiteral("Network reply with error code %1")).arg(code));
 }
 
 void RequestHttp::onFinished(QNetworkReply *reply)
