@@ -5,7 +5,7 @@
         {
             "qml": "AboutPage.qml",
             "title": "Sobre",
-            "icon": "question_circle",
+            "awesomeIcon": "question_circle",
             "roles": ["Customer"],
             "order": 0,
             "showInDrawer": true,

@@ -5,7 +5,7 @@
         {
             "qml": "Page1.qml",
             "title": "Página 1",
-            "icon": "commenting",
+            "awesomeIcon": "commenting",
             "order": 3,
             "roles": ["Customer"],
             "showInDrawer": true,
@@ -14,7 +14,7 @@
         {
             "qml": "Page2.qml",
             "title": "Página 2",
-            "icon": "calendar",
+            "awesomeIcon": "calendar",
             "order": 4,
             "roles": ["Customer"],
             "showInDrawer": true,
@@ -23,7 +23,7 @@
         {
             "qml": "Page3.qml",
             "title": "Página 3",
-            "icon": "code_fork",
+            "awesomeIcon": "code_fork",
             "isHomePage": true,
             "order": 5,
             "roles": ["Customer"],
@@ -33,7 +33,7 @@
         {
             "qml": "Page4.qml",
             "title": "Página 4",
-            "icon": "calendar",
+            "awesomeIcon": "calendar",
             "order": 6,
             "roles": ["Administrator"],
             "showInDrawer": true,
@@ -42,7 +42,7 @@
         {
             "qml": "Page5.qml",
             "title": "Página 5",
-            "icon": "github",
+            "awesomeIcon": "github",
             "order": 7,
             "roles": ["Administrator"],
             "showInDrawer": true,
@@ -51,7 +51,7 @@
         {
             "qml": "Page6.qml",
             "title": "Página 6",
-            "icon": "mobile_phone",
+            "awesomeIcon": "mobile_phone",
             "order": 8,
             "roles": ["Editor"],
             "showInDrawer": true,

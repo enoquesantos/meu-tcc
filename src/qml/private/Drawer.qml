@@ -13,6 +13,7 @@ Drawer {
         // fix first open effect
         open()
         close()
+        internal.setMenuItens()
     }
 
     property alias menuBackgroundColor: menuBackground.color
@@ -20,6 +21,21 @@ Drawer {
     property color menuItemTextColor: Config.theme.textColorPrimary
     property alias userInfoBackgroundColor: userInfoRect.color
     property color userInfoTextColor: Config.theme.colorAccent
+
+    QtObject {
+        id: internal
+
+        function setMenuItens() {
+            var page = {}, pages = App.readSetting("pages", App.SettingTypeJsonArray)
+            for (var i = 0; i < pages.length; ++i) {
+                page = pages[i]
+                if (!page.showInDrawer || !page.title.length)
+                    continue
+                else if (!window.userProfile || (window.userProfile.profileName && page.roles.indexOf(window.userProfile.profileName) > -1))
+                    listVIewModel.append(page)
+            }
+        }
+    }
 
     // to reduce the couplin with anothers components, the Drawer menu listener events
     // from App and window. This connection handle two signals:
@@ -32,7 +48,7 @@ Drawer {
             if (eventName === Config.events.openDrawer)
                 open()
             else if (eventName === Config.events.refreshDrawerPages)
-                listVIew.model = App.readSetting("pages", App.SettingTypeJsonArray)
+                internal.setMenuItens()
         }
     }
 
@@ -88,33 +104,32 @@ Drawer {
     // the model "pages" is a list of objects (plugins) that set "showInDrawer" to true
     // each object has the follow properties:
     // {
-    //    "absPath": "the qml file absolute path as string",
+    //    "absPath": "a string with absolute path to qml file",
     //    "title": "the page title as string",
-    //    "icon": "the icon name as string",
-    //    "roles": [the list of roles],
+    //    "awesomeIcon": "the icon name as string",
+    //    "roles": [the list of user roles required to access the page],
     //    "order": integer,
-    //    "isHome": boolean,
     //    "showInDrawer": boolean,
-    //    "isLogin": boolean
+    //    "isHomePage": boolean,
+    //    "isLoginPage": boolean
     // }
     ListView {
         id: listVIew
         z: 1; width: parent.width
-        model: App.readSetting("pages", App.SettingTypeJsonArray)
+        model: ListModel { id: listVIewModel }
         anchors { top: userInfoRect.bottom; topMargin: 0; bottom: parent.bottom }
         boundsBehavior: Flickable.StopAtBounds
         ScrollIndicator.vertical: ScrollIndicator { }
         delegate: ListItem {
-            visible: modelData.showInDrawer && modelData.title && (!window.userProfile || window.userProfile.profileName && modelData.roles.indexOf(window.userProfile.profileName) > -1)
-            primaryIconName: modelData.icon || "gear"
-            primaryLabelText: modelData.title
+            primaryIconName: awesomeIcon || "gear"
+            primaryLabelText: title
             primaryLabelColor: menuItemTextColor
-            selected: window.currentPage && window.currentPage.absPath === modelData.absPath.replace("file://", "")
+            selected: window.currentPage && window.currentPage.absPath === absPath.replace("file://", "")
             anchors { horizontalCenter: undefined; left: undefined; right: undefined }
             onClicked: {
                 // if the clicked page already exists in the StackView, the page will be moved to top.
                 // otherwise, create a new page and push in the stack.
-                pageStack.pushIfNotExists(modelData.absPath, {})
+                pageStack.pushIfNotExists(absPath, {})
                 close()
             }
         }

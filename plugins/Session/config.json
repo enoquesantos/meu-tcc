@@ -5,14 +5,14 @@
         {
             "qml": "Login.qml",
             "title": "",
-            "icon": "",
+            "awesomeIcon": "",
             "isLoginPage": true
         },
         {
             "qml": "ProfileView.qml",
             "title": "Meu perfil",
             "roles": ["Administrator", "Customer", "Editor"],
-            "icon": "user",
+            "awesomeIcon": "user",
             "order": 1,
             "showInDrawer": true,
             "showInTabBar": true
@@ -21,7 +21,7 @@
             "qml": "Logout.qml",
             "title": "Sair",
             "roles": ["Administrator", "Customer", "Editor"],
-            "icon": "sign_out",
+            "awesomeIcon": "sign_out",
             "order": -1,
             "showInDrawer": true,
             "showInTabBar": true

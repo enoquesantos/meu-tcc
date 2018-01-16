@@ -13,7 +13,7 @@ Components.BasePage {
         showSeparator: true
         primaryLabelText: field
         secondaryLabelText: value
-        primaryIconName: icon
+        primaryIconName: awesomeIcon
     }
 
     Component.onCompleted: {
@@ -26,12 +26,12 @@ Components.BasePage {
         {
             "field": qsTr("Name"),
             "value": userProfile.profile.name,
-            "icon": "user"
+            "awesomeIcon": "user"
         },
         {
             "field": qsTr("Email"),
             "value": userProfile.profile.email,
-            "icon": "envelope"
+            "awesomeIcon": "envelope"
         }
     ]
 
