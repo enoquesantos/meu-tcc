@@ -74,10 +74,10 @@ public:
      * The action is used to pass arguments to application after user click in notification
      * @param title QString the notification title
      * @param message QString the notification message
-     * @param actionName QString the action name to identify the argument value
-     * @param actionValue QVariant the action value that will be passed to application when user click in notification
+     * @param action QString the action name to identify the argument value
+     * @param data QVariant the action data to be passed to application when user click in notification
      */
-    Q_INVOKABLE void sendNotification(const QString &title, const QString &message, const QString &actionName = QStringLiteral(""), const QVariant &actionValue = QStringLiteral(""));
+    Q_INVOKABLE void sendNotification(const QString &title, const QString &message, const QString &action = QStringLiteral(""), const QVariant &data = QStringLiteral(""));
 
     /**
      * @brief readSetting
@@ -107,13 +107,13 @@ public:
     Q_INVOKABLE void removeSetting(const QString &key);
 
     /**
-     * @brief minimize
+     * @brief minimizeWindow
      * This method is used only in android to minimize the app, placing above others apps or
      * focusing in the home screen. Is used when back button is pressed by user.
      * This method is called by main window from event handle 'Keys.onBackPressed' and 'onClosing'.
      * This method call the android native method 'moveTaskToBack'.
      */
-    Q_INVOKABLE void minimize();
+    Q_INVOKABLE void minimizeWindow();
 
     /**
      * @brief fireEventNotify

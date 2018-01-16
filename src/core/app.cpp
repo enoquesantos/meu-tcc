@@ -109,10 +109,10 @@ void App::init()
 #endif
 }
 
-void App::sendNotification(const QString &title, const QString &message, const QString &actionName, const QVariant &actionValue)
+void App::sendNotification(const QString &title, const QString &message, const QString &action, const QVariant &data)
 {
     Notification notification(this);
-    notification.sendNotification(title, message, actionName, actionValue);
+    notification.sendNotification(title, message, action, data);
 }
 
 QVariantMap App::config() const
@@ -164,7 +164,7 @@ void App::removeSetting(const QString &key)
         m_qsettings->remove(key);
 }
 
-void App::minimize()
+void App::minimizeWindow()
 {
 #ifdef Q_OS_ANDROID
     QtAndroid::androidActivity().callMethod<jboolean>("moveTaskToBack", "(Z)Z", true);
