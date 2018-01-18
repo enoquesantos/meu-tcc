@@ -2,7 +2,7 @@ import QtQuick 2.8
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
 
-import "qrc:/src/qml/"
+import "qrc:/publicComponentes/"
 
 BasePage {
     id: page

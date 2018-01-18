@@ -4,7 +4,7 @@ import QtQuick 2.8
 
 FontLoader {
     id: _source
-    source: "qrc:/src/qml/Awesome/Font.otf"
+    source: "qrc:/privateComponents/Font.otf"
     property alias font: _source.name
     readonly property var iconsMap: {
         "500px": "\uf26e",

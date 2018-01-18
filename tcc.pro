@@ -42,6 +42,7 @@ SOURCES += main.cpp \
     src/network/uploadmanager.cpp
 
 RESOURCES += src/qml/qml.qrc \
+    src/qml/private/private.qrc \
     assets/assets.qrc \
     translations/translations.qrc
 

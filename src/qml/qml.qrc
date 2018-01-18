@@ -1,7 +1,7 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
-    <qresource prefix="src/qml">
-        <!-- public components used by plugins -->
+    <!-- public components used by plugins -->
+    <qresource prefix="publicComponentes">
         <file>ActionMessage.qml</file>
         <file>AwesomeIcon.qml</file>
         <file>BasePage.qml</file>
@@ -17,29 +17,5 @@
         <file>RequestHttp.qml</file>
         <file>RoundedImage.qml</file>
         <file>TimePicker.qml</file>
-        <file>ToolBarButton.qml</file>
-        <!-- end public components used by plugins -->
-
-        <!-- Start private components used only by application -->
-        <file>private/AndroidDialog.qml</file>
-        <file>private/Bindings.qml</file>
-        <file>private/Dialog.qml</file>
-        <file>private/Drawer.qml</file>
-        <file>private/EulaAgreement.qml</file>
-        <file>private/Functions.qml</file>
-        <file>private/ListenersLoader.qml</file>
-        <file>private/Main.qml</file>
-        <file>private/PageStack.qml</file>
-        <file>private/Snackbar.qml</file>
-        <file>private/TabBar.qml</file>
-        <file>private/TabBarButton.qml</file>
-        <file>private/Toast.qml</file>
-        <file>private/ToolBar.qml</file>
-        <file>private/ToolBarSearch.qml</file>
-        <file>private/UserProfile.qml</file>
-        <file>Awesome/Font.otf</file>
-        <file>Awesome/IconFontLoader.qml</file>
-        <file>Awesome/Map.js</file>
-        <!-- end private components used only by application -->
     </qresource>
 </RCC>

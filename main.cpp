@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Observer>("Observer", 1, 0, "Observer");
  
     // register the Awesome icon font loader as QML singleton type
-    qmlRegisterSingletonType(QUrl(QLatin1String("qrc:/src/qml/Awesome/IconFontLoader.qml")), "Qt.project.AwesomeIconFontLoader", 1, 0, "IconFontLoaderSingleton");
+    qmlRegisterSingletonType(QUrl(QLatin1String("qrc:/privateComponents/IconFontLoader.qml")), "Qt.project.AwesomeIconFontLoader", 1, 0, "IconFontLoaderSingleton");
 
     QQmlApplicationEngine engine;
     QQmlContext *context = engine.rootContext();
@@ -61,6 +61,6 @@ int main(int argc, char *argv[])
     if (translator.load(QLocale::system().name(), QLatin1String(":/translations")))
         qApplication.installTranslator(&translator);
 
-    engine.load(QLatin1String(":/src/qml/private/Main.qml"));
+    engine.load(QLatin1String("qrc:/privateComponents/Main.qml"));
     return qApplication.exec();
 }

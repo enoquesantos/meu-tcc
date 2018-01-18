@@ -1,0 +1,26 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <!-- Start private components used only by application -->
+    <qresource prefix="privateComponents">
+        <file alias="AndroidDialog.qml">AndroidDialog.qml</file>
+        <file alias="Bindings.qml">Bindings.qml</file>
+        <file alias="Dialog.qml">Dialog.qml</file>
+        <file alias="Drawer.qml">Drawer.qml</file>
+        <file alias="EulaAgreement.qml">EulaAgreement.qml</file>
+        <file alias="Functions.qml">Functions.qml</file>
+        <file alias="ListenersLoader.qml">ListenersLoader.qml</file>
+        <file alias="Main.qml">Main.qml</file>
+        <file alias="PageStack.qml">PageStack.qml</file>
+        <file alias="Snackbar.qml">Snackbar.qml</file>
+        <file alias="TabBar.qml">TabBar.qml</file>
+        <file alias="TabBarButton.qml">TabBarButton.qml</file>
+        <file alias="Toast.qml">Toast.qml</file>
+        <file alias="ToolBar.qml">ToolBar.qml</file>
+        <file alias="ToolBarButton.qml">ToolBarButton.qml</file>
+        <file alias="ToolBarSearch.qml">ToolBarSearch.qml</file>
+        <file alias="UserProfile.qml">UserProfile.qml</file>
+        <file alias="Font.otf">Awesome/Font.otf</file>
+        <file alias="IconFontLoader.qml">Awesome/IconFontLoader.qml</file>
+        <file alias="Map.js">Awesome/Map.js</file>
+    </qresource>
+</RCC>
