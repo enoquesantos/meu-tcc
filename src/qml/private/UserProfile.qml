@@ -29,7 +29,7 @@ Item {
 
         // if profileName is not defined, set the user permission name
         if (!profileName)
-            profileName = profile.user_role.description
+            profileName = profile.user_role.name
     }
 
     QtObject {
