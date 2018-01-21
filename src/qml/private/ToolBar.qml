@@ -194,7 +194,8 @@ ToolBar {
 
         RowLayout {
             id: rowPageButtons
-            anchors.right: parent.right
+            spacing: 0
+            anchors { right: parent.right; rightMargin: 0 }
         }
     }
 }
