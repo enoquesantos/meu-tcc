@@ -13,6 +13,7 @@
 
 #include "src/core/app.h"
 #include "src/core/utils.h"
+#include "src/core/notification.h"
 #include "src/core/observer.h"
 #include "src/core/subject.h"
 #include "src/database/databasecomponent.h"
@@ -27,7 +28,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<RequestHttp>("RequestHttp", 1, 0, "RequestHttp");
     qmlRegisterType<DatabaseComponent>("Database", 1, 0, "Database");
     qmlRegisterType<Observer>("Observer", 1, 0, "Observer");
- 
+
     // register the Awesome icon font loader as QML singleton type
     qmlRegisterSingletonType(QUrl(QLatin1String("qrc:/privateComponents/IconFontLoader.qml")), "Qt.project.AwesomeIconFontLoader", 1, 0, "IconFontLoaderSingleton");
 
@@ -45,6 +46,9 @@ int main(int argc, char *argv[])
 
     Subject subject;
     context->setContextProperty(QStringLiteral("Subject"), &subject);
+
+    Notification notification;
+    context->setContextProperty(QStringLiteral("Notification"), &notification);
 
 #ifdef Q_OS_ANDROID
     AndroidFileDialog androidFileDialog;

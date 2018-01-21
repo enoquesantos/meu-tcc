@@ -5,7 +5,6 @@
 #include <QVariant>
 
 class QSettings;
-class Notification;
 
 /**
  * @brief The App class
@@ -14,7 +13,7 @@ class Notification;
  * 1: Handle the local settings from a QSettings instance.
  *    QML objects can save/read/remove local settings using the methods saveSetting(...), readSetting(...) and removeSetting(...)
  * 2: Handle the application plugins from PluginManager instance.
- *    The plugin manager is a object that load all plugins, create a database table for each plugin and
+ *    The pluginManager is a object that load all plugins, create a database table for each plugin and
  *    remove all qml cached files when app are updated.
  * 3: Load the config.json file that contains the application property settings.
  * 4: Set the QuickControls style (Material, Universal) defined from config.json, passed to QQuickStyle.
@@ -67,17 +66,6 @@ public:
      * Can be used to qml plugins load a file or page using a syntax like this: Config.plugins.about + "About.qml"
      */
     void setPluginsPaths();
-
-    /**
-     * @brief sendNotification
-     * Show a system notification using a title, message and some action.
-     * The action is used to pass arguments to application after user click in notification
-     * @param title QString the notification title
-     * @param message QString the notification message
-     * @param action QString the action name to identify the argument value
-     * @param data QVariant the action data to be passed to application when user click in notification
-     */
-    Q_INVOKABLE void sendNotification(const QString &title, const QString &message, const QString &action = QStringLiteral(""), const QVariant &data = QStringLiteral(""));
 
     /**
      * @brief readSetting

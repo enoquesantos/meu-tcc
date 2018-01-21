@@ -1,6 +1,5 @@
 #include "app.h"
 #include "pluginmanager.h"
-#include "notification.h"
 #include "utils.h"
 
 #include <QApplication>
@@ -91,9 +90,7 @@ void App::init()
      */
     PluginManager pluginManager(this);
 
-    connect(&pluginManager, &PluginManager::finished, [this](PluginManager *pm) {
-        pm->deleteLater();
-    });
+    connect(&pluginManager, &PluginManager::finished, &QObject::deleteLater);
 
     pluginManager.setApp(this);
     pluginManager.loadPlugins();
@@ -107,12 +104,6 @@ void App::init()
         QApplication::addLibraryPath(qApp->applicationDirPath() + "/plugins");
     #endif
 #endif
-}
-
-void App::sendNotification(const QString &title, const QString &message, const QString &action, const QVariant &data)
-{
-    Notification notification(this);
-    notification.sendNotification(title, message, action, data);
 }
 
 QVariantMap App::config() const

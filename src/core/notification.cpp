@@ -1,18 +1,18 @@
 #include "notification.h"
 
-#ifdef QT_DEBUG
-#include <QtDebug>
-#endif
-
 #include <QApplication>
 #include <QDir>
 #include <QFile>
 #include <QJsonDocument>
 #include <QStandardPaths>
 
-#ifdef Q_OS_DARWVIN
-// https://useyourloaf.com/blog/local-notifications-with-ios-10/
-// https://developer.apple.com/documentation/uikit/uilocalnotification
+#ifdef QT_DEBUG
+#include <QtDebug>
+#endif
+
+#ifdef Q_OS_IOS
+// Objective-C (with modules enabled)
+@import UserNotifications;
 #endif
 
 #ifdef Q_OS_ANDROID
@@ -22,10 +22,9 @@
 #include <QtAndroidExtras/QAndroidJniObject>
 #endif
 
-#ifdef Q_OS_LINUX
-#ifndef Q_OS_ANDROID
+#ifdef Q_OS_ANDROID
+#elif defined(Q_OS_LINUX)
 #include <klocalizedstring.h>
-
 Private::HandleLinuxDesktopClickAction::HandleLinuxDesktopClickAction(QObject *parent) : QObject(parent)
 {
 }
@@ -48,7 +47,6 @@ void Private::HandleLinuxDesktopClickAction::onNotificationClicked(uint actionIn
     emit finished();
 }
 #endif
-#endif
 
 Notification::Notification(QObject *parent) : QObject(parent)
   ,m_notificationConfigFileName(QStringLiteral("notification-linux-config.notifyrc"))
@@ -59,13 +57,13 @@ Notification::Notification(QObject *parent) : QObject(parent)
 void Notification::initialize()
 {
 #ifdef Q_OS_ANDROID
-#endif
-#ifdef Q_OS_LINUX
+#elif defined(Q_OS_LINUX)
     QFile file(QStringLiteral(":/") + m_notificationConfigFileName);
 
     if (!file.exists()) {
         #ifdef QT_DEBUG
-                qWarning() << QStringLiteral("The notifyrc file cannot found!");
+            qWarning() << QStringLiteral("The notifyrc file cannot found!");
+            qWarning() << QStringLiteral("The notifyrc file path: ") << file.fileName();
         #endif
         return;
     }
@@ -74,7 +72,7 @@ void Notification::initialize()
 
     if (!destinationDir.exists() && !destinationDir.mkdir(destinationDir.absolutePath())) {
         #ifdef QT_DEBUG
-                qWarning() << QStringLiteral("The application 'GenericDataLocation' directory cannot be created!");
+            qWarning() << QStringLiteral("The application 'GenericDataLocation' directory cannot be created!");
         #endif
     }
 
@@ -90,22 +88,31 @@ void Notification::initialize()
         #endif
     }
 #endif
+#ifdef Q_OS_IOS
+    // open ios dialog to request to show notifications
+    // Objective-C
+    UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
+    [center requestAuthorizationWithOptions:options
+     completionHandler:^(BOOL granted, NSError * _Nullable error) {
+      if (!granted) NSLog(@"Something went wrong!");
+    }];
+#endif
 }
 
-void Notification::sendNotification(const QString &title, const QString &message, const QString &actionName, const QVariant &actionValue)
+void Notification::show(const QString &title, const QString &message, const QString &actionName, const QVariant &actionValue)
 {
-    if (title.isEmpty())
+    if (title.isEmpty() || message.isEmpty())
         return;
 #ifdef Q_OS_ANDROID
     notifyAndroid(title, message, actionName, actionValue);
 #elif defined(Q_OS_IOS)
     notifyIos(title, message, actionName, actionValue);
 #elif defined(Q_OS_DARWIN)
-    // add macos notification process
+    // add macOS notification
     m_trayIcon.showMessage(title, message, QSystemTrayIcon::Information, 3000);
 #elif defined(Q_OS_LINUX)
     QPixmap icon;
-    icon.load(":app-icon.svg");
+    icon.load(":/icon.png");
     if (icon.isNull())
         qWarning() << "icon is null!";
 
@@ -158,7 +165,7 @@ void Notification::notifyAndroid(const QString &title, const QString &message, c
         jSender.object<jstring>(),
         jMessageData.object<jstring>()
     );
-#elif defined(Q_OS_LINUX)
+#else
     Q_UNUSED(title)
     Q_UNUSED(message)
     Q_UNUSED(actionName)
@@ -168,9 +175,44 @@ void Notification::notifyAndroid(const QString &title, const QString &message, c
 
 // https://useyourloaf.com/blog/local-notifications-with-ios-10/
 // https://developer.apple.com/documentation/uikit/uilocalnotification
+// https://medium.com/@jamesrochabrun/local-notifications-are-a-great-way-to-send-notifications-to-the-user-without-the-necessity-of-an-b3187e7176a3
 void Notification::notifyIos(const QString &title, const QString &message, const QString &actionName, const QVariant &actionValue)
 {
-#ifndef Q_OS_IOS
+#ifdef Q_OS_IOS
+    QString messageData(QStringLiteral(""));
+    if (!actionName.isEmpty() && !actionValue.isNull()) {
+        QVariantMap map({{actionName, actionValue}});
+        QJsonDocument doc(QJsonDocument::fromVariant(map));
+        messageData = doc.toJson(QJsonDocument::Compact);
+    }
+
+    // Objective-C
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+
+    // Objective-C
+    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+      if (settings.authorizationStatus != UNAuthorizationStatusAuthorized) {
+          NSLog(@"Notifications not allowed!");
+          return;
+      }
+    }];
+
+    // creating a notification request in Objective-C
+    UNMutableNotificationContent *localNotification = [UNMutableNotificationContent new];
+    localNotification.title     = @title.toNSString();
+    localNotification.body      = @message.toNSString();
+    localNotification.userInfo  = @messageData.toNSString();
+    localNotification.sound     = [UNNotificationSound defaultSound];
+    localNotification.badge     = @([[UIApplication sharedApplication] applicationIconBadgeNumber] +1);
+
+    UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:5 repeats:NO];
+    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@title.toNSString() content:localNotification trigger:trigger];
+
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+        NSLog(@"Notification created!");
+    }];
+#else
     Q_UNUSED(title)
     Q_UNUSED(message)
     Q_UNUSED(actionName)
