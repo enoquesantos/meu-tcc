@@ -1,5 +1,5 @@
 <RCC>
-    <qresource>
+    <qresource prefix="/">
         <file>../config.json</file>
         <file>default_user_profile.svg</file>
         <file>drawer.jpg</file>

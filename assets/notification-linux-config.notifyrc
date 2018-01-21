@@ -6,5 +6,5 @@ Name=Notification
 [Event/Notify]
 Name=Notification ...
 Comment=Qt Application
-Icon=app-icon
+Icon=icon
 Action=Popup
