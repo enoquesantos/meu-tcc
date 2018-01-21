@@ -11,7 +11,7 @@
         {
             "qml": "ProfileView.qml",
             "title": "Meu perfil",
-            "roles": ["Administrator", "Customer", "Editor"],
+            "roles": ["administrator", "customer", "editor"],
             "awesomeIcon": "user",
             "order": 1,
             "showInDrawer": true,
@@ -20,7 +20,7 @@
         {
             "qml": "Logout.qml",
             "title": "Sair",
-            "roles": ["Administrator", "Customer", "Editor"],
+            "roles": ["administrator", "customer", "editor"],
             "awesomeIcon": "sign_out",
             "order": -1,
             "showInDrawer": true,

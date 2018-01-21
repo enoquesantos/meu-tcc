@@ -6,7 +6,7 @@
             "qml": "AboutPage.qml",
             "title": "Sobre",
             "awesomeIcon": "question_circle",
-            "roles": ["Customer"],
+            "roles": ["customer"],
             "order": 0,
             "showInDrawer": true,
             "showInTabBar": true
