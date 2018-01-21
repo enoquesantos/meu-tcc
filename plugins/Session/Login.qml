@@ -11,7 +11,7 @@ Components.BasePage {
 
     // handle request http responses
     onRequestFinished: {
-       if (statusCode === 403 || statusCode === 404)
+       if (statusCode === 400 || statusCode === 403 || statusCode === 404)
            functions.alert(qsTr("Error!"), qsTr("Login or Password is invalid. Check your credentials and try again!"), null, null)
        else if (statusCode === 200)
            loginResult = response
