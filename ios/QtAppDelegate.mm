@@ -16,15 +16,14 @@
     Q_UNUSED(application)
     Q_UNUSED(launchOptions)
     [self configFirebase];
-    // NSLog(@"Firebase connect start!");
     return YES;
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     Q_UNUSED(application)
     [[FIRMessaging messaging] disconnect];
-    // NSLog(@"Firebase disconnect!");
-    // NSLog(@"enter in applicationDidEnterBackground method");
+    NSLog(@"Firebase disconnect!");
+    NSLog(@"enter in applicationDidEnterBackground method");
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -33,8 +32,8 @@
     // If the application was previously in the background, optionally refresh the user interface.
     [self connectToFcm];
 
-    // NSLog(@"Conectou com o FCM");
-    // NSLog(@"enter in applicationDidBecomeActive method");
+    NSLog(@"Conectou com o FCM");
+    NSLog(@"enter in applicationDidBecomeActive method");
 
     // clear the app icon badge with notification count when app started
     // http://stackoverflow.com/questions/27311910/how-to-clear-badge-counter-on-click-of-app-icon-in-iphone
@@ -43,12 +42,12 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     Q_UNUSED(application)
-    // NSLog(@"enter in applicationWillTerminate method");
+    NSLog(@"enter in applicationWillTerminate method");
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     Q_UNUSED(application)
-    // NSLog(@"enter in applicationWillResignActive method");
+    NSLog(@"enter in applicationWillResignActive method");
 }
 
 -(void)configFirebase {
@@ -67,7 +66,7 @@
     // Add observer for InstanceID token refresh callback.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tokenRefreshNotification:) name:kFIRInstanceIDTokenRefreshNotification object:nil];
 
-    // NSLog(@"Configurando Firebase...");
+    NSLog(@"Configurando Firebase...");
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)push
@@ -75,21 +74,25 @@
     Q_UNUSED(completionHandler)
     Q_UNUSED(application)
 
-    // NSLog(@"Nova mensagem do firebase");
+    NSLog(@"Nova mensagem do firebase");
+
     // convert the json nsdictionary to string
     // https://stackoverflow.com/questions/27054352/issue-in-converting-nsdictionary-to-json-string-replacing-with
     NSError *err;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:push options:0 error:&err];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+
     // send the push message data (as string json) to Qt Application
-    App::fireEventNotify("newPushMessage", QString::fromNSString(jsonString));
+    App::fireEventNotify("newPushNotification", QString::fromNSString(jsonString));
 }
 
 - (void)tokenRefreshNotification:(NSNotification *)notification {
     Q_UNUSED(notification)
     NSString *refreshedToken = [[FIRInstanceID instanceID] token];
-    // NSLog(@"The token was updated: %@", refreshedToken);
-    App::fireEventNotify("pushNotificationToken", QString::fromNSString(refreshedToken));
+
+    NSLog(@"The push notification token was updated: %@", refreshedToken);
+    App::fireEventNotify("newPushNotificationToken", QString::fromNSString(refreshedToken));
+
     // Connect to FCM since connection may have failed when attempted before having a token.
     [self connectToFcm];
 }
@@ -97,10 +100,10 @@
 - (void)connectToFcm {
     [[FIRMessaging messaging] connectWithCompletion:^(NSError * _Nullable error) {
         Q_UNUSED(error)
-//        if (error != nil)
-//            NSLog(@"Unable to connect to FCM. %@", error);
-//        else
-//            NSLog(@"Conectou com o FCM.");
+        if (error != nil)
+            NSLog(@"Unable to connect to FCM. %@", error);
+        else
+            NSLog(@"Conectou com o FCM.");
     }];
 }
 

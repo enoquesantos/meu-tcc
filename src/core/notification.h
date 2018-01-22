@@ -37,10 +37,10 @@ public:
      * The action is used to pass arguments to application after user click in notification
      * @param title QString the notification title
      * @param message QString the notification body message
-     * @param actionName QString the action name to identify the argument value
-     * @param actionValue QVariant the action data to be passed to application when user click in notification
+     * @param argument QVariantMap the custom action to append in the notification.
+     * The argument needs to have a key and value and will be used to identify the action when are sent to application, after user click in notification
      */
-    Q_INVOKABLE void show(const QString &title, const QString &message, const QString &actionName = QStringLiteral(""), const QVariant &actionValue = QStringLiteral(""));
+    Q_INVOKABLE void show(const QString &title, const QString &message, const QVariantMap &argument = QVariantMap());
 
 private:
     /**

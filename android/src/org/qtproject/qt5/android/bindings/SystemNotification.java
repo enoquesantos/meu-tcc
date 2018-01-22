@@ -129,7 +129,7 @@ public class SystemNotification
         // if the app is opened (background or foreground)
         if (messageData != null && !messageData.equals("") && CustomActivity.isRunning()) {
             try {
-                ActivityToApplication.eventNotify("newPushMessage", messageData);
+                ActivityToApplication.eventNotify("newPushNotification", messageData);
             } catch(Exception e) {
                 // Log.e("FirebaseListenerService", e);
             }

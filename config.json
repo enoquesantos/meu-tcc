@@ -13,10 +13,10 @@
     "showDrawerImage": false,
     "restService": {
         "basicAuthentication" : {
-            "userName": "",
-            "userPass": ""
+            "userName": "enoque",
+            "userPass": "1q2w3e4r5t"
         },
-        "baseUrl": "",
+        "baseUrl": "http://192.168.43.190/lara/api",
         "baseImagesUrl": ""
     },
     "fontSize": {

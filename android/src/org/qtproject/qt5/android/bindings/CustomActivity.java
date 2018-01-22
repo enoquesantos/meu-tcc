@@ -80,7 +80,7 @@ public class CustomActivity extends QtActivity
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            ActivityToApplication.eventNotify("newIntentPushMessage", messageData);
+                            ActivityToApplication.eventNotify("newActionNotification", messageData);
                         }
                     }).start();
                 } catch(Exception e) {

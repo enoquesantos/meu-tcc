@@ -99,14 +99,15 @@ void Notification::initialize()
 #endif
 }
 
-void Notification::show(const QString &title, const QString &message, const QString &actionName, const QVariant &actionValue)
+void Notification::show(const QString &title, const QString &message, const QVariantMap &argument)
 {
     if (title.isEmpty() || message.isEmpty())
         return;
+    QString key(argument.keys().first());
 #ifdef Q_OS_ANDROID
-    notifyAndroid(title, message, actionName, actionValue);
+    notifyAndroid(title, message, key, argument.value(key));
 #elif defined(Q_OS_IOS)
-    notifyIos(title, message, actionName, actionValue);
+    notifyIos(title, message, key, argument.value(key));
 #elif defined(Q_OS_DARWIN)
     // add macOS notification
     m_trayIcon.showMessage(title, message, QSystemTrayIcon::Information, 3000);
@@ -117,10 +118,10 @@ void Notification::show(const QString &title, const QString &message, const QStr
         qWarning() << "icon is null!";
 
     auto *notificationHandle = new Private::HandleLinuxDesktopClickAction(this);
-    notificationHandle->setActionName(actionName);
+    notificationHandle->setActionName(key);
 
     auto *knotification = new KNotification(QStringLiteral("Notify"), KNotification::RaiseWidgetOnActivation, notificationHandle);
-    knotification->setProperty(actionName.toLatin1().constData(), actionValue);
+    knotification->setProperty(key.toLatin1().constData(), argument.value(key));
     knotification->setTitle(title);
     knotification->setText(message);
     knotification->setPixmap(icon);
