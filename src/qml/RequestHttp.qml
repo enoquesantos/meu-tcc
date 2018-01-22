@@ -2,8 +2,8 @@ import RequestHttp 1.0
 
 RequestHttp {
     baseUrl: Config.restService.baseUrl
-    basicAuthorizationUser: Config.restService.basicAuthentication.userName || ""
-    basicAuthorizationPassword: Config.restService.basicAuthentication.userPass || ""
+    basicAuthorizationUser: Config.restService.userName || ""
+    basicAuthorizationPassword: Config.restService.userPass || ""
     onError: {
         // signal signature: void error(int statusCode, const QVariant &message);
         if (statusCode !== 3)

@@ -33,8 +33,8 @@ class RequestHttp : public QObject
     Q_PROPERTY(int Loading READ statusLoading)
     Q_PROPERTY(int Ready READ statusReady)
     Q_PROPERTY(QByteArray baseUrl WRITE setUrl NOTIFY baseUrlChanged MEMBER m_baseUrl)
-    Q_PROPERTY(QByteArray basicAuthorizationUser WRITE setBasicAuthorizationUser MEMBER m_basicAuthorizationUser)
-    Q_PROPERTY(QByteArray basicAuthorizationPassword WRITE setBasicAuthorizationPassword MEMBER m_basicAuthorizationPassword)
+    Q_PROPERTY(QByteArray authorizationUser WRITE setBasicAuthorizationUser MEMBER m_basicAuthorizationUser)
+    Q_PROPERTY(QByteArray authorizationPass WRITE setBasicAuthorizationPassword MEMBER m_basicAuthorizationPassword)
 public:
     /**
      * @brief RequestHttp
