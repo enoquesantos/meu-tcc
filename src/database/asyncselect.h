@@ -12,7 +12,8 @@ class Database;
  * The jsonColumns is needed if the table contains columns with serialized json strings, to the value are returned as QVariant(Map/List).
  * To retrieve the result set, the pointer send a 'itemLoaded' signal for each entry, with a QVariantMap as column_name->value.
  */
-class AsyncSelect : public QThread {
+class AsyncSelect : public QThread
+{
     Q_OBJECT
 public:
     /**
