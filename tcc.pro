@@ -12,7 +12,6 @@ CONFIG += c++11
 
 HEADERS += src/core/app.h \
     src/core/filedialog.h \
-    src/core/notification.h \
     src/core/observer.h \
     src/core/pluginmanager.h \
     src/core/plugindatabasetablecreator.h \
@@ -23,12 +22,16 @@ HEADERS += src/core/app.h \
     src/database/databasecomponent.h \
     src/network/downloadmanager.h \
     src/network/requesthttp.h \
-    src/network/uploadmanager.h
+    src/network/uploadmanager.h \
+    src/notification/notification.h \
+    src/notification/notifyandroid.h \
+    src/notification/notifydesktop.h \
+    src/notification/notifyios.h \
+    src/notification/handlelinuxdesktopclickaction.h
 
 SOURCES += main.cpp \
     src/core/app.cpp \
     src/core/filedialog.cpp \
-    src/core/notification.cpp \
     src/core/observer.cpp \
     src/core/pluginmanager.cpp \
     src/core/plugindatabasetablecreator.cpp \
@@ -39,7 +42,11 @@ SOURCES += main.cpp \
     src/database/databasecomponent.cpp \
     src/network/downloadmanager.cpp \
     src/network/requesthttp.cpp \
-    src/network/uploadmanager.cpp
+    src/network/uploadmanager.cpp \
+    src/notification/notifyandroid.cpp \
+    src/notification/notifydesktop.cpp \
+    src/notification/notifyios.cpp \
+    src/notification/handlelinuxdesktopclickaction.cpp
 
 RESOURCES += src/qml/qml.qrc \
     src/qml/private/private.qrc \
