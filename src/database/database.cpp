@@ -111,8 +111,8 @@ void Database::createTable(const QString &filePath)
     }
 
     bool hasText;
-    QString line;
     QByteArray readLine;
+    QString line;
     QString cleanedLine;
     QStringList strings;
 
@@ -253,11 +253,11 @@ int Database::insert(const QString &tableName, const QVariantMap &insertData)
     QVariantList values(insertData.values());
     int totalFields = fields.size();
     for (int i = 0; i < totalFields; ++i)
-        strValues.append("?");
+        strValues.append(QStringLiteral("?"));
 
     openConnection();
 
-    QString query("INSERT INTO " + tableName + "(" + QString(fields.join(",")) + ") VALUES(" + QString(strValues.join(",")) + ")");
+    QString query(QStringLiteral("INSERT INTO ") + tableName + QStringLiteral("(") + QString(fields.join(QStringLiteral(","))) + QStringLiteral(") VALUES(") + QString(strValues.join(QStringLiteral(","))) + QStringLiteral(")"));
     m_qsqlQuery.prepare(query);
 
     int k = 0;
@@ -329,7 +329,7 @@ int Database::update(const QString &tableName, const QVariantMap &updateData, co
         QMap<QString, QVariant>::const_iterator i = updateData.constBegin();
         while (i != updateData.constEnd()) {
             key = i.key();
-            separator = (k++ == 0) ? "" : ",";
+            separator = (k++ == 0) ? QStringLiteral("") : QStringLiteral(",");
             updateValues.append(QString("%1%2=%3").arg(separator, key, ":"+key));
             values << i.value();
             ++i;
@@ -340,7 +340,7 @@ int Database::update(const QString &tableName, const QVariantMap &updateData, co
         i = where.constBegin();
         while (i != where.constEnd()) {
             key = i.key();
-            separator = (k++ == 0) ? "" : (QStringLiteral(" ") + whereOperator + QStringLiteral(" "));
+            separator = (k++ == 0) ? QStringLiteral("") : (QStringLiteral(" ") + whereOperator + QStringLiteral(" "));
             whereStr += QString("%1%2%3%4").arg(separator, key, whereComparator, ":"+key);
             values << i.value();
             ++i;
@@ -349,7 +349,7 @@ int Database::update(const QString &tableName, const QVariantMap &updateData, co
 
     openConnection();
 
-    m_qsqlQuery.prepare("UPDATE " + tableName + " SET " + updateValues + " WHERE " + whereStr +";");
+    m_qsqlQuery.prepare(QStringLiteral("UPDATE ") + tableName + QStringLiteral(" SET ") + updateValues + QStringLiteral(" WHERE ") + whereStr + QStringLiteral(";"));
 
     foreach (const QVariant &value, values)
         m_qsqlQuery.addBindValue(value);
