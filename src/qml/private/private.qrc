@@ -9,7 +9,7 @@
         <file alias="EulaAgreement.qml">EulaAgreement.qml</file>
         <file alias="Functions.qml">Functions.qml</file>
         <file alias="ListenersLoader.qml">ListenersLoader.qml</file>
-        <file alias="Main.qml">Main.qml</file>
+        <file alias="main.qml">main.qml</file>
         <file alias="PageStack.qml">PageStack.qml</file>
         <file alias="Snackbar.qml">Snackbar.qml</file>
         <file alias="TabBar.qml">TabBar.qml</file>
