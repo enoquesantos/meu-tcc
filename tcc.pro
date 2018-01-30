@@ -24,6 +24,7 @@ HEADERS += src/core/app.h \
     src/network/requesthttp.h \
     src/network/uploadmanager.h \
     src/notification/notification.h \
+    src/notification/notificationhandle.h \
     src/notification/notifyandroid.h \
     src/notification/notifydesktop.h \
     src/notification/notifyios.h \
