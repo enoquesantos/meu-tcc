@@ -7,20 +7,17 @@
 #include "src/extras/androidfiledialog.h"
 #include "src/extras/androidstatusbar.h"
 #include "src/extras/JavaCppConnect.h"
-#include "src/notification/notifyandroid.h"
-#elif defined Q_OS_IOS
-#include "src/notification/notifyios.h"
 #else
-#include "src/notification/notifydesktop.h"
 #include "src/core/filedialog.h"
 #endif
 
 #include "src/core/app.h"
-#include "src/core/utils.h"
 #include "src/core/observer.h"
 #include "src/core/subject.h"
+#include "src/core/utils.h"
 #include "src/database/databasecomponent.h"
 #include "src/network/requesthttp.h"
+#include "src/notification/notificationhandle.h"
 
 int main(int argc, char *argv[])
 {
@@ -50,31 +47,24 @@ int main(int argc, char *argv[])
     Subject subject;
     context->setContextProperty(QStringLiteral("Subject"), &subject);
 
-    Notification* notification = nullptr;
+    Notification* notification = notificationHandle(&qApplication);
+    context->setContextProperty(QStringLiteral("Notification"), notification);
 
 #ifdef Q_OS_ANDROID
-    notification = new NotifyAndroid;
-
     AndroidFileDialog androidFileDialog;
     context->setContextProperty(QLatin1String("FileDialog"), &androidFileDialog);
 
     AndroidStatusBar androidStatusBar;
     context->setContextProperty(QLatin1String("SystemStatusBar"), &androidStatusBar);
-#elif defined(Q_OS_IOS)
-    notification = new NotifyIOS;
 #else
-    notification = new NotifyDesktop;
     FileDialog fileDialog;
     context->setContextProperty(QLatin1String("FileDialog"), &fileDialog);
 #endif
-
-    notification->initialize();
-    context->setContextProperty(QStringLiteral("Notification"), notification);
 
     QTranslator translator(&qApplication);
     if (translator.load(QLocale::system().name(), QLatin1String(":/translations")))
         qApplication.installTranslator(&translator);
 
-    engine.load(QLatin1String("qrc:/privateComponents/Main.qml"));
+    engine.load(QLatin1String("qrc:/privateComponents/main.qml"));
     return qApplication.exec();
 }
