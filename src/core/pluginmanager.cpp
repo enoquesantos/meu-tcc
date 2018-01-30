@@ -25,7 +25,7 @@ QDir PluginManager::pluginsDir()
     QDir dir(QStringLiteral("assets:/plugins"));
     dir.cd(QStringLiteral("plugins"));
     return dir;
-#elif defined(Q_OS_LINUX)
+#elif defined Q_OS_LINUX
     QDir dir(qApp->applicationDirPath());
     dir.cd("plugins");
     return dir;
