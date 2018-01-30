@@ -3,7 +3,9 @@
 
 #include "../core/filedialog.h"
 
+#ifdef Q_OS_ANDROID
 #include <QtAndroidExtras>
+#endif
 
 /**
  * @brief The AndroidFileDialog class
