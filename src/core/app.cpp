@@ -17,7 +17,9 @@
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
 #include <QtAndroidExtras>
-#elif defined(Q_OS_LINUX)
+#elif defined Q_OS_IOS
+// pass
+#else
 // used to set the application window icon in desktop mode
 #include <QIcon>
 #endif
@@ -27,7 +29,6 @@ App* App::m_instance = nullptr;
 App::App(QObject *parent) : QObject(parent)
 {
     App::m_instance = this;
-
     init();
 }
 
@@ -97,12 +98,14 @@ void App::init()
 
     setPluginsPaths();
 
-#ifdef Q_OS_LINUX
-    #ifndef Q_OS_ANDROID
-        // set application icon if running at desktop linux or osx
-        qApp->setWindowIcon(QIcon::fromTheme(":/icon.png"));
-        QApplication::addLibraryPath(qApp->applicationDirPath() + "/plugins");
-    #endif
+#ifdef Q_OS_ANDROID
+    // pass
+#elif defined Q_OS_IOS
+    // pass
+#else
+    // set application icon if running at desktop linux or osx
+    qApp->setWindowIcon(QIcon::fromTheme(":/icon.png"));
+    QApplication::addLibraryPath(qApp->applicationDirPath() + "/plugins");
 #endif
 }
 
