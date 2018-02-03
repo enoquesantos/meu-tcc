@@ -2,6 +2,7 @@
 #define REQUESTHTTP_H
 
 #include <QJsonParseError>
+#include <QJSValue>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 #include <QObject>
@@ -166,8 +167,9 @@ public:
      * @link http://doc.qt.io/qt-5/qurlquery.html
      * @link https://en.wikipedia.org/wiki/Query_string
      * @param headers QVariantMap a map with http headers
+     * @param callback QJSValue a javascript function callback
      */
-    Q_INVOKABLE void get(const QByteArray &url, const QVariantMap &urlArgs = QVariantMap(), const QVariantMap &headers = QVariantMap());
+    Q_INVOKABLE void get(const QByteArray &url, const QVariantMap &urlArgs = QVariantMap(), const QVariantMap &headers = QVariantMap(), QJSValue callback = QJSValue());
 
     /**
      * @brief post
@@ -175,8 +177,9 @@ public:
      * @param url QByteArray the url to make the post request.
      * @param postData QVariant the content data to sent in request (string, integer, byte array)
      * @param headers QVariantMap a map with http headers
+     * @param callback QJSValue a javascript function callback
      */
-    Q_INVOKABLE void post(const QByteArray &url, const QVariant &postData, const QVariantMap &headers = QVariantMap());
+    Q_INVOKABLE void post(const QByteArray &url, const QVariant &postData, const QVariantMap &headers = QVariantMap(), QJSValue callback = QJSValue());
 
 private:
     /**
@@ -210,6 +213,15 @@ private:
      * @param request QNetworkRequest *
      */
     void setHeaders(const QVariantMap &requestHeaders, QNetworkRequest *request);
+
+    /**
+     * @brief connectCallback
+     * Create a connection with QNetworkAccessManager and js function callback (if is callable),
+     * otherwise connect in object onFinished slot. This method will be used by get and post functions.
+     * @param manager QNetworkAccessManager* a pointer to request manager
+     * @param callback QJSValue a reference to javascript function sent by qml objects
+     */
+    void connectCallback(QNetworkAccessManager *manager, QJSValue callback);
 
 signals:
     /**
@@ -265,10 +277,10 @@ signals:
      * @brief statusChanged
      * Emitted when the response status are updated. The possible values is the Class Enum:
      * Status {
-     *   Error,
-     *   Finished,
-     *   Loading,
-     *   Ready
+     *    Error,
+     *    Finished,
+     *    Loading,
+     *    Ready
      * }
      * @param status int
      */
@@ -346,13 +358,6 @@ private:
      * The user password used to create the basic authorization header, sent in all requests.
      */
     QByteArray m_basicAuthorizationPassword;
-
-    /**
-     * @brief m_networkAccessManage
-     * The QNetworkAccessManager class allows the application to send network requests and receive replies.
-     * The m_networkAccessManager manage get and post requests.
-     */
-    QNetworkAccessManager m_networkAccessManager;
 };
 
 #endif // REQUESTHTTP_H

@@ -10,9 +10,24 @@ Components.BasePage {
     title: qsTr("Page 1")
     toolBarState: "goBack"
     onRequestFinished: {
-        console.log("RequestFinished! \n")
+        console.log("----------------------------")
+        console.log("signal::RequestFinished...\n")
         console.log("statusCode: ", statusCode)
-        console.log("response.data: ", JSON.stringify(response))
+        console.log("response: ", JSON.stringify(response))
+    }
+
+    function arrayCallback(status, result) {
+        console.log("----------------------------")
+        console.log("arrayCallback!")
+        console.log("status is: " + status)
+        console.log("result is: " + result[0].body)
+    }
+
+    function objcCallback(status, result) {
+        console.log("----------------------------")
+        console.log("objcCallback!")
+        console.log("status is: " + status)
+        console.log("result is: " + result.body)
     }
 
     Label {
@@ -24,6 +39,10 @@ Components.BasePage {
     Button {
         text: "Open a request http"
         anchors { top: label.bottom; topMargin: 25; horizontalCenter: parent.horizontalCenter }
-        onClicked: requestHttp.get("url-here")
+        onClicked: {
+            requestHttp.get("https://jsonplaceholder.typicode.com/posts/1/comments")
+            requestHttp.get("https://jsonplaceholder.typicode.com/posts", {}, {}, arrayCallback)
+            requestHttp.get("https://jsonplaceholder.typicode.com/posts/1", {}, {}, objcCallback)
+        }
     }
 }

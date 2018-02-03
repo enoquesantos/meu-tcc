@@ -1,5 +1,10 @@
 #include "requesthttp.h"
 
+#include <QJSEngine>
+#include <QJSValue>
+#include <QList>
+#include <QJSValueList>
+
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
@@ -15,7 +20,6 @@
 RequestHttp::RequestHttp(QObject *parent) : QObject(parent)
   ,m_status(Status::Ready)
 {
-    connect(&m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
 }
 
 void RequestHttp::setBasicAuthorizationUser(const QByteArray &user)
@@ -97,19 +101,50 @@ void RequestHttp::setHeaders(const QVariantMap &requestHeaders, QNetworkRequest 
     }
 }
 
+void RequestHttp::connectCallback(QNetworkAccessManager *manager, QJSValue callback)
+{
+    if (callback.isCallable()) {
+        QJSValue *_callback = new QJSValue(callback);
+        connect(manager, &QNetworkAccessManager::finished, [this, _callback](QNetworkReply *reply) {
+            QJsonParseError parseError;
+            QByteArray result(reply->readAll());
+
+            QJSValue response;
+            QJSValue status(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+
+            // try to parse the response data to json document
+            QJsonDocument doc(QJsonDocument::fromJson(result, &parseError));
+
+            // if json is not valid, uses the byte array
+            if (parseError.error != QJsonParseError::NoError)
+                response = QString(result);
+            // if is a valid json object, uses a object
+            else if (doc.isObject())
+                response = _callback->engine()->toScriptValue<QVariantMap>(doc.object().toVariantMap());
+            // if is a valid json array, uses a array
+            else if (doc.isArray())
+                response = _callback->engine()->toScriptValue<QVariantList>(doc.array().toVariantList());
+
+            setStatus(Status::Finished);
+            _callback->call(QJSValueList{status, response});
+
+            reply->deleteLater();
+            reply->manager()->deleteLater();
+        });
+    } else {
+        connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
+    }
+}
+
 void RequestHttp::downloadFile(const QStringList &urls, bool saveInAppDirectory, const QVariantMap &headers)
 {
     DownloadManager *downloadManager = new DownloadManager(this);
 
     // create a connection to emit download progress changes
-    connect(downloadManager, &DownloadManager::downloadProgressChanged, [this](qint64 bytesReceived, qint64 bytesTotal) {
-        emit downloadProgressChanged(bytesReceived, bytesTotal);
-    });
+    connect(downloadManager, SIGNAL(downloadProgressChanged(qint64, qint64)), this, SIGNAL(downloadProgressChanged(qint64, qint64)));
 
     // create a connection to emit downloaded file saved signal with the file path
-    connect(downloadManager, &DownloadManager::fileSaved, [this](const QString &filepath) {
-        emit downloadedFileSaved(filepath.toUtf8());
-    });
+    connect(downloadManager, SIGNAL(fileSaved(QByteArray)), this, SIGNAL(downloadedFileSaved(QByteArray)));
 
     // create a connection to handle the pointer deletion
     connect(downloadManager, &DownloadManager::finished, [this](DownloadManager* dm) {
@@ -141,9 +176,7 @@ void RequestHttp::uploadFile(const QByteArray &url, const QStringList &filePaths
     connect(uploadManager, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
 
     // create the connections to handle uploadProgress signal
-    connect(uploadManager, &UploadManager::uploadProgressChanged, [this](qint64 bytesReceived, qint64 bytesTotal) {
-        emit uploadProgressChanged(bytesReceived, bytesTotal);
-    });
+    connect(uploadManager, SIGNAL(uploadProgressChanged(qint64, qint64)), this, SIGNAL(uploadProgressChanged(qint64, qint64)));
 
     // create the connections to handle upload finished signal
     connect(uploadManager, SIGNAL(uploadFinished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
@@ -167,24 +200,29 @@ void RequestHttp::uploadFile(const QByteArray &url, const QStringList &filePaths
     uploadManager->uploadFile(m_baseUrl.isEmpty() || url.contains(QByteArrayLiteral("http")) ? url : m_baseUrl + url, filePathsList, requestHeaders, usesPutMethod);
 }
 
-void RequestHttp::get(const QByteArray &url, const QVariantMap &urlArgs, const QVariantMap &headers)
+void RequestHttp::get(const QByteArray &url, const QVariantMap &urlArgs, const QVariantMap &headers, QJSValue callback)
 {
     QNetworkRequest request;
     initRequest(&request, url, headers, urlArgs);
 
-    QNetworkReply *reply = m_networkAccessManager.get(request);
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+
+    connectCallback(manager, callback);
+
+    QNetworkReply *reply = manager->get(request);
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
-    reply->setParent(this);
 }
 
-void RequestHttp::post(const QByteArray &url, const QVariant &postData, const QVariantMap &headers)
+void RequestHttp::post(const QByteArray &url, const QVariant &postData, const QVariantMap &headers, QJSValue callback)
 {
     QNetworkRequest request;
     initRequest(&request, url, headers);
 
-    QNetworkReply *reply = m_networkAccessManager.post(request, postData.toByteArray());
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    connectCallback(manager, callback);
+
+    QNetworkReply *reply = manager->post(request, postData.toByteArray());
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
-    reply->setParent(this);
 }
 
 void RequestHttp::initRequest(QNetworkRequest *request, const QByteArray &url, const QVariantMap &headers, const QVariantMap &urlArgs)
@@ -195,7 +233,7 @@ void RequestHttp::initRequest(QNetworkRequest *request, const QByteArray &url, c
         qurl.setQuery(urlQueryFromMap(urlArgs));
 
     request->setUrl(qurl);
-    request->setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request->setHeader(QNetworkRequest::ContentTypeHeader, QByteArrayLiteral("application/json"));
     request->setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
 
     if (!m_basicAuthorization.isEmpty())
@@ -217,20 +255,27 @@ void RequestHttp::onFinished(QNetworkReply *reply)
 {
     // get the http status code: 200, 400, 500
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+
     // get all response data as ByteArray
     QByteArray result(reply->readAll());
+
     // send the 'finished' signal to object listener
     setStatus(Status::Finished);
+
     if (!result.isEmpty()) {
         QJsonParseError jsonParseError;
+
         // try to parse the response data to json document
         QJsonDocument json(QJsonDocument::fromJson(result, &jsonParseError));
+
         // if json is not valid, send the response as byte array!
         if (jsonParseError.error != QJsonParseError::NoError)
             emit finished(statusCode, result);
+
         // if is a valid json object, send a object
         else if (json.isObject())
             emit finished(statusCode, json.object().toVariantMap());
+
         // if is a valid json array, send a array
         else if (json.isArray())
             emit finished(statusCode, json.array().toVariantList());
@@ -241,6 +286,10 @@ void RequestHttp::onFinished(QNetworkReply *reply)
         else
             emit finished(statusCode, result);
     }
+
     // delet the reply with all files object (if the request upload files)
-    delete reply;
+    reply->deleteLater();
+
+    // delete the reply manager
+    reply->manager()->deleteLater();
 }
