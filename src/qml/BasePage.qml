@@ -87,7 +87,7 @@ Page {
 
     // keeps the status for current page
     // The currentPage is a window alias to currentItem in pageStack or swipeView
-    property bool isActivePage: window.currentPage && window.currentPage.objectName === objectName
+    property bool isActivePage: window.currentPage && window.currentPage.absPath === absPath
 
     // each page can set a custom color to page background using this alias
     property alias pageBackgroundColor: _pageBackgroundRec.color
