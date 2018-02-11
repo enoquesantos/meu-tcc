@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
     context->setContextProperty(QStringLiteral("Subject"), &subject);
 
     Notification* notification = notificationHandle(&qApplication);
+    notification->setParent(&qApplication);
     context->setContextProperty(QStringLiteral("Notification"), notification);
 
 #ifdef Q_OS_ANDROID
