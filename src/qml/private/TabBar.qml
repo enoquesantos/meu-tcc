@@ -6,7 +6,7 @@ TabBar {
     id: tabBar
     z: 2
     objectName: "TabBar.qml"
-    visible: !Config.hasLogin || (Config.hasLogin && userProfile.isLoggedIn)
+    visible: !Config.hasLogin || (Config.hasLogin && window.userProfile && window.userProfile.isLoggedIn)
     currentIndex: swipeView.currentIndex
 
     Loader {
