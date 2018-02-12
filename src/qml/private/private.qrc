@@ -21,6 +21,5 @@
         <file alias="UserProfile.qml">UserProfile.qml</file>
         <file alias="Font.otf">Awesome/Font.otf</file>
         <file alias="IconFontLoader.qml">Awesome/IconFontLoader.qml</file>
-        <file alias="Map.js">Awesome/Map.js</file>
     </qresource>
 </RCC>
