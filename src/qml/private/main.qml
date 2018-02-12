@@ -65,12 +65,13 @@ ApplicationWindow {
         onLoaded: header = item
     }
 
-    // load the navigation drawer to be used as application menu
-    // The Drawer is a instance of QML Drawer with some customizations
-    // and is used to show the plugins pages and work with PageStack.
+    // load the navigation drawer to be used as application menu.
+    // The Drawer is a instance of QuickControls Drawer with some customizations
+    // and is used to show the plugins pages.
+    // When user click in some item, the page will be created by PageStack.
     Loader {
         asynchronous: true
-        active: Config.usesDrawer && Config.hasLogin
+        active: !Config.usesSwipeView && Config.usesDrawer
         source: "Drawer.qml"
         onLoaded: drawer = item
     }
