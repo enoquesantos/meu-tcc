@@ -97,7 +97,7 @@ Drawer {
             primaryIconName: awesomeIcon || "gear"
             primaryLabelText: title; height: 55
             primaryLabelColor: menuItemTextColor
-            selected: window.currentPage && window.currentPage.absPath === absPath.replace("file://", "")
+            selected: window.currentPage && window.currentPage.absPath === absPath
             anchors { horizontalCenter: undefined; left: undefined; right: undefined }
             onClicked: {
                 // if the clicked page already exists in the StackView, the page will be moved to top.
