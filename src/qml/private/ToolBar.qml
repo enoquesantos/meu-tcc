@@ -14,7 +14,7 @@ ToolBar {
 
     // show a shadow effect when user flickable to bottom
     // and the ToolBar shadow is turn visible
-    property bool enableToolBarShadow: window.currentPage && "enableToolBarShadow" in window.currentPage && window.currentPage.enableToolBarShadow === true
+    property bool enableToolBarShadow: window.currentPage && "enableToolBarShadow" in window.currentPage ? window.currentPage.enableToolBarShadow : true
 
     // this property can be used by page to set a custom color to this ToolBar
     property string toolBarColor: Config.theme.colorPrimary
@@ -33,9 +33,9 @@ ToolBar {
             layer {
                 enabled: enableToolBarShadow && Config.applicationStyle.indexOf("Material") > -1
                 effect: DropShadow {
-                    samples: 17; radius: 12
-                    color: "#4D000000"; spread: 0
-                    verticalOffset: 1; horizontalOffset: 0
+                    samples: 15; radius: 5
+                    color: "#40000000"; spread: 0
+                    verticalOffset: 2; horizontalOffset: 0
                 }
             }
         }
@@ -79,14 +79,14 @@ ToolBar {
      * ]
      */
     Component {
-        id: toolButonsMenu
+        id: toolBtnMenu
         Menu { }
     }
 
     // MenuItem will be used to each item in submenu
     // if window.currentPage set a "mnenu" option in toolBarButtons list.
     Component {
-        id: toolButonsMenuItem
+        id: toolBtnMenuItem
         MenuItem { }
     }
 
@@ -94,7 +94,7 @@ ToolBar {
         target: window
         onCurrentPageChanged: {
             // set the ToolBar color, if current page set a property color toolBarColor: "color_value"
-            if ("toolBarColor" in window.currentPage && window.currentPage.toolBarColor.length) {
+            if (window.currentPage && "toolBarColor" in window.currentPage && window.currentPage.toolBarColor.length) {
                 toolBarColor = window.currentPage.toolBarColor
                 // in android, set the System Status Bar to same color of ToolBar
                 if (Qt.platform.os === "android")
@@ -113,10 +113,10 @@ ToolBar {
                 if ("callback" in pageButtons[j])
                     btn.clicked.connect(pageButtons[j].callback)
                 if ("submenu" in pageButtons[j]) {
-                    menu = toolButonsMenu.createObject(rowPageButtons, {"x": -15, "y": 15})
+                    menu = toolBtnMenu.createObject(rowPageButtons, {"x": -15, "y": 15})
                     btn.clicked.connect(function() { menu.open() })
                     for (k = 0; k < pageButtons[j].submenu.length; k++) {
-                        menuItem = toolButonsMenuItem.createObject(toolBar, {"text": pageButtons[j].submenu[k].text})
+                        menuItem = toolBtnMenuItem.createObject(toolBar, {"text": pageButtons[j].submenu[k].text})
                         menuItem.triggered.connect(pageButtons[j].submenu[k].callback)
                         menu.addItem(menuItem)
                     }
@@ -130,7 +130,7 @@ ToolBar {
     Binding {
         target: toolBar
         property: "state"
-        value: window.currentPage ? window.currentPage.toolBarState : "normal"
+        value: window.currentPage && "toolBarState" in window.currentPage ? window.currentPage.toolBarState : "normal"
     }
 
     Binding {
@@ -195,7 +195,7 @@ ToolBar {
         RowLayout {
             id: rowPageButtons
             spacing: 0
-            anchors { right: parent.right; rightMargin: 0 }
+            anchors { right: parent.right; rightMargin: -5 }
         }
     }
 }
