@@ -95,7 +95,7 @@ Drawer {
         ScrollIndicator.vertical: ScrollIndicator { }
         delegate: ListItem {
             primaryIconName: awesomeIcon || "gear"
-            primaryLabelText: title
+            primaryLabelText: title; height: 55
             primaryLabelColor: menuItemTextColor
             selected: window.currentPage && window.currentPage.absPath === absPath.replace("file://", "")
             anchors { horizontalCenter: undefined; left: undefined; right: undefined }
