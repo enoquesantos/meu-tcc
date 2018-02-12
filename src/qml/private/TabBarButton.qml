@@ -1,7 +1,7 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 
-import "qrc:/publicComponents"
+import "qrc:/publicComponentes/" as Components
 
 TabButton {
     id: control
@@ -9,7 +9,7 @@ TabButton {
     contentItem: Text {
         visible: Config.showTabButtonText
         text: control.text
-        font.pointSize: Config.fontSize.small
+        font { pointSize: Config.fontSize.small; capitalization: Font.AllUppercase }
         color: awesomeIcon.color; opacity: awesomeIcon.opacity
         horizontalAlignment: Text.AlignHCenter
         anchors { bottom: parent.bottom; bottomMargin: 2 }
@@ -21,7 +21,7 @@ TabButton {
         window.footer.tooltipText = control.text
     }
 
-    AwesomeIcon {
+    Components.AwesomeIcon {
         id: awesomeIcon
         clickEnabled: false; height: parent.height*2
         size: Config.showTabButtonText ? 12 : 20; opacity: control.down ? 0.7 : 1
