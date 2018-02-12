@@ -71,7 +71,7 @@ ApplicationWindow {
     // When user click in some item, the page will be created by PageStack.
     Loader {
         asynchronous: true
-        active: !Config.usesSwipeView && Config.usesDrawer
+        active: !Config.usesSwipeView && Config.usesDrawer && (!Config.hasLogin || (Config.hasLogin && userProfile && userProfile.isLoggedIn))
         source: "Drawer.qml"
         onLoaded: drawer = item
     }
