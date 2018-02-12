@@ -6,7 +6,7 @@ import "qrc:/publicComponentes/" as Components
 
 Components.BasePage {
     id: page
-    title: qsTr("About the ") + Qt.applicationName
+    title: qsTr("About the ") + Config.appName
     objectName: "AboutPage.qml"
     hasListView: false
     hasNetworkRequest: false
