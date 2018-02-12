@@ -55,7 +55,7 @@ Page {
 
     // flag to enable bottom shadow in app toolbar. Can be used to enable shadow
     // when user scroll the listView to down or page flickable to down (if page uses a Flickable)
-    property bool enableToolBarShadow: false
+    property bool enableToolBarShadow: true
 
     // pages can use this flag to prevent go to previous page (using android back button)
     // this flag will be check in Main.qml at connection with Keys.onBackPressed event
