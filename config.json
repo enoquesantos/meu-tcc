@@ -10,11 +10,11 @@
     "showTabButtonText": true,
     "usesSwipeView": false,
     "usesDrawer": true,
-    "showDrawerImage": false,
+    "showDrawerImage": true,
     "restService": {
-        "userName": "enoque",
-        "userPass": "1q2w3e4r5t",
-        "baseUrl": "http://192.168.43.190/lara/api",
+        "userName": "",
+        "userPass": "",
+        "baseUrl": "",
         "baseImagesUrl": ""
     },
     "fontSize": {
