@@ -45,6 +45,7 @@ void App::init()
 
     // the default events names used by application qml components
     QStringList defaultEventsNames({
+        QStringLiteral("appendOptionPage"),
         QStringLiteral("cameraImageSaved"),
         QStringLiteral("cancelSearch"),
         QStringLiteral("logoutApplication"),
@@ -53,7 +54,6 @@ void App::init()
         QStringLiteral("newPushNotificationToken"),
         QStringLiteral("openDrawer"),
         QStringLiteral("popCurrentPage"),
-        QStringLiteral("refreshDrawerPages"),
         QStringLiteral("requestUpdateUserProfile"),
         QStringLiteral("initUserProfile"),
         QStringLiteral("setUserProfileData"),
