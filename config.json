@@ -31,7 +31,7 @@
         "statusBarColor": "#483d8b",
         "colorControlHighlight": "#729846",
         "textColorPrimary": "#3b3b3b",
-        "menuBackgroundColor": "#2c576c",
+        "menuBackgroundColor": "yellow",
         "pageBackgroundColor": "#fafafa",
         "toolTipBackgroundColor": "#323232"
     },
