@@ -9,46 +9,25 @@ Drawer {
     width: window.width * 0.85; height: window.height
     dragMargin: window.userProfile && !window.userProfile.isLoggedIn ? 0 : (Qt.styleHints.startDragDistance + 10)
 
-    Component.onCompleted: {
-        // fix first open effect
-        open()
-        close()
-        internal.setMenuItens()
-    }
-
-    property alias menuBackgroundColor: menuBackground.color
+    property color menuBackgroundColor: Config.theme.menuBackgroundColor
     property color menuItemSelectedTextColor: Qt.darker(menuBackgroundColor, 1.7)
     property color menuItemTextColor: Config.theme.textColorPrimary
     property alias userInfoBackgroundColor: userInfoRect.color
-    property color userInfoTextColor: Config.theme.colorAccent
-
-    QtObject {
-        id: internal
-
-        function setMenuItens() {
-            var page = {}, pages = App.readSetting("pages", App.SettingTypeJsonArray)
-            for (var i = 0; i < pages.length; ++i) {
-                page = pages[i]
-                if (!page.showInDrawer || !page.title.length)
-                    continue
-                else if (!window.userProfile || (window.userProfile.profileName && page.roles.indexOf(window.userProfile.profileName) > -1))
-                    listVIewModel.append(page)
-            }
-        }
-    }
+    property color userInfoTextColor: Config.theme.textColorPrimary
+    property alias listViewModel: _listViewModel
 
     // to reduce the couplin with anothers components, the Drawer menu listener events
-    // from App and window. This connection handle two signals:
-    //  1: a signal to open the drawer by event sent by toolbar
-    //  2: a signal to uodate the user profile image
+    // from the application. This connection handle two signals:
+    //     1: a signal to open the drawer by event sent by toolbar
+    //     2: a signal to add new option to list pages in menu
     Connections {
         target: App
         onEventNotify: {
             // signal signature: eventNotify(string eventName, var eventData)
             if (eventName === Config.events.openDrawer)
                 open()
-            else if (eventName === Config.events.refreshDrawerPages)
-                internal.setMenuItens()
+            else if (eventName === Config.events.appendOptionPage)
+                functions.addNewMenuItem(eventData, true)
         }
     }
 
@@ -56,20 +35,21 @@ Drawer {
     Connections {
         target: window
         onCurrentPageChanged: close()
+        onDrawerChanged: if (window.drawer) functions.setMenuItens()
     }
 
     // set a background color to drawer menu, but the color can be
     // customized set a string color(rgb or color name) in 'menuBackgroundColor' property.
     Rectangle {
         id: menuBackground
-        z: 0; anchors.fill: parent; color: Config.theme.colorAccent
+        z: 0; anchors.fill: parent; color: menuBackgroundColor
     }
 
-    // show a user profile image, with user name and email
+    // show a menu header with user profile image, username and email
     Rectangle {
         id: userInfoRect
-        z: 2; color: Config.theme.menuBackgroundColor
-        width: parent.width; height: 200
+        z: 2; color: Config.theme.colorControlHighlight
+        width: parent.width+1; height: 190
         anchors { top: parent.top; topMargin: 0; horizontalCenter: parent.horizontalCenter }
 
         Image {
@@ -81,27 +61,22 @@ Drawer {
 
         RoundedImage {
             id: drawerUserImageProfile
-            width: 100; height: width; z: 3
+            width: 50; height: width; z: 3
             borderColor: Config.theme.colorAccent
             imgSource: window.userProfile && "image_url" in window.userProfile ? window.userProfile.image_url : "qrc:/default_user_profile.svg"
-            anchors { top: parent.top; topMargin: 15; horizontalCenter: parent.horizontalCenter }
+            anchors { top: parent.top; topMargin: 70; left: parent.left; leftMargin: 20 }
         }
 
         Text {
             z: 3
             color: userInfoTextColor; textFormat: Text.RichText
-            text: window.userProfile ? (window.userProfile.profile.name + "<br><b>" + window.userProfile.profile.email + "</b>") : ""
+            text: window.userProfile ? ("<b>" + window.userProfile.profile.name + "</b><br>" + window.userProfile.profile.email) : ""
             font.pointSize: Config.fontSize.normal
-            horizontalAlignment: Text.AlignHCenter
-            anchors {
-                topMargin: 30
-                top: drawerUserImageProfile.bottom
-                horizontalCenter: parent.horizontalCenter
-            }
+            anchors { top: drawerUserImageProfile.bottom; topMargin: 8; left: parent.left; leftMargin: 20 }
         }
     }
 
-    // the model "pages" is a list of objects (plugins) that set "showInDrawer" to true
+    // the model "pages" is a objects list (plugins) where "showInDrawer" is true
     // each object has the follow properties:
     // {
     //    "absPath": "a string with absolute path to qml file",
@@ -114,11 +89,9 @@ Drawer {
     //    "isLoginPage": boolean
     // }
     ListView {
-        id: listVIew
         z: 1; width: parent.width
-        model: ListModel { id: listVIewModel }
+        model: ListModel { id: _listViewModel }
         anchors { top: userInfoRect.bottom; topMargin: 0; bottom: parent.bottom }
-        boundsBehavior: Flickable.StopAtBounds
         ScrollIndicator.vertical: ScrollIndicator { }
         delegate: ListItem {
             primaryIconName: awesomeIcon || "gear"
@@ -129,7 +102,7 @@ Drawer {
             onClicked: {
                 // if the clicked page already exists in the StackView, the page will be moved to top.
                 // otherwise, create a new page and push in the stack.
-                pageStack.pushIfNotExists(absPath, {})
+                pageStack.pushIfNotExists(absPath, null)
                 close()
             }
         }

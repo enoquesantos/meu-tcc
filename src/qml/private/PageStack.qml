@@ -13,9 +13,9 @@ StackView {
         // if current active page is the required page, return.
         if (currentItem && currentItem.absPath === pageAbsPath)
             return
-        for (count = 0; count < depth; ++count) {
+        for (count = 0; count < depth; count++) {
             _page = get(count, StackView.ForceLoad)
-            if (_page.absPath === pageAbsPath)
+            if (_page && _page.absPath === pageAbsPath)
                 _page = pop(_page)
             else
                 _page = null
