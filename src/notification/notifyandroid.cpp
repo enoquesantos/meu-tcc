@@ -22,11 +22,8 @@ void NotifyAndroid::show(const QString &title, const QString &message, const QVa
         return;
 #ifdef Q_OS_ANDROID
     QString messageData;
-    if (!actionName.isEmpty() && !actionValue.isNull()) {
-        QVariantMap map({{actionName, actionValue}});
-        QJsonDocument doc(QJsonDocument::fromVariant(map));
-        messageData = doc.toJson(QJsonDocument::Compact);
-    }
+    if (!argument.isEmpty())
+        messageData = QJsonDocument(QJsonDocument::fromVariant(argument)).toJson(QJsonDocument::Compact);
 
     QAndroidJniObject jTitle(QAndroidJniObject::fromString(title));
     QAndroidJniObject jMessage(QAndroidJniObject::fromString(message));

@@ -5,7 +5,7 @@
 
 #ifdef Q_OS_ANDROID
 // pass
-#elif defined(Q_OS_LINUX)
+#elif defined Q_OS_LINUX
 #include <KNotification>
 #endif
 
@@ -19,11 +19,15 @@ public:
      */
     explicit HandleLinuxDesktopClickAction(QObject *parent = nullptr);
 
+#ifdef Q_OS_ANDROID
+    // pass
+#elif defined Q_OS_LINUX
     /**
      * @brief setKNotification
      * @param kNotification KNotification
      */
     void setKNotification(KNotification *kNotification);
+#endif
 
     /**
      * @brief setActionName
@@ -60,7 +64,12 @@ private:
     /**
      * @brief m_knotification
      */
+#ifdef Q_OS_ANDROID
+    // pass
+#elif defined Q_OS_LINUX
     KNotification *m_knotification;
+#endif
+
 };
 
 #endif // HANDLELINUXDESKTOPCLICKACTION_H

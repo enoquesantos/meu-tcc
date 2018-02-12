@@ -9,7 +9,9 @@
 #include <QtDebug>
 #endif
 
+#ifdef Q_OS_LINUX
 #include "handlelinuxdesktopclickaction.h"
+#endif
 
 NotifyDesktop::NotifyDesktop(QObject *parent) : Notification(parent)
   ,m_notificationConfigFileName(QStringLiteral("notification-linux-config.notifyrc"))
@@ -22,6 +24,7 @@ void NotifyDesktop::show(const QString &title, const QString &message, const QVa
         return;
 #ifdef Q_OS_ANDROID
     // pass
+    Q_UNUSED(argument)
 #elif defined(Q_OS_DARWIN)
     // sent to macOS SystemTray with QSystemTrayIcon as balloon messages
     m_trayIcon.showMessage(title, message, QSystemTrayIcon::Information, 3000);
