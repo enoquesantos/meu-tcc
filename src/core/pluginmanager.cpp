@@ -92,7 +92,11 @@ void PluginManager::loadPlugins()
                 continue;
 
             // append the plugin path with plugin name to be added in Config.json to be read by qml plugins
-            m_pluginsPaths.insert(pluginDirName.toLower(), pluginAbsPath + QStringLiteral("/"));
+            #if defined Q_OS_ANDROID || defined Q_OS_IOS
+                m_pluginsPaths.insert(pluginDirName.toLower(), pluginAbsPath + QStringLiteral("/"));
+            #else
+                m_pluginsPaths.insert(pluginDirName.toLower(), QStringLiteral("file://") + pluginAbsPath + QStringLiteral("/"));
+            #endif
 
             // append all listeners from current plugin (if available)
             if (pluginJson.contains(QStringLiteral("listeners"))) {
@@ -100,7 +104,7 @@ void PluginManager::loadPlugins()
                 foreach (const QString &item, listeners) {
                     // when application running in desktop mode we need to prepend
                     // the "file:/" in absolute listener path
-                    #ifdef Q_OS_ANDROID
+                    #if defined Q_OS_ANDROID || defined Q_OS_IOS
                         m_listeners << pluginAbsPath + QStringLiteral("/") + item;
                     #else
                         m_listeners << QStringLiteral("file://") + pluginAbsPath + QStringLiteral("/") + item;
