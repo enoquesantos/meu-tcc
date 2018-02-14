@@ -1,4 +1,4 @@
-# para gerar as traduções:
+# to generate the translations:
 1: Run lupdate *.pro to create the .ts file.
 2: Make your translations in Qt Linguist and save the .ts file.
 3: In Qt Linguist menu, click in File -> Release As to compile the .ts file to a .qm file.

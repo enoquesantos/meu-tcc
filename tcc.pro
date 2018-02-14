@@ -49,7 +49,8 @@ SOURCES += main.cpp \
     src/notification/notifyios.cpp \
     src/notification/handlelinuxdesktopclickaction.cpp
 
-RESOURCES += src/qml/qml.qrc \
+RESOURCES += config.qrc \
+    src/qml/qml.qrc \
     src/qml/private/private.qrc \
     assets/assets.qrc \
     translations/translations.qrc
@@ -93,7 +94,6 @@ android: {
         android/AndroidManifest.xml \
         android/google-services.json \
         android/build.gradle \
-        android/gradle/wrapper/gradle-wrapper.properties \
         android/res/values/*.xml
 
     OTHER_FILES += android/src/org/qtproject/qt5/android/bindings/*.java
