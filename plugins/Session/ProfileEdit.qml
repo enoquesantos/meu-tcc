@@ -10,7 +10,6 @@ Components.BasePage {
     hasListView: false; hasNetworkRequest: false
     toolBarState: "goBack"
     absPath: Config.plugins.session + "ProfileEdit.qml"
-    enableToolBarShadow: flickable.contentY > 5
     toolBarButtons: [ // add save icon in window.toolbar
         {
             "iconName": "save",

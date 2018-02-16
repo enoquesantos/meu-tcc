@@ -9,8 +9,7 @@ Components.BasePage {
     hasNetworkRequest: false
     absPath: Config.plugins.pages + "Page3.qml"
     title: qsTr("Welcome!")
-
-    property var toolBarButtons: [
+    toolBarButtons: [
         {
             "iconName": "gear",
             "callback": function() {
@@ -31,8 +30,8 @@ Components.BasePage {
                     "callback": function () { console.log("Show in grid...") }
                 },
                 {
-                    "text": qsTr("Open drawer"),
-                    "callback": function () { console.log("Open drawer...") }
+                    "text": qsTr("Reload list"),
+                    "callback": function () { console.log("Reload list...") }
                 }
             ]
         }

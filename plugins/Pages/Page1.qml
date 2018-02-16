@@ -30,6 +30,8 @@ Components.BasePage {
         console.log("result is: " + result.body)
     }
 
+    property color toolBarColor: "red"
+
     Label {
         id: label
         anchors.centerIn: parent

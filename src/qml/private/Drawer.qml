@@ -9,6 +9,20 @@ Drawer {
     width: window.width * 0.85; height: window.height
     dragMargin: window.userProfile && !window.userProfile.isLoggedIn ? 0 : (Qt.styleHints.startDragDistance + 10)
 
+    Component.onCompleted: {
+        // fix first open/close effect
+        open()
+        close()
+    }
+
+    // override default effect
+    enter: Transition {
+        NumberAnimation { duration: 250; easing.type: Easing.OutQuad }
+    }
+    exit: Transition {
+        NumberAnimation { duration: 300; easing.type: Easing.InQuad }
+    }
+
     property color menuBackgroundColor: Config.theme.menuBackgroundColor
     property color menuItemSelectedTextColor: Qt.darker(menuBackgroundColor, 1.7)
     property color menuItemTextColor: Config.theme.textColorPrimary
@@ -35,19 +49,21 @@ Drawer {
     Connections {
         target: window
         onCurrentPageChanged: close()
-        onDrawerChanged: if (window.drawer) functions.setMenuItens()
+        onDrawerChanged: functions.setMenuItens()
     }
 
     // set a background color to drawer menu, but the color can be
     // customized set a string color(rgb or color name) in 'menuBackgroundColor' property.
     Rectangle {
         id: menuBackground
+        clip: true
         z: 0; anchors.fill: parent; color: menuBackgroundColor
     }
 
     // show a menu header with user profile image, username and email
     Rectangle {
         id: userInfoRect
+        clip: true
         z: 2; color: Config.theme.colorControlHighlight
         width: parent.width+1; height: 190
         anchors { top: parent.top; topMargin: 0; horizontalCenter: parent.horizontalCenter }
@@ -89,11 +105,12 @@ Drawer {
     //    "isLoginPage": boolean
     // }
     ListView {
-        z: 1; width: parent.width
+        z: 1; width: parent.width; clip: true
         model: ListModel { id: _listViewModel }
         anchors { top: userInfoRect.bottom; topMargin: 0; bottom: parent.bottom }
         ScrollIndicator.vertical: ScrollIndicator { }
         delegate: ListItem {
+            showSeparator: false
             primaryIconName: awesomeIcon || "gear"
             primaryLabelText: title; height: 55
             primaryLabelColor: menuItemTextColor

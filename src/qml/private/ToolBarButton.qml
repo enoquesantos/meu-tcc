@@ -10,11 +10,8 @@ ToolButton {
     width: visible ? toolButton.width : 0; height: parent ? parent.height : 0
     contentItem: AwesomeIcon {
         id: toolButtonIcon
-        clickEnabled: false; z: -1; size: 24
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            verticalCenter: parent.verticalCenter
-        }
+        clickEnabled: false; z: -1; size: 20
+        anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
     }
 
     property string actionName

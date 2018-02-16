@@ -24,11 +24,9 @@
         "extraLarge": 24
     },
     "theme": {
-        "linkColor": "#2c576c",
         "colorAccent": "#91ff44",
         "colorPrimary": "#2c576c",
         "colorControl": "#2c3f49",
-        "statusBarColor": "#483d8b",
         "colorControlHighlight": "#729846",
         "textColorPrimary": "#3b3b3b",
         "menuBackgroundColor": "yellow",

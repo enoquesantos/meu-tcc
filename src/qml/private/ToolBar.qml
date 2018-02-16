@@ -7,37 +7,18 @@ import "qrc:/privateComponents" as Private
 
 ToolBar {
     id: toolBar
-    objectName: "ToolBar.qml"
+    objectName: "ToolBar.qml"; state: "normal"
     visible: window.currentPage && window.currentPage.showToolBar && pageStack.depth > 0
-    state: window.currentPage ? window.currentPage.toolBarState : "normal"
-    height: visible ? 55 : 0
-
-    // show a shadow effect when user flickable to bottom
-    // and the ToolBar shadow is turn visible
-    property bool enableToolBarShadow: window.currentPage && "enableToolBarShadow" in window.currentPage ? window.currentPage.enableToolBarShadow : true
+    height: visible ? (Qt.platform.os === "android" ? 75 : 55) : 0
 
     // this property can be used by page to set a custom color to this ToolBar
-    property string toolBarColor: Config.theme.colorPrimary
-    onToolBarColorChanged: if (Qt.platform.os === "android" && toolBarColor !== Config.theme.colorPrimary) SystemStatusBar.color = toolBarColor
-
-    // this property can be used by some page to change the color of all icons in the ToolBar
-    // is read by each ToolBarButton set the icon color
-    property color defaultTextColor: Config.theme.colorAccent
-
-    Loader {
-        onLoaded: toolBar.background = item
-        asynchronous: false; active: true
-        sourceComponent: Rectangle {
-            color: toolBarColor; border.width: 0; radius: 0
-            width: toolBar.width; height: toolBar.height
-            layer {
-                enabled: enableToolBarShadow && Config.applicationStyle.indexOf("Material") > -1
-                effect: DropShadow {
-                    samples: 15; radius: 5
-                    color: "#40000000"; spread: 0
-                    verticalOffset: 2; horizontalOffset: 0
-                }
-            }
+    property color toolBarColor
+    onToolBarColorChanged: {
+        if (toolBarColor) {
+            toolBar.background.color = toolBarColor
+            // in android, set the System Status Bar to same color of ToolBar
+            if (Qt.platform.os === "android")
+                SystemStatusBar.color = toolBarColor
         }
     }
 
@@ -58,8 +39,8 @@ ToolBar {
       * ]
       */
     Component {
-       id: toolButonsComponent
-       Private.ToolBarButton { }
+       id: toolBtnComponent
+       Private.ToolBarButton { iconColor: Config.theme.colorAccent }
     }
 
     /**
@@ -93,13 +74,11 @@ ToolBar {
     Connections {
         target: window
         onCurrentPageChanged: {
-            // set the ToolBar color, if current page set a property color toolBarColor: "color_value"
-            if (window.currentPage && "toolBarColor" in window.currentPage && window.currentPage.toolBarColor.length) {
+            // set the ToolBar color, if current page has a property 'toolBarColor'
+            if (window.currentPage && "toolBarColor" in window.currentPage)
                 toolBarColor = window.currentPage.toolBarColor
-                // in android, set the System Status Bar to same color of ToolBar
-                if (Qt.platform.os === "android")
-                    SystemStatusBar.color = Config.theme.statusBarColor
-            }
+            else
+                toolBarColor = Config.theme.colorPrimary
             // if previous page added buttons to toolbar,
             // all buttons needs to be removed, to put again!
             if (rowPageButtons.children.length)
@@ -109,7 +88,7 @@ ToolBar {
             if (!window.currentPage.toolBarButtons) return
             var j, k, menu, menuItem, btn, pageButtons = window.currentPage.toolBarButtons
             for (j = 0; j < pageButtons.length; ++j) {
-                btn = toolButonsComponent.createObject(rowPageButtons, {"iconColor": defaultTextColor, "iconName": pageButtons[j].iconName})
+                btn = toolBtnComponent.createObject(rowPageButtons, {"iconName": pageButtons[j].iconName})
                 if ("callback" in pageButtons[j])
                     btn.clicked.connect(pageButtons[j].callback)
                 if ("submenu" in pageButtons[j]) {
@@ -130,7 +109,8 @@ ToolBar {
     Binding {
         target: toolBar
         property: "state"
-        value: window.currentPage && "toolBarState" in window.currentPage ? window.currentPage.toolBarState : "normal"
+        value: window.currentPage.toolBarState
+        when: window.currentPage && "toolBarState" in window.currentPage
     }
 
     Binding {
@@ -150,7 +130,7 @@ ToolBar {
     Binding {
         target: toolButtonFirst
         property: "actionName"
-        value: Config.events.cancel
+        value: Config.events.cancelSearch
         when: toolBar.state === "search"
     }
 
@@ -160,42 +140,51 @@ ToolBar {
         value: toolBar.state === "search" || toolBar.state === "goBack" ? "arrow_left" : "bars"
     }
 
+    Item {
+        id: fixAndroidToolbarAppearence
+        visible: Qt.platform.os === "android"
+        width: parent.width; height: visible ? 50 : 0
+        anchors.top: parent.top
+    }
+
     RowLayout {
         id: toolBarItens
-        anchors { fill: parent; leftMargin: 8; rightMargin: 8; top: parent.top; topMargin: 0 }
+        anchors {
+            top: fixAndroidToolbarAppearence.bottom
+            topMargin: -2
+            left: parent.left
+            right: parent.right
+        }
 
         Private.ToolBarButton {
             id: toolButtonFirst
-            iconColor: defaultTextColor
-            // onClicked: if (actionName === Config.events.cancelSearch) toolBar.state = "normal"
+            iconColor: Config.theme.colorAccent
 
             NumberAnimation on rotation {
-                from: 0; to: 360; running: toolBar.state === "goBack"
-                duration: 350
+                from: 0; to: 360; duration: 350
+                running: toolBar.state === "goBack"
             }
         }
 
-        Label {
+        Text {
             id: title
-            elide: Label.ElideRight
-            text: window.currentPage && window.currentPage.title || ""; color: defaultTextColor
+            elide: Text.ElideRight
+            text: window.currentPage && window.currentPage.title || ""
             width: visible ? parent.width * 0.55 : 0; height: parent.height
             visible: toolBar.state !== "search"
+            verticalAlignment: Text.AlignVCenter
+            color: Config.theme.colorAccent
             anchors { left: toolButtonFirst.right; leftMargin: 12; verticalCenter: parent.verticalCenter }
             font { weight: Font.DemiBold; pointSize: Config.fontSize.normal }
         }
 
         Private.ToolBarSearch {
-            id: searchToolbar
-            visible: toolBar.state === "search"
-            anchors { left: title.right; leftMargin: 4; bottom: parent.bottom; bottomMargin: -1 }
             onSearchTextChanged: window.currentPage.searchText = searchText
         }
 
         RowLayout {
             id: rowPageButtons
-            spacing: 0
-            anchors { right: parent.right; rightMargin: -5 }
+            spacing: 0; anchors.right: parent.right
         }
     }
 }

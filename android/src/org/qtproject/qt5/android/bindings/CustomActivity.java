@@ -11,6 +11,8 @@ import android.content.pm.PackageManager;
 import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import android.support.v4.app.ActivityCompat;
@@ -38,6 +40,11 @@ public class CustomActivity extends QtActivity
     protected void onResume()
     {
         super.onResume();
+
+        if (sdkVersion >= 21) {
+            Window wd = getWindow();
+            wd.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
 
         isRunning   = true;
         m_instance  = this;
