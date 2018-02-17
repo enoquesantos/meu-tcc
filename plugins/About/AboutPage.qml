@@ -6,8 +6,9 @@ import "qrc:/publicComponentes/" as Components
 
 Components.BasePage {
     id: page
-    title: qsTr("About the ") + Config.appName
+    title: qsTr("About ") + Config.appName
     objectName: "AboutPage.qml"
+    absPath: Config.plugins.about + "AboutPage.qml"
     hasListView: false
     hasNetworkRequest: false
     pageBackgroundColor: Config.theme.colorPrimary

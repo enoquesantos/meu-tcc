@@ -40,7 +40,7 @@ ToolBar {
       */
     Component {
        id: toolBtnComponent
-       Private.ToolBarButton { iconColor: Config.theme.colorAccent }
+       Private.ToolBarButton { iconColor: title.color }
     }
 
     /**
@@ -79,28 +79,29 @@ ToolBar {
                 toolBarColor = window.currentPage.toolBarColor
             else
                 toolBarColor = Config.theme.colorPrimary
-            // if previous page added buttons to toolbar,
-            // all buttons needs to be removed, to put again!
+            // if previous page add buttons in toolbar,
+            // all buttons needs to be removed
             if (rowPageButtons.children.length)
                 for (var i = 0; i < rowPageButtons.children.length; ++i)
                     rowPageButtons.children[i].destroy()
-            // if current page set dynamic buttons, will be added to toolBar, else return.
-            if (!window.currentPage.toolBarButtons) return
-            var j, k, menu, menuItem, btn, pageButtons = window.currentPage.toolBarButtons
+            // if current page not set dynamic buttons in toolBar, stop here.
+            if (! "toolBarButtons" in window.currentPage || !window.currentPage.toolBarButtons.length) return
+            var j, k, menu, menuItem, comp, btn, pageButtons = window.currentPage.toolBarButtons
             for (j = 0; j < pageButtons.length; ++j) {
-                btn = toolBtnComponent.createObject(rowPageButtons, {"iconName": pageButtons[j].iconName})
-                if ("callback" in pageButtons[j])
-                    btn.clicked.connect(pageButtons[j].callback)
-                if ("submenu" in pageButtons[j]) {
-                    menu = toolBtnMenu.createObject(rowPageButtons, {"x": -15, "y": 15})
-                    btn.clicked.connect(function() { menu.open() })
-                    for (k = 0; k < pageButtons[j].submenu.length; k++) {
-                        menuItem = toolBtnMenuItem.createObject(toolBar, {"text": pageButtons[j].submenu[k].text})
-                        menuItem.triggered.connect(pageButtons[j].submenu[k].callback)
+                btn = pageButtons[j]
+                comp = toolBtnComponent.createObject(rowPageButtons, {"iconName": btn.iconName})
+                if ("callback" in btn)
+                    comp.clicked.connect(btn.callback)
+                if ("submenu" in btn) {
+                    menu = toolBtnMenu.createObject(rowPageButtons, {"x": -60, "y": 15})
+                    comp.clicked.connect(function() { menu.open() })
+                    for (k = 0; k < btn.submenu.length; k++) {
+                        menuItem = toolBtnMenuItem.createObject(toolBar, {"text": btn.submenu[k].text})
+                        menuItem.triggered.connect(btn.submenu[k].callback)
                         menu.addItem(menuItem)
                     }
                 }
-                btn.parent = rowPageButtons
+                comp.parent = rowPageButtons
                 rowPageButtons.children[j] = btn
             }
         }
@@ -143,7 +144,7 @@ ToolBar {
     Item {
         id: fixAndroidToolbarAppearence
         visible: Qt.platform.os === "android"
-        width: parent.width; height: visible ? 50 : 0
+        width: parent.width; height: visible ? 26 : 4
         anchors.top: parent.top
     }
 
@@ -151,14 +152,13 @@ ToolBar {
         id: toolBarItens
         anchors {
             top: fixAndroidToolbarAppearence.bottom
-            topMargin: -2
             left: parent.left
             right: parent.right
         }
 
         Private.ToolBarButton {
             id: toolButtonFirst
-            iconColor: Config.theme.colorAccent
+            iconColor: title.color
 
             NumberAnimation on rotation {
                 from: 0; to: 360; duration: 350
@@ -174,8 +174,8 @@ ToolBar {
             visible: toolBar.state !== "search"
             verticalAlignment: Text.AlignVCenter
             color: Config.theme.colorAccent
-            anchors { left: toolButtonFirst.right; leftMargin: 12; verticalCenter: parent.verticalCenter }
-            font { weight: Font.DemiBold; pointSize: Config.fontSize.normal }
+            anchors { left: toolButtonFirst.right; leftMargin: 15; verticalCenter: parent.verticalCenter }
+            font { weight: Font.DemiBold; pointSize: Config.fontSize.large + 1 }
         }
 
         Private.ToolBarSearch {

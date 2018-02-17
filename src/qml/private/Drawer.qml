@@ -17,10 +17,10 @@ Drawer {
 
     // override default effect
     enter: Transition {
-        NumberAnimation { duration: 250; easing.type: Easing.OutQuad }
+        NumberAnimation { duration: 400; easing.type: Easing.OutExpo }
     }
     exit: Transition {
-        NumberAnimation { duration: 300; easing.type: Easing.InQuad }
+        NumberAnimation { duration: 420; easing.type: Easing.OutExpo }
     }
 
     property color menuBackgroundColor: Config.theme.menuBackgroundColor
