@@ -8,8 +8,6 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QNetworkConfigurationManager>
-#include <QQuickItem>
-#include <QQmlEngine>
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -119,43 +117,4 @@ bool Utils::isDeviceOnline()
 {
     QNetworkConfigurationManager qcm(this);
     return qcm.isOnline();
-}
-
-void Utils::setQmlEngine(QQmlEngine *engine)
-{
-    m_engine = engine;
-}
-
-void Utils::createSwipeViewPages(const QVariantList &pages, QObject *swipeView, QObject *tabBar, const QString &userProfileName)
-{
-    if (m_engine == nullptr)
-        return;
-    int index = 0;
-    QVariantMap pageMap;
-    foreach (const QVariant &page, pages) {
-        pageMap = page.toMap();
-        if (!pageMap.value(QStringLiteral("showInTabBar")).toBool())
-            continue;
-        else if (!userProfileName.isEmpty() && !pageMap.value(QStringLiteral("roles")).toStringList().contains(userProfileName))
-            continue;
-        QQmlComponent component(m_engine, pageMap.value(QStringLiteral("absPath")).toString(), swipeView);
-        QQuickItem *item = qobject_cast<QQuickItem*>(component.create(QQmlEngine::contextForObject(swipeView)));
-        if (component.isError()) {
-            qWarning() << QStringLiteral("Error on create page: ") << component.errors();
-        } else {
-            QMetaObject::invokeMethod(swipeView, "addItem", Q_ARG(QQuickItem*, item));
-            createTabBarButton((index == 0), pageMap.value(QStringLiteral("title")), pageMap.value(QStringLiteral("icon")), tabBar);
-        }
-        ++index;
-    }
-}
-
-void Utils::createTabBarButton(bool isChecked, const QVariant &pageTitle, const QVariant pageIcon, QObject *tabBar)
-{
-    QQmlComponent component(m_engine, QStringLiteral(":/src/qml/TabBarButton.qml"), tabBar);
-    QQuickItem *button = qobject_cast<QQuickItem*>(component.create(QQmlEngine::contextForObject(tabBar)));
-    button->setProperty("checked", isChecked);
-    button->setProperty("iconName", pageIcon);
-    button->setProperty("text", pageTitle);
-    QMetaObject::invokeMethod(tabBar, "addItem", Q_ARG(QQuickItem*, button));
 }
