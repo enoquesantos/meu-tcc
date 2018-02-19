@@ -41,14 +41,12 @@ int main(int argc, char *argv[])
 
     Utils *utils = Utils::instance();
     utils->setParent(&qApplication);
-    utils->setQmlEngine(&engine);
     context->setContextProperty(QLatin1String("Utils"), utils);
 
     Subject subject;
     context->setContextProperty(QStringLiteral("Subject"), &subject);
 
     Notification* notification = notificationHandle(&qApplication);
-    notification->setParent(&qApplication);
     context->setContextProperty(QStringLiteral("Notification"), notification);
 
 #ifdef Q_OS_ANDROID
