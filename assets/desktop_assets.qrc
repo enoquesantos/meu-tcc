@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>notification-linux-config.notifyrc</file>
+    </qresource>
+</RCC>

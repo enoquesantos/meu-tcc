@@ -4,8 +4,6 @@
         <file>drawer.jpg</file>
         <file>eula.html</file>
         <file>icon.png</file>
-        <file>icon_transparent.png</file>
-        <file>notification-linux-config.notifyrc</file>
         <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>
