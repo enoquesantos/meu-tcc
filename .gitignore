@@ -40,6 +40,7 @@ android/local.properties
 android/local.properties~
 android/gradle.properties
 android/gradle.properties~
+android/gradle/wrapper/gradle-wrapper.properties~
 
 # Dolphin KDE
 .directory
