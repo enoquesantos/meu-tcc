@@ -53,6 +53,7 @@ RESOURCES += config.qrc \
     src/qml/qml.qrc \
     src/qml/private/private.qrc \
     assets/assets.qrc \
+    assets/desktop_assets.qrc \
     translations/translations.qrc
 
 TRANSLATIONS = translations/*.ts \
@@ -66,9 +67,6 @@ linux:!android {
     QT += KConfigCore
     QT += KNotifications
 
-    # plasma KDE required notification file
-    OTHER_FILES += assets/notification-linux-config.notifyrc
-
     pluginsDestinationPath = $$OUT_PWD/plugins
     # remove plugins directory before build
     exists($$pluginsDestinationPath) {
@@ -79,6 +77,8 @@ linux:!android {
 }
 
 android: {
+    RESOURCES -= assets/desktop_assets.qrc
+
     QT += androidextras
 
     HEADERS += src/extras/androidfiledialog.h \
@@ -94,9 +94,8 @@ android: {
         android/AndroidManifest.xml \
         android/google-services.json \
         android/build.gradle \
-        android/res/values/*.xml
-
-    OTHER_FILES += android/src/org/qtproject/qt5/android/bindings/*.java
+        android/res/values/*.xml \
+        android/src/org/qtproject/qt5/android/bindings/*.java
 
     contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
         ANDROID_EXTRA_LIBS = \
@@ -106,6 +105,8 @@ android: {
 }
 
 ios: {
+    RESOURCES -= assets/desktop_assets.qrc
+
     # PLEASE! Check platform notes for ios:
     # http://doc.qt.io/qt-5/platform-notes-ios.html
     QMAKE_INFO_PLIST = $$PWD/ios/Info.plist
