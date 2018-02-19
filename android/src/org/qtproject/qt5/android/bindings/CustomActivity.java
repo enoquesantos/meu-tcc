@@ -4,8 +4,8 @@ package org.qtproject.qt5.android.bindings;
 
 import java.lang.Thread;
 
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.Manifest;
