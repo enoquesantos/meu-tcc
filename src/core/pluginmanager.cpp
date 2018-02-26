@@ -80,13 +80,14 @@ void PluginManager::loadPlugins()
 
     QString pluginAbsPath;
     QVariantMap pluginJson;
+    Utils *utils = Utils::instance();
     foreach (const QString &pluginDirName, pluginsDirs) {
         QFile file(pluginsDirPath + pluginDirName + QStringLiteral("/config.json"));
         // set the config.json absolute path for current plugin
         pluginAbsPath = QFileInfo(file.fileName()).absolutePath();
         if (file.exists()) {
             // load the config.json
-            pluginJson = Utils::instance()->readFile(file.fileName()).toMap();
+            pluginJson = utils->readFile(file.fileName()).toMap();
 
             if (pluginJson.isEmpty() || pluginJson.value(QStringLiteral("name")).toString().isEmpty() || pluginJson.value(QStringLiteral("description")).toString().isEmpty())
                 continue;
