@@ -2,9 +2,7 @@
 <RCC version="1.0">
     <!-- Start private components used only by application -->
     <qresource prefix="privateComponents">
-        <file alias="AndroidDialog.qml">AndroidDialog.qml</file>
         <file alias="Bindings.qml">Bindings.qml</file>
-        <file alias="Dialog.qml">Dialog.qml</file>
         <file alias="Drawer.qml">Drawer.qml</file>
         <file alias="EulaAgreement.qml">EulaAgreement.qml</file>
         <file alias="Functions.qml">Functions.qml</file>
