@@ -1,11 +1,12 @@
 import QtQuick.Controls 2.2
-import "qrc:/publicComponentes/"
+
+import "qrc:/publicComponentes/" as Components
 
 ToolButton {
     z: 2
     onClicked: if (actionName) App.eventNotify(actionName, 0)
 
-    AwesomeIcon {
+    Components.AwesomeIcon {
         id: toolButtonIcon
         size: 18; z: -1
         clickEnabled: false
