@@ -3,7 +3,7 @@ import QtQuick.Controls 2.1
 
 ListView {
     objectName: "CustomListView.qml"
-    model: _listModel
+    model: listModel
     cacheBuffer: 1600
     width: window.width
     anchors.fill: parent ? parent : undefined
@@ -15,5 +15,5 @@ ListView {
     }
     ScrollIndicator.vertical: ScrollIndicator { }
 
-    property ListModel _listModel: ListModel { }
+    property ListModel listModel: ListModel { }
 }
