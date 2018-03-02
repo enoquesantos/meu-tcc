@@ -144,17 +144,18 @@ void PluginManager::clearCache()
 {
     // get the application directory cache
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QStringLiteral("/qmlcache/"));
+    QString	absoluteDirPath(dir.absolutePath());
 
     // iterate in cache directory content to delete all files
     QStringList cacheFiles(dir.entryList({QStringLiteral("*.qmlc"), QStringLiteral("*.jsc")}, QDir::Files));
 
     #ifdef QT_DEBUG
-        qDebug() << QStringLiteral("Application writable location path is %1").arg(dir.absolutePath());
+        qDebug() << QStringLiteral("Application writable location path is %1").arg(absoluteDirPath);
         qDebug() << QStringLiteral("Application cache files contains %1 files").arg(cacheFiles.size());
     #endif
 
     foreach (const QString &filePath, cacheFiles) {
-        QFile file(dir.absolutePath() + "/" + filePath);
+        QFile file(absoluteDirPath + QStringLiteral("/") + filePath);
         file.setPermissions(QFileDevice::WriteUser);
         file.remove();
     }
@@ -198,7 +199,8 @@ void PluginManager::parsePages(const QString &pluginPath, const QVariantMap &plu
 {
     QString pagePath;
     QVariantMap page;
-    foreach (auto item, pluginConfig.value(QStringLiteral("pages")).toList()) {
+    QVariantList pages(pluginConfig.value(QStringLiteral("pages")).toList());
+    foreach (const QVariant &item, pages) {
         page = item.toMap();
 
         // the absPath (absolute path) is useful to menu make binds with current page
