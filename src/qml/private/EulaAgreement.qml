@@ -2,9 +2,9 @@ import QtQuick 2.8
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
 
-import "qrc:/publicComponentes/"
+import "qrc:/publicComponentes/" as Components
 
-BasePage {
+Components.BasePage {
     id: page
     objectName: "EulaAgreement.qml"
     title: qsTr("Terms of Use")
@@ -42,7 +42,7 @@ BasePage {
         color: Config.theme.pageBackgroundColor; opacity: 0.9
         anchors { bottom: parent.bottom; bottomMargin: 0; left: parent.left; right: parent.right }
 
-        CustomButton {
+        Button {
             text: qsTr("OK")
             visible: !Config.forceEulaAgreement
             anchors.centerIn: parent
@@ -52,7 +52,7 @@ BasePage {
             }
         }
 
-        CustomButton {
+        Button {
             implicitWidth: 120
             visible: Config.forceEulaAgreement
             text: qsTr("NOT AGREE")
@@ -60,7 +60,7 @@ BasePage {
             onClicked: functions.alert(qsTr("Warning!"), qsTr("You need to read and accept the terms! Otherwise you will cannot use the application!!"), function() { return; }, function() { Qt.quit(); })
         }
 
-        CustomButton {
+        Button {
             implicitWidth: 120
             text: qsTr("AGREE")
             visible: Config.forceEulaAgreement
