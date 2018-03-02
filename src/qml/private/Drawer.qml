@@ -1,7 +1,7 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 
-import "qrc:/publicComponentes/"
+import "qrc:/publicComponentes/" as Components
 
 Drawer {
     id: menu
@@ -28,7 +28,7 @@ Drawer {
     property color menuItemTextColor: Config.theme.textColorPrimary
     property alias userInfoBackgroundColor: userInfoRect.color
     property color userInfoTextColor: Config.theme.textColorPrimary
-    property alias listViewModel: _listViewModel
+    property alias listViewModel: listView.listModel
 
     // to reduce the couplin with anothers components, the Drawer menu listener events
     // from the application. This connection handle two signals:
@@ -75,7 +75,7 @@ Drawer {
             asynchronous: true; cache: true; smooth: true
         }
 
-        RoundedImage {
+        Components.RoundedImage {
             id: drawerUserImageProfile
             width: 50; height: width; z: 3
             borderColor: Config.theme.colorAccent
@@ -104,12 +104,11 @@ Drawer {
     //    "isHomePage": boolean,
     //    "isLoginPage": boolean
     // }
-    ListView {
-        z: 1; width: parent.width; clip: true
-        model: ListModel { id: _listViewModel }
-        anchors { top: userInfoRect.bottom; topMargin: 0; bottom: parent.bottom }
-        ScrollIndicator.vertical: ScrollIndicator { }
-        delegate: ListItem {
+    Components.CustomListView {
+        id: listView
+        z: 1; clip: true
+        anchors { fill: undefined; top: userInfoRect.bottom; topMargin: 0; bottom: parent.bottom }
+        delegate: Components.ListItem {
             showSeparator: false
             primaryIconName: awesomeIcon || "gear"
             primaryLabelText: title; height: 55
