@@ -89,7 +89,7 @@ void PluginManager::loadPlugins()
             // load the config.json
             pluginJson = utils->readFile(file.fileName()).toMap();
 
-            if (pluginJson.isEmpty() || pluginJson.value(QStringLiteral("name")).toString().isEmpty() || pluginJson.value(QStringLiteral("description")).toString().isEmpty())
+            if (pluginJson.isEmpty())
                 continue;
 
             // append the plugin path with plugin name to be added in Config.json to be read by qml plugins
