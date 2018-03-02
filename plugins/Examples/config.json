@@ -1,6 +1,4 @@
 {
-    "name": "Examples",
-    "description": "Some examples",
     "pages": [],
     "listeners": [
         "AddNewOptionPage.qml"

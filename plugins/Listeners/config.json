@@ -1,6 +1,4 @@
 {
-    "name": "Listeners",
-    "description": "The application listeners",
     "pages": [],
     "listeners": [
         "Listener1.qml",

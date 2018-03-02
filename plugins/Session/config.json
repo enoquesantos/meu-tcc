@@ -1,6 +1,4 @@
 {
-    "name": "Session",
-    "description": "Login, logout and lost password pages to the app",
     "pages": [
         {
             "qml": "Login.qml",

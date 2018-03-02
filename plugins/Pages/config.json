@@ -1,6 +1,4 @@
-    {
-    "name": "PagesPlugin",
-    "description": "Sample pages plugin for Stack View layout",
+{
     "pages": [
         {
             "qml": "Page1.qml",

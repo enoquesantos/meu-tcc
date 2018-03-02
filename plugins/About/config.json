@@ -1,6 +1,4 @@
 {
-    "name": "About Emile",
-    "description": "Read about the application",
     "pages": [
         {
             "qml": "AboutPage.qml",
