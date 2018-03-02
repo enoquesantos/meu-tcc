@@ -15,6 +15,56 @@ Item {
     property int initialMargin: -48
     property int visibleMargin: 0
 
+    property bool isOpened: false
+    property bool openPending: false
+    property bool closePending: false
+    property bool isLongDuration: false
+
+    property string messageTemp: ""
+
+    property alias actionText: action.text
+    property alias actionTextColor: action.color
+
+    property var closeCallback: []
+    property var actionCallback
+
+    signal opened()
+    onOpened: {
+        if (!animateShowOpacity.running) {
+            message.text = messageTemp
+            if (countdownToClose.running)
+                countdownToClose.restart()
+            else
+                countdownToClose.start()
+            if (animateShowOpacity.running)
+                animateShowOpacity.stop()
+            animateShowOpacity.start()
+        }
+    }
+
+    signal closed()
+    onClosed: {
+        if (!animateHideOpacity.running)
+            animateHideOpacity.start()
+    }
+
+    function close() {
+        closed()
+        actionText = ""
+    }
+
+    function show(s, callback) {
+        if (callback)
+            closeCallback.push(callback)
+        messageTemp = s
+        if (isOpened) {
+            openPending = true
+            close()
+        } else {
+            opened()
+        }
+    }
+
     NumberAnimation {
         id: animateShowOpacity
         target: snackbar
@@ -43,54 +93,6 @@ Item {
                 closeCallback[0]()
                 closeCallback.splice(0, 1)
             }
-        }
-    }
-
-    signal opened()
-    onOpened: {
-        if (!animateShowOpacity.running) {
-            message.text = messageTemp
-            if (countdownToClose.running)
-                countdownToClose.restart()
-            else
-                countdownToClose.start()
-            if (animateShowOpacity.running)
-                animateShowOpacity.stop()
-            animateShowOpacity.start()
-        }
-    }
-
-    signal closed()
-    onClosed: {
-        if (!animateHideOpacity.running)
-            animateHideOpacity.start()
-    }
-
-    property bool isOpened: false
-    property bool openPending: false
-    property bool closePending: false
-    property bool isLongDuration: false
-    property string messageTemp: ""
-    property alias actionText: action.text
-    property alias actionTextColor: action.color
-
-    property var closeCallback: []
-    property var actionCallback
-
-    function close() {
-        closed()
-        actionText = ""
-    }
-
-    function show(s, callback) {
-        if (callback)
-            closeCallback.push(callback)
-        messageTemp = s
-        if (isOpened) {
-            openPending = true
-            close()
-        } else {
-            opened()
         }
     }
 
