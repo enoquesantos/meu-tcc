@@ -73,11 +73,11 @@ QtObject {
         if (acceptCallback)
             dialog.accepted.connect(acceptCallback)
         else
-            dialog.accepted.connect(function() { }) // prevent call last connected callback
+            dialog.accepted.connect(function() { }) // prevent call the last connected callback
         if (rejectCallback)
             dialog.rejected.connect(rejectCallback)
         else
-            dialog.rejected.connect(function() { }) // prevent call last connected callback
+            dialog.rejected.connect(function() { }) // prevent call the last connected callback
         dialog.open()
     }
 
