@@ -12,11 +12,11 @@ Components.BasePage {
     // handle request http responses
     onRequestFinished: {
         if (statusCode === 404)
-            functions.alert(qsTr("Error!"), qsTr("Email not found. try again!"), null, null)
+            functions.alert(qsTr("Error!"), qsTr("Email not found. try again!"))
         else if (statusCode === 200)
-            functions.alert(qsTr("OK"), qsTr("Your password was sent for your email!"), null, null)
+            functions.alert(qsTr("OK"), qsTr("Your password was sent for your email!"))
         else
-            functions.alert(qsTr("Error!"), qsTr("An error occur in the server! Try again!"), null, null)
+            functions.alert(qsTr("Error!"), qsTr("An error occur in the server! Try again!"))
     }
 
     Components.AwesomeIcon {
@@ -26,7 +26,7 @@ Components.BasePage {
         onClicked: pageStack.pop()
     }
 
-    Components.Brand {
+    Brand {
         id: brand
     }
 
@@ -42,17 +42,17 @@ Components.BasePage {
             inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhLowercaseOnly
         }
 
-        Components.CustomButton {
+        Button {
             enabled: !isPageBusy
             text: qsTr("Submit")
             onClicked: {
                 var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                 if (!email.text)
-                    functions.alert(qsTr("Error!"), qsTr("Enter your Email!"), null, null)
+                    functions.alert(qsTr("Error!"), qsTr("Enter your Email!"))
                 else if (!regex.test(email.text))
-                    functions.alert(qsTr("Error!"), qsTr("Enter a valid Email!"), null, null)
+                    functions.alert(qsTr("Error!"), qsTr("Enter a valid Email!"))
                 else
-                    requestHttp.get("/recoverPassword/" + email.text + "/")
+                    requestHttp.get("/recoverPassword/%1/".arg(email.text))
             }
         }
     }

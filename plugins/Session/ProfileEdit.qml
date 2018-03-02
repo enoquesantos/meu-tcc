@@ -22,13 +22,13 @@ Components.BasePage {
         var _regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         email.text = email.text.toString().trim()
         if (!email.text) {
-            functions.alert(qsTr("Error!"), qsTr("The email field is blank!"), null, null)
+            functions.alert(qsTr("Error!"), qsTr("The email field is blank!"))
             return
         } else if (!_regex.test(email.text)) {
-            functions.alert(qsTr("Error!"), qsTr("The email is not valid!"), null, null)
+            functions.alert(qsTr("Error!"), qsTr("The email is not valid!"))
             return
         } else if (password1.text !== password2.text) {
-            functions.alert(qsTr("Error!"), qsTr("The passwords does not match!"), null, null)
+            functions.alert(qsTr("Error!"), qsTr("The passwords does not match!"))
             return
         } else if (password1.text && password1.text == password2.text) {
             page.focus = true
@@ -37,8 +37,8 @@ Components.BasePage {
             args.id = userProfile.profile.id
             args.email = email.text
             args.password = password1.text
-            password1.text = password2.text = ""
             window.notifyEvent(Config.events.requestUpdateUserProfile, args)
+            password1.text = password2.text = ""
         }
     }
 

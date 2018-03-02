@@ -49,7 +49,6 @@ Components.BasePage {
         }
 
         Components.RoundedImage {
-            id: userImageProfile
             width: 100; height: width
             borderColor: Config.theme.colorAccent
             imgSource: userProfile.profile.image_url || "qrc:/default_user_image.svg"

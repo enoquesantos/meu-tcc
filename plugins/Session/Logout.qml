@@ -44,7 +44,7 @@ Components.BasePage {
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        Components.CustomButton {
+        Button {
             text: qsTr("Yes! exit now")
             onClicked: timer.running = true
             anchors.horizontalCenter: parent.horizontalCenter
