@@ -1,15 +1,16 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 import QtQuick.Window 2.2
+import Qt.labs.platform 1.0
 
 import "qrc:/privateComponents"
 
 ApplicationWindow {
     id: window
     visible: true
-    width: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.width / 2.5) : Screen.width
-    height: Qt.platform.os === "linux" || Qt.platform.os === "osx" ? (Screen.height * 0.90) : Screen.height
-    title: currentPage ? (currentPage.title || qsTr("Welcome - %1".arg(Config.appName))) : "%1 - %2".arg(Config.appName).arg(Config.appDescription)
+    width: Qt.platform.os == "linux" || Qt.platform.os == "osx" ? Screen.width / 2.5 : Screen.width
+    height: Qt.platform.os == "linux" || Qt.platform.os == "osx" ? Screen.height * 0.90 : Screen.height
+    title: currentPage ? (currentPage.title || qsTr("Welcome ") + Config.appName) : "%1 - %2".arg(Config.appName).arg(Config.appDescription)
     onClosing: functions.buttonPressed(close)
 
     Component.onCompleted: {
@@ -85,10 +86,9 @@ ApplicationWindow {
     }
 
     // load a new instance of messages dialog component,
-    // using the platform name for best look and fell appearence.
     Loader {
         active: true
-        source: Qt.platform.os === "android" ? "AndroidDialog.qml" : "Dialog.qml"
+        source: MessageDialog { buttons: StandardButton.Ok | StandardButton.Cancel }
         onLoaded: dialog = item
     }
 
