@@ -2,15 +2,11 @@
 <RCC version="1.0">
     <!-- public components used by plugins -->
     <qresource prefix="publicComponentes">
-        <file>ActionMessage.qml</file>
         <file>AwesomeIcon.qml</file>
         <file>BasePage.qml</file>
-        <file>Brand.qml</file>
         <file>CameraCapture.qml</file>
-        <file>CustomButton.qml</file>
         <file>CustomListView.qml</file>
         <file>Datepicker.qml</file>
-        <file>FloatingButton.qml</file>
         <file>ListItem.qml</file>
         <file>PasswordField.qml</file>
         <file>PhotoSelection.qml</file>
