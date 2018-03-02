@@ -6,7 +6,7 @@
     <color name="colorControlHighlight">#2c576c</color>
     <color name="colorPrimary">#2c576c</color>
     <color name="colorPrimaryDark">#3b3b3b</color>
+    <color name="statusBarColor">#2c576c</color>
     <color name="textColor">#f80000</color>
     <color name="textColorPrimary">#2c576c</color>
-    <color name="statusBarColor">#2c576c</color>
 </resources>
