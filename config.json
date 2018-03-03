@@ -1,7 +1,7 @@
 {
-    "appName": "MyApp",
-    "appDescription": "The app description",
-    "organizationName": "My App",
+    "appName": "LoremIpSum",
+    "appDescription": "Lorem ip sum...",
+    "organizationName": "org.lorem.ipsum",
     "organizationDomain": "myapp.org",
     "applicationStyle": "Material",
     "forceEulaAgreement": false,
