@@ -11,8 +11,6 @@ import android.content.pm.PackageManager;
 import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import android.support.v4.app.ActivityCompat;
@@ -27,24 +25,15 @@ public class CustomActivity extends QtActivity
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final int sdkVersion = Build.VERSION.SDK_INT;
 
-    public CustomActivity()
-    {
-        super();
-        // set the theme package to configure lollipop (or above) action bar style and others configurations
-        // like transparent status bar via style.xml and the window colors via properties from colors.xml.
-        QT_ANDROID_THEMES = new String[] {"Theme.AppCompat"};
-        QT_ANDROID_DEFAULT_THEME = "Theme.AppCompat";
-    }
-
     @Override
     protected void onResume()
     {
         super.onResume();
 
-        if (sdkVersion >= 21) {
-            Window wd = getWindow();
-            wd.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
+        // set the theme package to configure lollipop (or above) action bar style and others configurations
+        // like transparent status bar via style.xml and the window colors via properties from colors.xml.
+        QT_ANDROID_THEMES = new String[] {"Theme.AppCompat"};
+        QT_ANDROID_DEFAULT_THEME = "Theme.AppCompat";
 
         isRunning   = true;
         m_instance  = this;
