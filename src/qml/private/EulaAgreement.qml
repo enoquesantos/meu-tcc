@@ -1,15 +1,8 @@
 import QtQuick 2.8
-import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
 
-import "qrc:/publicComponentes/" as Components
-
-Components.BasePage {
+Page {
     id: page
-    objectName: "EulaAgreement.qml"
-    title: qsTr("Terms of Use")
-    hasListView: false
-    hasNetworkRequest: false
 
     Flickable {
         id: flickable
@@ -47,8 +40,8 @@ Components.BasePage {
             visible: !Config.forceEulaAgreement
             anchors.centerIn: parent
             onClicked: {
-                App.saveSetting("app_eula_accepted", "1")
-                App.notifyEvent("app_eula_accepted", 0)
+                App.saveSetting("eula_accepted", "1")
+                App.notifyEvent("eula_accepted", 0)
             }
         }
 
@@ -66,7 +59,7 @@ Components.BasePage {
             visible: Config.forceEulaAgreement
             anchors { right: parent.right; rightMargin: 10; verticalCenter: parent.verticalCenter; horizontalCenter: undefined }
             onClicked: {
-                App.saveSetting("app_eula_accepted", "1")
+                App.saveSetting("eula_accepted", "1")
                 window.setActivePage()
             }
         }

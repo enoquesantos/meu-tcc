@@ -5,7 +5,6 @@ import QtGraphicalEffects 1.0
 
 Popup {
     id: _dialog
-    objectName: "PhotoSelection.qml"
     x: Math.round((window.width - width) / 2)
     y: Math.round((window.height - height) / 2.5)
     width: Math.round(Math.min(window.width, window.height) / 3 * 2.5)

@@ -3,7 +3,6 @@ import QtQuick.Controls 2.1
 
 TextField {
     id: textField
-    objectName: "PasswordField.qml"
     z: 0; antialiasing: true; width: parent.width
     color: Config.theme.textColorPrimary
     selectByMouse: true; cursorVisible: focus

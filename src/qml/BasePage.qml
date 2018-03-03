@@ -3,7 +3,6 @@ import QtQuick.Controls 2.1
 
 Page {
     id: basePage
-    objectName: "BasePage.qml"
     width: window.width
     background: Rectangle {
         id: _pageBackgroundRec

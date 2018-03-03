@@ -5,7 +5,6 @@ import "qrc:/publicComponentes/" as Components
 
 Drawer {
     id: menu
-    objectName: "Drawer.qml"
     width: window.width * 0.85; height: window.height
     dragMargin: window.userProfile && !window.userProfile.isLoggedIn ? 0 : (Qt.styleHints.startDragDistance + 10)
 
@@ -106,7 +105,7 @@ Drawer {
     // }
     Components.CustomListView {
         id: listView
-        z: 1; clip: true
+        z: 1; clip: true; width: parent.width
         anchors { fill: undefined; top: userInfoRect.bottom; topMargin: 0; bottom: parent.bottom }
         delegate: Components.ListItem {
             showSeparator: false

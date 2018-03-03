@@ -2,9 +2,7 @@ import QtQuick 2.8
 import QtMultimedia 5.8
 
 BasePage {
-    id: _cameraPage
-    objectName: "CameraCapture.qml"
-    title: qsTr("Capture new image")
+    title: qsTr("Capture a image")
     toolBarState: "goBack"
     hasListView: false; hasNetworkRequest: false
     pageBackgroundColor: "black"
@@ -31,7 +29,7 @@ BasePage {
     Timer {
         id: countdowToHide
         interval: 1300
-        onTriggered: _cameraPage.close()
+        onTriggered: close()
     }
 
     Camera {

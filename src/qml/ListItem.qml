@@ -5,7 +5,6 @@ import QtGraphicalEffects 1.0
 
 ItemDelegate {
     id: listItem
-    objectName: "ListItem.qml"
     width: parent.width; height: 60
     antialiasing: true; opacity: enabled ? 1 : 0.7
     anchors.horizontalCenter: parent.horizontalCenter

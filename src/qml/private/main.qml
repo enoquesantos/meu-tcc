@@ -88,7 +88,7 @@ ApplicationWindow {
     // load a new instance of messages dialog component,
     Loader {
         active: true
-        source: MessageDialog { buttons: StandardButton.Ok | StandardButton.Cancel }
+        sourceComponent: MessageDialog { buttons: StandardButton.Ok | StandardButton.Cancel }
         onLoaded: dialog = item
     }
 

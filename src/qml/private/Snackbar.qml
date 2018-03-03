@@ -8,7 +8,6 @@ import QtQuick.Controls 2.1
 Item {
     id: snackbar
     z: 2
-    objectName: "Snackbar.qml"
     width: parent.width; height: 48
     anchors { bottom: parent.bottom; bottomMargin: initialMargin }
 

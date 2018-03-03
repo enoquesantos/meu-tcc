@@ -7,9 +7,9 @@ import "qrc:/privateComponents" as Private
 
 ToolBar {
     id: toolBar
-    objectName: "ToolBar.qml"; state: "normal"
+    state: "normal"
     visible: window.currentPage && window.currentPage.showToolBar && pageStack.depth > 0
-    height: visible ? (Qt.platform.os === "android" ? 75 : 55) : 0
+    height: visible ? 55 : 0
 
     // this property can be used by page to set a custom color to this ToolBar
     property color toolBarColor
@@ -141,20 +141,9 @@ ToolBar {
         value: toolBar.state === "search" || toolBar.state === "goBack" ? "arrow_left" : "bars"
     }
 
-    Item {
-        id: fixAndroidToolbarAppearence
-        visible: Qt.platform.os === "android"
-        width: parent.width; height: visible ? 26 : 4
-        anchors.top: parent.top
-    }
-
     RowLayout {
         id: toolBarItens
-        anchors {
-            top: fixAndroidToolbarAppearence.bottom
-            left: parent.left
-            right: parent.right
-        }
+        anchors { top: parent.top; left: parent.left; right: parent.right }
 
         Private.ToolBarButton {
             id: toolButtonFirst

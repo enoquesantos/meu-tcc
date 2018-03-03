@@ -6,7 +6,6 @@ import Qt.labs.calendar 1.0
 
 Popup {
     id: _datepicker
-    objectName: "Datepicker.qml"
     modal: true; focus: true
     x: window.width / 2 - (width / 2)
     y: window.height * 0.05

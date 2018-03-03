@@ -2,7 +2,6 @@ import QtQuick 2.8
 import QtQuick.Controls 2.1
 
 Item {
-    objectName: "ToolBarSearch.qml"
     width: parent.width * 0.75; height: parent.height
     visible: toolBar.state === "search"
 

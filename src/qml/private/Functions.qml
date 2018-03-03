@@ -1,8 +1,6 @@
 import QtQuick 2.8
 
 QtObject {
-    objectName: "Functions.qml"
-
     /**
       * append a new page to SwipeView container (if application uses SwipeView)
       * and create a new TabBarButton to window.footer (a instance of QuickControls TabBar)
@@ -134,21 +132,13 @@ QtObject {
       *    Login page needs to be set by some plugin and the path is saved by PluginManager.
       */
     function setActivePage() {
-        if (Config.showEula && App.readSetting("app_eula_accepted") !== "1") {
+        if (Config.showEula && App.readSetting("eula_accepted") !== "1") {
             pageStack.push(Qt.resolvedUrl("EulaAgreement.qml"))
             return
         }
         if (!Config.hasLogin || Config.hasLogin && userProfile && userProfile.isLoggedIn) {
             if (Config.usesSwipeView) {
                 pageStack.clear()
-
-                // folow code can be used to create the swipeview pages in c++, insteade of jvascript
-                // But, the plugins needs to import your self directory from assets plugins to use the files in plugin dir, like this: assets:/plugins/plugin_name
-                //
-                // var pages = App.readSetting("pages", App.SettingTypeJsonArray)
-                // Utils.createSwipeViewPages(pages, swipeView, window.footer, userProfile ? userProfile.profileName : "")
-                //
-
                 setMenuItens()
             } else {
                 pageStack.replace(App.readSetting("homePageUrl", App.SettingTypeString))

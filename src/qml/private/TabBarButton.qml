@@ -5,7 +5,6 @@ import "qrc:/publicComponentes/" as Components
 
 TabButton {
     id: control
-    objectName: "TabBarButton.qml"
     contentItem: Text {
         id: txt
         visible: Config.showTabButtonText && swipeView.count < 6

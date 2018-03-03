@@ -3,7 +3,6 @@ import QtQuick.Controls 2.0
 
 Rectangle {
     id: roundedImage
-    objectName: "RoundedImage.qml"
     antialiasing: true
     color: "transparent"
     visible: img.source

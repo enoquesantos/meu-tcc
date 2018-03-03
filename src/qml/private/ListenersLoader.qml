@@ -1,8 +1,6 @@
 import QtQuick 2.8
 
 QtObject {
-    objectName: "ListenersLoader.qml"
-
     Component.onCompleted: {
         var component = {}, listeners = App.readSetting("listeners", App.SettingTypeJsonArray)
         while (listeners.length) {

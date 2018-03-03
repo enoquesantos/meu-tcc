@@ -3,7 +3,6 @@ import QtQuick.Controls 2.1
 
 StackView {
     id: _pageStack
-    objectName: "PageStack.qml"
     anchors.fill: visible ? parent : undefined
 
     property int count

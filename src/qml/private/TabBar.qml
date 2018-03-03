@@ -5,7 +5,6 @@ import QtGraphicalEffects 1.0
 TabBar {
     id: tabBar
     z: 2
-    objectName: "TabBar.qml"
     visible: !Config.hasLogin || (Config.hasLogin && window.userProfile && window.userProfile.isLoggedIn)
     currentIndex: swipeView.currentIndex
 
