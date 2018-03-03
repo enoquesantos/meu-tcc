@@ -65,22 +65,6 @@ Components.BasePage {
             }
 
             Item {
-                width: parent.width * 0.80; height: organizationName.implicitHeight + 10
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                Label {
-                    id: organizationName
-                    width: parent.width
-                    wrapMode: Text.WordWrap
-                    text: Config.organizationName
-                    color: Config.theme.colorAccent
-                    font { weight: Font.DemiBold; pointSize: 18 }
-                    horizontalAlignment: Label.AlignHCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-            }
-
-            Item {
                 id: lastLabel
                 width: parent.width * 0.80; height: applicationDescription.implicitHeight + 10
                 anchors.horizontalCenter: parent.horizontalCenter
