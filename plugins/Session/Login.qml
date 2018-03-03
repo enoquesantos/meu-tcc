@@ -1,10 +1,10 @@
 import QtQuick 2.8
+import QtQuick.Controls 2.2
 
 import "qrc:/publicComponentes/" as Components
 
 Components.BasePage {
     id: page
-    objectName: "Login.qml"
     absPath: Config.plugins.session + objectName
     lockGoBack: true; showTabBar: false; showToolBar: false; hasListView: false
 
@@ -60,7 +60,9 @@ Components.BasePage {
 
             Button {
                 id: loginButton
+                width: page.width * 0.40
                 enabled: !isPageBusy && loginResult === null
+                anchors.horizontalCenter: parent.horizontalCenter
                 text: qsTr("LOG IN")
                 onClicked: {
                     if (!login.text.length)
@@ -75,6 +77,8 @@ Components.BasePage {
             Button {
                 id: lostPasswordButton
                 flat: true
+                width: page.width * 0.40
+                anchors.horizontalCenter: parent.horizontalCenter
                 enabled: !isPageBusy && loginResult === null
                 text: qsTr("Retrieve password")
                 onClicked: pageStack.push(Config.plugins.session + "LostPassword.qml")

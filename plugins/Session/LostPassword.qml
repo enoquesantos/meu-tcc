@@ -1,11 +1,10 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
 
-import "qrc:/src/qml/" as Components
+import "qrc:/publicComponentes/" as Components
 
 Components.BasePage {
     id: page
-    objectName: "LostPassword.qml"
     absPath: Config.plugins.session + objectName
     showTabBar: false; hasListView: false
 
@@ -45,6 +44,8 @@ Components.BasePage {
         Button {
             enabled: !isPageBusy
             text: qsTr("Submit")
+            width: page.width * 0.40
+            anchors.horizontalCenter: parent.horizontalCenter
             onClicked: {
                 var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                 if (!email.text)
