@@ -6,7 +6,7 @@ import "qrc:/publicComponentes/" as Components
 
 Components.BasePage {
     id: page
-    title: qsTr("About ") + Config.appName
+    title: qsTr("About ") + Config.applicationName
     objectName: "AboutPage.qml"
     absPath: Config.plugins.about + "AboutPage.qml"
     hasListView: false
@@ -51,7 +51,7 @@ Components.BasePage {
                     id: applicationName
                     width: parent.width
                     wrapMode: Text.WordWrap
-                    text: Config.appName
+                    text: Config.applicationName
                     color: Config.theme.colorAccent
                     font { weight: Font.ExtraBold; pointSize: Config.fontSize.extraLarge }
                     horizontalAlignment: Label.AlignHCenter
@@ -61,24 +61,6 @@ Components.BasePage {
                         anchors.fill: parent
                         onClicked: Qt.openUrlExternally("www.google.com")
                     }
-                }
-            }
-
-            Item {
-                id: lastLabel
-                width: parent.width * 0.80; height: applicationDescription.implicitHeight + 10
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                Label {
-                    id: applicationDescription
-                    width: parent.width
-                    wrapMode: Text.WordWrap
-                    elide: Text.ElideRight
-                    text: Config.appDescription
-                    color: Config.theme.colorAccent
-                    font { weight: Font.DemiBold; pointSize: 16 }
-                    horizontalAlignment: Label.AlignHCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
 

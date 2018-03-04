@@ -1,8 +1,7 @@
 {
-    "appName": "LoremIpSum",
-    "appDescription": "Lorem ip sum...",
-    "organizationName": "org.lorem.ipsum",
-    "organizationDomain": "myapp.org",
+    "applicationName": "The application name",
+    "organizationName": "The organization name",
+    "organizationDomain": "the.organization.domain",
     "applicationStyle": "Material",
     "forceEulaAgreement": false,
     "hasLogin": true,
@@ -33,7 +32,5 @@
         "pageBackgroundColor": "#fafafa",
         "toolTipBackgroundColor": "#323232"
     },
-    "events": {
-        "event_name": "event_value"
-    }
+    "events": []
 }
