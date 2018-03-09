@@ -128,7 +128,7 @@ public:
      * @WARNING!
      * This method is asynchronous and uses the DownloadManager object to execute the request and emit the signal "downloadFinished" at the end.
      * Your can get the download status creating a connection with downloadProgressChanged signal.
-     * To access the downloaded files, create a connection with "downloadedFileSaved" signal, emitted for each downloaded file.
+     * To access the downloaded files, create a connection with "downloadFileSaved" signal, emitted for each downloaded file.
      *
      * @param urls QStringList the list of files to download
      * @param saveInAppDirectory a flag to decide if downloaded file will be saved in application directory or in the device download path.
@@ -246,11 +246,11 @@ signals:
     void downloadProgressChanged(qint64 bytesReceived, qint64 bytesTotal);
 
     /**
-     * @brief downloadedFileSaved
+     * @brief downloadFileSaved
      * Emitted after each downloaded file are saved in device, emitted from downloadFile method.
      * @param filePath QByteArray the saved file absolute path in the device
      */
-    void downloadedFileSaved(const QByteArray &filePath);
+    void downloadFileSaved(const QByteArray &filePath);
 
     /**
      * @brief error

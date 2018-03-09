@@ -144,7 +144,7 @@ void RequestHttp::downloadFile(const QStringList &urls, bool saveInAppDirectory,
     connect(downloadManager, SIGNAL(downloadProgressChanged(qint64, qint64)), this, SIGNAL(downloadProgressChanged(qint64, qint64)));
 
     // create a connection to emit downloaded file saved signal with the file path
-    connect(downloadManager, SIGNAL(fileSaved(QByteArray)), this, SIGNAL(downloadedFileSaved(QByteArray)));
+    connect(downloadManager, SIGNAL(fileSaved(QByteArray)), this, SIGNAL(downloadFileSaved(QByteArray)));
 
     // create a connection to handle the pointer deletion
     connect(downloadManager, &DownloadManager::finished, [this](DownloadManager* dm) {
