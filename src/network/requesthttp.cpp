@@ -17,6 +17,10 @@
 #include "uploadmanager.h"
 #include "downloadmanager.h"
 
+QByteArray RequestHttp::m_basicAuthorization = QByteArrayLiteral("");
+QByteArray RequestHttp::m_basicAuthorizationUser = QByteArrayLiteral("");
+QByteArray RequestHttp::m_basicAuthorizationPassword = QByteArrayLiteral("");
+
 RequestHttp::RequestHttp(QObject *parent) : QObject(parent)
   ,m_status(Status::Ready)
 {

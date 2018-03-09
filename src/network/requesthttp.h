@@ -345,19 +345,19 @@ private:
      * user name and user password as QByteArray from a base64, like this:
      *  1: m_basicAuthorization = "Basic " + QByteArray(usernameAndPassword.toLocal8Bit().toBase64());
      */
-    QByteArray m_basicAuthorization;
+    static QByteArray m_basicAuthorization;
 
     /**
      * @brief m_basicAuthorizationUser
      * The user name used to create the basic authorization header, sent in all requests.
      */
-    QByteArray m_basicAuthorizationUser;
+    static QByteArray m_basicAuthorizationUser;
 
     /**
      * @brief m_basicAuthorizationPassword
      * The user password used to create the basic authorization header, sent in all requests.
      */
-    QByteArray m_basicAuthorizationPassword;
+    static QByteArray m_basicAuthorizationPassword;
 };
 
 #endif // REQUESTHTTP_H
