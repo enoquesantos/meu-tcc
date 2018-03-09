@@ -13,8 +13,7 @@
     "restService": {
         "userName": "",
         "userPass": "",
-        "baseUrl": "",
-        "baseImagesUrl": ""
+        "baseUrl": ""
     },
     "fontSize": {
         "small": 10,
