@@ -1,5 +1,6 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
+import RequestHttp 1.0
 
 Page {
     id: basePage
@@ -129,6 +130,18 @@ Page {
         asynchronous: false; active: hasNetworkRequest
         sourceComponent: RequestHttp {
             onFinished: requestFinished(statusCode, response)
+            onError: {
+                // signal signature: void error(int statusCode, const QVariant &message);
+                if (statusCode !== 3)
+                    return
+                // alert is a signal on Main.qml.
+                // on iOS, the alert show a dialog with a native appearence,
+                // snackbar is a object on Main.qml most used in Android to show short warnings in android.
+                if (["ios", "osx"].indexOf(Qt.platform.os) > -1)
+                    functions.alert(qsTr("Error!"), qsTr("Cannot connect to server!"))
+                else
+                    snackbar.show(qsTr("Cannot connect to server!"))
+            }
         }
         onLoaded: {
             requestHttp = item
