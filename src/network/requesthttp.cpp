@@ -1,7 +1,6 @@
 #include "requesthttp.h"
 
 #include <QJSEngine>
-#include <QJSValue>
 #include <QList>
 #include <QJSValueList>
 
@@ -9,6 +8,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QMapIterator>
+#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QStandardPaths>
 #include <QUrl>
@@ -29,14 +29,14 @@ RequestHttp::RequestHttp(QObject *parent) : QObject(parent)
 void RequestHttp::setBasicAuthorizationUser(const QByteArray &user)
 {
     m_basicAuthorizationUser = user;
-    if (!m_basicAuthorizationPassword.isEmpty())
+    if (!m_basicAuthorizationPassword.isEmpty() && m_basicAuthorization.isEmpty())
         setBasicAuthorization(m_basicAuthorizationUser, m_basicAuthorizationPassword);
 }
 
 void RequestHttp::setBasicAuthorizationPassword(const QByteArray &password)
 {
     m_basicAuthorizationPassword = password;
-    if (!m_basicAuthorizationUser.isEmpty())
+    if (!m_basicAuthorizationUser.isEmpty() && m_basicAuthorization.isEmpty())
         setBasicAuthorization(m_basicAuthorizationUser, m_basicAuthorizationPassword);
 }
 
@@ -107,37 +107,33 @@ void RequestHttp::setHeaders(const QVariantMap &requestHeaders, QNetworkRequest 
 
 void RequestHttp::connectCallback(QNetworkAccessManager *manager, QJSValue callback)
 {
-    if (callback.isCallable()) {
-        QJSValue *_callback = new QJSValue(callback);
-        connect(manager, &QNetworkAccessManager::finished, [this, _callback](QNetworkReply *reply) {
-            QJsonParseError parseError;
-            QByteArray result(reply->readAll());
+    QJSValue *_callback = new QJSValue(callback);
+    connect(manager, &QNetworkAccessManager::finished, [this, _callback](QNetworkReply *reply) {
+        QJsonParseError parseError;
+        QByteArray result(reply->readAll());
 
-            QJSValue response;
-            QJSValue status(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+        QJSValue response;
+        QJSValue status(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
 
-            // try to parse the response data to json document
-            QJsonDocument doc(QJsonDocument::fromJson(result, &parseError));
+        // try to parse the response data to json document
+        QJsonDocument doc(QJsonDocument::fromJson(result, &parseError));
 
-            // if json is not valid, uses the byte array
-            if (parseError.error != QJsonParseError::NoError)
-                response = QString(result);
-            // if is a valid json object, uses a object
-            else if (doc.isObject())
-                response = _callback->engine()->toScriptValue<QVariantMap>(doc.object().toVariantMap());
-            // if is a valid json array, uses a array
-            else if (doc.isArray())
-                response = _callback->engine()->toScriptValue<QVariantList>(doc.array().toVariantList());
+        // if json is not valid, uses the byte array
+        if (parseError.error != QJsonParseError::NoError)
+            response = QString(result);
+        // if is a valid json object, uses a object
+        else if (doc.isObject())
+            response = _callback->engine()->toScriptValue<QVariantMap>(doc.object().toVariantMap());
+        // if is a valid json array, uses a array
+        else if (doc.isArray())
+            response = _callback->engine()->toScriptValue<QVariantList>(doc.array().toVariantList());
 
-            setStatus(Status::Finished);
-            _callback->call(QJSValueList{status, response});
+        setStatus(Status::Finished);
+        _callback->call(QJSValueList{status, response});
 
-            reply->deleteLater();
-            reply->manager()->deleteLater();
-        });
-    } else {
-        connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
-    }
+        reply->deleteLater();
+        reply->manager()->deleteLater();
+    });
 }
 
 void RequestHttp::downloadFile(const QStringList &urls, bool saveInAppDirectory, const QVariantMap &headers)
@@ -211,7 +207,12 @@ void RequestHttp::get(const QByteArray &url, const QVariantMap &urlArgs, const Q
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
 
-    connectCallback(manager, callback);
+    // if this method was called from QML object and a javascript
+    // function was sent, create a connection to function receive the request results
+    if (callback.isCallable())
+        connectCallback(manager, callback);
+    else
+        connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
 
     QNetworkReply *reply = manager->get(request);
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));
@@ -223,7 +224,13 @@ void RequestHttp::post(const QByteArray &url, const QVariant &postData, const QV
     initRequest(&request, url, headers);
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    connectCallback(manager, callback);
+
+    // if this method was called from QML object and a javascript
+    // function was sent, create a connection to function receive the request results
+    if (callback.isCallable())
+        connectCallback(manager, callback);
+    else
+        connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(onFinished(QNetworkReply*)));
 
     QNetworkReply *reply = manager->post(request, postData.toByteArray());
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onError(QNetworkReply::NetworkError)));

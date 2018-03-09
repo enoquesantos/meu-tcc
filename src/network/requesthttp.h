@@ -4,9 +4,12 @@
 #include <QJsonParseError>
 #include <QJSValue>
 #include <QNetworkReply>
-#include <QNetworkAccessManager>
 #include <QObject>
 
+class QJsonArray;
+class QJsonObject;
+class QJsonDocument;
+class QNetworkAccessManager;
 class QNetworkRequest;
 class QUrl;
 class QUrlQuery;
@@ -45,7 +48,7 @@ public:
 
     /**
      * @brief The Status enum
-     * Keeps the current request status and can be used by QML components to binding with current status.
+     * Keeps the current request status and can be used by QML components to create binding's with other visual elements
      */
     enum Status {
         Error,
