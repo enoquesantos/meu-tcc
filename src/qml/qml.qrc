@@ -10,7 +10,6 @@
         <file>ListItem.qml</file>
         <file>PasswordField.qml</file>
         <file>PhotoSelection.qml</file>
-        <file>RequestHttp.qml</file>
         <file>RoundedImage.qml</file>
         <file>TimePicker.qml</file>
     </qresource>
