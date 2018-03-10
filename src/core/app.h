@@ -114,6 +114,12 @@ public:
      */
     static void fireEventNotify(const QString &eventName, const QString &eventData);
 
+    /**
+     * @brief instance
+     * @return App *
+     */
+    static App *instance();
+
 signals:
     /**
      * @brief notifyEvent

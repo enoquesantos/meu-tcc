@@ -48,6 +48,7 @@ void App::init()
         QStringLiteral("appendOptionPage"),
         QStringLiteral("cameraImageSaved"),
         QStringLiteral("cancelSearch"),
+        QStringLiteral("imageFileSelected"),
         QStringLiteral("logoutApplication"),
         QStringLiteral("newActionNotification"),
         QStringLiteral("newPushNotification"),
@@ -171,4 +172,9 @@ void App::fireEventNotify(const QString &eventName, const QString &eventData)
     if (App::m_instance == nullptr)
         return;
     App::m_instance->eventNotify(eventName, eventData);
+}
+
+App *App::instance()
+{
+    return m_instance;
 }
