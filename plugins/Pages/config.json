@@ -5,7 +5,7 @@
             "title": "Página 1",
             "awesomeIcon": "commenting",
             "order": 3,
-            "roles": ["customer"],
+            "roles": ["student"],
             "showInDrawer": true,
             "showInTabBar": true
         },
@@ -24,7 +24,7 @@
             "awesomeIcon": "code_fork",
             "isHomePage": true,
             "order": 5,
-            "roles": ["customer"],
+            "roles": ["student"],
             "showInDrawer": true,
             "showInTabBar": true
         },
@@ -42,7 +42,7 @@
             "title": "Página 5",
             "awesomeIcon": "github",
             "order": 7,
-            "roles": ["administrator"],
+            "roles": ["student"],
             "showInDrawer": true,
             "showInTabBar": true
         },

@@ -4,7 +4,7 @@
             "qml": "AboutPage.qml",
             "title": "Sobre",
             "awesomeIcon": "question_circle",
-            "roles": ["customer"],
+            "roles": ["student"],
             "order": 0,
             "showInDrawer": true,
             "showInTabBar": true
