@@ -44,6 +44,7 @@ Components.BasePage {
             }
 
             Item {
+                id: firstLabelItem
                 width: parent.width * 0.80; height: applicationName.implicitHeight + 10
                 anchors.horizontalCenter: parent.horizontalCenter
 
@@ -69,7 +70,7 @@ Components.BasePage {
                 height: appDetailedDescription.height
                 anchors {
                     horizontalCenter: parent.horizontalCenter
-                    top: lastLabel.bottom
+                    top: firstLabelItem.bottom
                     topMargin: 25
                 }
 
