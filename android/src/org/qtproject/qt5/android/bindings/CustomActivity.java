@@ -1,9 +1,5 @@
 package org.qtproject.qt5.android.bindings;
 
-// import android.util.Log;
-
-import java.lang.Thread;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,15 +7,15 @@ import android.content.pm.PackageManager;
 import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
-
+import android.util.Log;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 public class CustomActivity extends QtActivity
 {
     private static Context context;
-    private static CustomActivity m_instance;
     private static String TAG = "CustomActivity";
     private static boolean isRunning = false;
     private static final int PERMISSION_REQUEST_CODE = 1;
@@ -36,20 +32,27 @@ public class CustomActivity extends QtActivity
         QT_ANDROID_DEFAULT_THEME = "Theme.AppCompat";
 
         isRunning   = true;
-        m_instance  = this;
         context     = getApplicationContext();
 
         // if has badge (pending notification) number in the laucher icon, will be removed
         BadgeUtils.resetBadge(context);
 
-        // if the app open fom notification click
-        // the arguments in notification (from intent extra data) will be pass to Qt application
+        // if the app was started from a notification click
+        // the arguments in notification (from intent extra data) will be sent to Qt application
         onNewIntent(getIntent());
 
         // if android marshmallow or above
         // show request permission dialog to app read/write in local storage (if is not allowed yet)
         if (sdkVersion >= 23 && !isEnabledToHandleStorage())
             requestToHandleStorage();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                sendFirebaseTokenToQtApplication();
+            }
+        }, 15000);
     }
 
     @Override
@@ -73,14 +76,15 @@ public class CustomActivity extends QtActivity
             final String messageData = bundle.getString("messageData");
             if (messageData != null && !messageData.equals("")) {
                 try {
-                    new Thread(new Runnable() {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             ActivityToApplication.eventNotify("newActionNotification", messageData);
                         }
-                    }).start();
+                    }, 10000);
                 } catch(Exception e) {
-                    // Log.e(TAG, Log.getStackTraceString(e));
+                    Log.e(TAG, Log.getStackTraceString(e));
                 }
             }
         }
@@ -94,19 +98,10 @@ public class CustomActivity extends QtActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // show system dialog with the permission request
         if (requestCode == PERMISSION_REQUEST_CODE && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            sendFirebaseTokenToQtApplication();
             showToast("Permissão para acesso ao armazenamento concedida!", 0);
-            try {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ActivityToApplication.eventNotify("newPushNotificationToken", getPushNotificationToken());
-                    }
-                }).start();
-            } catch(Exception e) {
-                // Log.e(TAG, Log.getStackTraceString(e));
-            }
         } else {
-            showToast("Para trocar sua imagem de perfil, habilite o acesso ao armazenamento nas configurações do aplicativo.", Toast.LENGTH_SHORT);
+            showToast("O aplicativo precisa de permissão para leitura e escrita no sistema de arquivos. Por favor, autorize nas configurações de aplicativos.", Toast.LENGTH_SHORT);
         }
     }
 
@@ -132,8 +127,8 @@ public class CustomActivity extends QtActivity
     }
 
     /**
-     * Show a system dialog for request permission
-     * to user enable the read/write in internal storage for the application
+     * Show a system dialog for request permission to write in local storage
+     * The user need to enable the read/write in internal storage
      * @return void
      */
     private void requestToHandleStorage()
@@ -145,26 +140,7 @@ public class CustomActivity extends QtActivity
     }
 
     /**
-     * Utilizado pelo Qt para lê o token quando o mesmo é registrado antes do usuário
-     * habilitar permissão de escrita ao armazenamento interno pelo aplicativo
-     * pois o Qt nesse processo, ainda não conseguirá persistir no diretório de escrita
-     * Porém o firebase já persistiu o token e após o usuário logar, o Qt acessará esse método
-     * para pegar o token e enviar para o webservice
-     * @return String
-     */
-    public String getPushNotificationToken()
-    {
-        try {
-            SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
-            return sp.getString("push_notification_token_id", "");
-        } catch(Exception e) {
-            // Log.e(TAG, Log.getStackTraceString(e));
-        }
-        return "";
-    }
-
-    /**
-     * Send a notification to app window using Toast
+     * Send a user notification into app window using Toast Widget
      * https://developer.android.com/guide/topics/ui/notifiers/toasts.html
      * @return void
      */
@@ -178,6 +154,39 @@ public class CustomActivity extends QtActivity
     }
 
     /**
+     * Get the Firebase Token from application Shared Preferences
+     * @return String
+     */
+    private String getFirebaseToken()
+    {
+        SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+        return sp.getString("push_notification_token_id", "");
+    }
+
+    /**
+     * Sent the firebase Token to Qt Application, using a connection with App class
+     * with JNI. The ActivityToApplication.eventNotify method is a Java Native method connected
+     * with c++ App::eventNotify static method. The connection will be create when main.cpp from
+     * Qt application will be loaded.
+     * @return void
+     */
+    public void sendFirebaseTokenToQtApplication()
+    {
+        try {
+            final String token = getFirebaseToken();
+            if (token.equals("")) return;
+            new java.lang.Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ActivityToApplication.eventNotify("newPushNotificationToken", token);
+                }
+            }).start();
+        } catch(Exception e) {
+            Log.e(TAG, Log.getStackTraceString(e));
+        }
+    }
+
+    /**
      * Send a notification to system tray with a title, a message and some arguments.
      * https://developer.android.com/guide/topics/ui/notifiers/notifications.html
      * @param String title the notification title
@@ -186,8 +195,8 @@ public class CustomActivity extends QtActivity
      * @param String messageData a string with some json or string to send to QtApplication when user click in the notification, read as Intent extraData.
      * @return void
      */
-    public void showNotification(String title, String message, String sender, String messageData)
+    public void showNotification(String title, String message, String messageData)
     {
-        new SystemNotification(context, CustomActivity.class).notify(title, message, sender, messageData);
+        new SystemNotification(context, CustomActivity.class).notify(title, message, messageData);
     }
 }

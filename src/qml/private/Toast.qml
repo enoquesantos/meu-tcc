@@ -1,4 +1,4 @@
-import QtQuick 2.8
+import QtQuick 2.9
 
 // implementation of Google Material Toast.
 // https://material.google.com/components/snackbars-toasts.html

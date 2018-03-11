@@ -2,17 +2,15 @@
 
 #include <QDir>
 #include <QFile>
-#include <QFileDialog>
 #include <QFileInfo>
 #include <QStandardPaths>
 
 FileDialog::FileDialog(QObject *parent): QObject(parent)
   ,m_copyToAppDirectory(true)
 {
-    m_qFileDialog = new QFileDialog;
-    m_qFileDialog->setFileMode(QFileDialog::ExistingFiles);
-    m_qFileDialog->setDirectory(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).last());
-    connect(m_qFileDialog, SIGNAL(fileSelected(QString)), this, SLOT(onFileSelected(QString)));
+    m_qFileDialog.setFileMode(QFileDialog::ExistingFiles);
+    m_qFileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).last());
+    connect(&m_qFileDialog, SIGNAL(fileSelected(QString)), this, SLOT(onFileSelected(QString)));
 }
 
 void FileDialog::onFileSelected(const QString &file)
@@ -23,8 +21,8 @@ void FileDialog::onFileSelected(const QString &file)
 void FileDialog::open(bool copyToAppDirectory, const QStringList &filters)
 {
     m_copyToAppDirectory = copyToAppDirectory;
-    m_qFileDialog->setNameFilter(filters.join(" "));
-    m_qFileDialog->open();
+    m_qFileDialog.setNameFilter(filters.join(" "));
+    m_qFileDialog.open();
 }
 
 void FileDialog::copyFileToApplicationDir(const QString &filePath)

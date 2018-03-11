@@ -1,5 +1,5 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.0
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 Rectangle {
     id: roundedImage
@@ -11,9 +11,9 @@ Rectangle {
     property alias imgSource: img.source
     property color borderColor: "transparent"
 
-    signal imageReady()
-    signal clicked()
-    signal pressAndHold()
+    signal imageReady
+    signal clicked
+    signal pressAndHold
 
     MouseArea {
         id: _control

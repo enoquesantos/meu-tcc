@@ -19,12 +19,11 @@ class Worker : public QThread
 {
     Q_OBJECT
 public:
-    Worker(Observer *observer, const QString &event, const QVariant &data, QObject *sender, QObject *parent = nullptr) : QThread(parent)
+    Worker(Observer *observer, const QString &event, const QVariant &data, QObject *parent = nullptr) : QThread(parent)
     {
         m_observer = observer;
         m_event = event;
         m_data = data;
-        m_sender = sender;
     }
 
 private:
@@ -46,22 +45,16 @@ private:
      */
     Observer *m_observer;
 
-    /**
-     * @brief m_sender QObject *
-     * A pointer to event sender
-     */
-    QObject *m_sender;
-
 protected:
     /**
      * @brief run
      * Execute the current thread operation, updating the observer from new event,
-     * sending the arguments and the event sender.
+     * sending the arguments to object listener.
      * This method is called internally, after call QThread.start();
      */
     void run() override
     {
-        m_observer->update(m_event, m_data, m_sender);
+        m_observer->update(m_event, m_data);
     }
 };
 }
@@ -111,9 +104,8 @@ public:
      * Notify all observers from new event, sending the event data as event argument and the event issuer.
      * @param event QString the event name
      * @param data QVariant the event data. Can be a integer, float, array or a object
-     * @param sender QObject* the event issuer. Can be any QML component
      */
-    Q_INVOKABLE void notify(const QString &event, const QVariant &data, QObject *sender);
+    Q_INVOKABLE void notify(const QString &event, const QVariant &data);
 
 private:
     /**

@@ -1,6 +1,6 @@
 pragma Singleton
 
-import QtQuick 2.8
+import QtQuick 2.9
 
 FontLoader {
     id: _source

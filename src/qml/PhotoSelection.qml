@@ -1,5 +1,5 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 
@@ -8,7 +8,7 @@ Popup {
     x: Math.round((window.width - width) / 2)
     y: Math.round((window.height - height) / 2.5)
     width: Math.round(Math.min(window.width, window.height) / 3 * 2.5)
-    height: (window.height/4) + content.implicitHeight*0.70
+    height: (window.height / 4) + content.implicitHeight * 0.70
     modal: true; focus: true
     background: Rectangle {
         id: rect

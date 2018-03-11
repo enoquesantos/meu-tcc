@@ -7,7 +7,6 @@
 
 AndroidFileDialog::AndroidFileDialog(QObject *parent): FileDialog(parent)
 {
-     m_qFileDialog->deleteLater();
 }
 
 void AndroidFileDialog::open(bool copyToAppDirectory, const QStringList &filters)

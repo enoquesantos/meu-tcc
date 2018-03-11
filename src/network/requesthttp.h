@@ -36,7 +36,7 @@ class RequestHttp : public QObject
     Q_PROPERTY(int Finished READ statusFinished)
     Q_PROPERTY(int Loading READ statusLoading)
     Q_PROPERTY(int Ready READ statusReady)
-    Q_PROPERTY(QByteArray baseUrl WRITE setUrl NOTIFY baseUrlChanged MEMBER m_baseUrl)
+    Q_PROPERTY(QByteArray baseUrl WRITE setBaseUrl NOTIFY baseUrlChanged MEMBER m_baseUrl)
     Q_PROPERTY(QByteArray authorizationUser WRITE setBasicAuthorizationUser MEMBER m_basicAuthorizationUser)
     Q_PROPERTY(QByteArray authorizationPass WRITE setBasicAuthorizationPassword MEMBER m_basicAuthorizationPassword)
 public:
@@ -63,7 +63,7 @@ public:
      * Set the base url for current object
      * @param url QByteArray
      */
-    void setUrl(const QByteArray &url);
+    void setBaseUrl(const QByteArray &url);
 
     /**
      * @brief setBasicAuthorizationUser

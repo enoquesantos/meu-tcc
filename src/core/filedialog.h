@@ -1,9 +1,8 @@
 #ifndef FILEDIALOG_H
 #define FILEDIALOG_H
 
+#include <QFileDialog>
 #include <QObject>
-
-class QFileDialog;
 
 /**
  * @brief The FileDialog class
@@ -66,7 +65,7 @@ protected:
      * Handle the file selection dialog.
      * In android, this pointer is not needed and is deleted in the constructor.
      */
-    QFileDialog *m_qFileDialog;
+    QFileDialog m_qFileDialog;
 
     /**
      * @brief m_copyToAppDirectory

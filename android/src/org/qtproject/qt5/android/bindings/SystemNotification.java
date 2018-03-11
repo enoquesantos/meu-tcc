@@ -1,7 +1,5 @@
 package org.qtproject.qt5.android.bindings;
 
-// import android.util.Log;
-
 import java.util.Random;
 
 import android.app.Notification;
@@ -17,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.provider.Settings.System;
+import android.util.Log;
 
 public class SystemNotification
 {
@@ -37,7 +36,7 @@ public class SystemNotification
             PackageManager pm = context.getPackageManager();
             resources = pm.getResourcesForApplication(packageName);
         }  catch(Exception e) {
-            // Log.e(TAG, Log.getStackTraceString(e));
+            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 
@@ -58,7 +57,7 @@ public class SystemNotification
             resId = resources.getIdentifier(name, resourceOrigin, packageName);
             // Drawable myDrawable = resources.getDrawable(resId);
         } catch(Exception e) {
-            // Log.e(TAG, Log.getStackTraceString(e));
+            Log.e(TAG, Log.getStackTraceString(e));
         }
         return resId;
     }
@@ -68,7 +67,7 @@ public class SystemNotification
     // https://developer.android.com/guide/topics/ui/notifiers/notifications.html
     // https://developer.android.com/reference/android/support/v4/app/NotificationCompat.Builder.html
     // messageData will be pass to QtApplication as argument when user click in notification
-    public void notify(String title, String message, String sender, String messageData)
+    public void notify(String title, String message, String messageData)
     {
         Intent intent = null;
         int messageId = new Random().nextInt(99999);
@@ -107,16 +106,19 @@ public class SystemNotification
         notificationBuilder.setContentTitle(title);
         notificationBuilder.setDefaults(Notification.DEFAULT_SOUND);
 
+        // if the notification body text is a large text, show in notification
+        // as a big text, available from android lolipop or above
         Notification.BigTextStyle bigText = new Notification.BigTextStyle();
         bigText.bigText(message);
         bigText.setBigContentTitle(title);
 
         try {
-            if (message != null && !message.equals("") && sender != null && !sender.equals(""))
-                bigText.setSummaryText(":: " + sender);
+            // Obs: bigText.setSummaryText can be used to show the message sender name!
+            // if (message != null && !message.equals("") && sender != null && !sender.equals(""))
+            //    bigText.setSummaryText(":: " + sender);
             notificationBuilder.setStyle(bigText);
         } catch(Exception e) {
-            // Log.e("FirebaseListenerService", e);
+            Log.e(TAG, Log.getStackTraceString(e));
         }
 
         // send the message to system tray
@@ -131,7 +133,7 @@ public class SystemNotification
             try {
                 ActivityToApplication.eventNotify("newPushNotification", messageData);
             } catch(Exception e) {
-                // Log.e("FirebaseListenerService", e);
+                Log.e(TAG, Log.getStackTraceString(e));
             }
         }
     }

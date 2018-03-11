@@ -1,9 +1,7 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 import Qt.labs.platform 1.0
-
-import "qrc:/privateComponents"
 
 ApplicationWindow {
     id: window
@@ -14,12 +12,13 @@ ApplicationWindow {
     onClosing: functions.buttonPressed(close)
 
     Component.onCompleted: {
-        functions.setActivePage()
         // when runnig in desktop mode, centralize the application window.
         if (["linux","osx"].indexOf(Qt.platform.os) > -1) {
             setX(Screen.width / 2 - width / 2)
             setY(Screen.height / 2 - height / 2)
         }
+        functions.setActivePage()
+        functions.loadListeners()
     }
 
     // keeps a instance of MessageDialog with native look and feel,
@@ -61,6 +60,7 @@ ApplicationWindow {
     // The toolbar is used to show a button to open the navigation drawer (if "usesDrawer" is defined to true in config.json)
     // and dynamic buttons defined by each page, for some actions like show a submenu or search button.
     Loader {
+        id: loaderToolbar
         active: !Config.hasLogin || (Config.hasLogin && userProfile && userProfile.isLoggedIn)
         source: "ToolBar.qml"
         onLoaded: header = item
@@ -72,7 +72,7 @@ ApplicationWindow {
     // When user click in some item, the page will be created by PageStack.
     Loader {
         asynchronous: true
-        active: !Config.usesSwipeView && Config.usesDrawer && (!Config.hasLogin || (Config.hasLogin && userProfile && userProfile.isLoggedIn))
+        active: Config.usesDrawer && loaderToolbar.active
         source: "Drawer.qml"
         onLoaded: drawer = item
     }
@@ -112,14 +112,13 @@ ApplicationWindow {
         Keys.onBackPressed: functions.buttonPressed(event)
     }
 
-    // this component create all listeners plugins.
-    // to listeners plugins get access to user profile data or currentPage
-    // or any window object or property, the listeners needs to be loaded in this context.
-    ListenersLoader { }
-
     // create the application bindings with main window widgets
     // like SwipeView with TabBar(window.footer) and StackView with ToolBar (window.header)
-    Bindings { }
+    // load a new instance of messages dialog component,
+    Loader {
+        asynchronous: true; active: true
+        sourceComponent: Bindings { }
+    }
 
     // keeps the window signals, modularized to reduce the Main.qml size. :)
     Functions {

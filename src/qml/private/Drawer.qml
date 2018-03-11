@@ -1,10 +1,12 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import Observer 1.0
 
 import "qrc:/publicComponentes/" as Components
 
 Drawer {
-    id: menu
+    id: drawer
+    objectName: "Drawer"
     width: window.width * 0.85; height: window.height
     dragMargin: window.userProfile && !window.userProfile.isLoggedIn ? 0 : (Qt.styleHints.startDragDistance + 10)
 
@@ -16,10 +18,10 @@ Drawer {
 
     // override default effect
     enter: Transition {
-        NumberAnimation { duration: 400; easing.type: Easing.OutExpo }
+        NumberAnimation { duration: 320; easing.type: Easing.OutExpo }
     }
     exit: Transition {
-        NumberAnimation { duration: 420; easing.type: Easing.OutExpo }
+        NumberAnimation { duration: 380; easing.type: Easing.OutExpo }
     }
 
     property color menuBackgroundColor: Config.theme.menuBackgroundColor
@@ -29,19 +31,22 @@ Drawer {
     property color userInfoTextColor: Config.theme.textColorPrimary
     property alias listViewModel: listView.listModel
 
-    // to reduce the couplin with anothers components, the Drawer menu listener events
-    // from the application. This connection handle two signals:
-    //     1: a signal to open the drawer by event sent by toolbar
-    //     2: a signal to add new option to list pages in menu
-    Connections {
-        target: App
-        onEventNotify: {
-            // signal signature: eventNotify(string eventName, var eventData)
-            if (eventName === Config.events.openDrawer)
-                open()
-            else if (eventName === Config.events.appendOptionPage)
-                functions.addNewMenuItem(eventData, true)
-        }
+    // observe a signal to open the drawer. This event will be sent by window ToolBar
+    Observer {
+        id: drawerObserver1
+        objectName: drawer.objectName
+        event: Config.events.openDrawer
+        onUpdated: drawer.open()
+        Component.onCompleted: Subject.attach(drawerObserver1, event)
+    }
+
+    // observe a signal to add new option to list pages in ListView menu
+    Observer {
+        id: drawerObserver2
+        objectName: drawer.objectName
+        event: Config.events.appendOptionPage
+        onUpdated: functions.addNewMenuItem(eventData, true)
+        Component.onCompleted: Subject.attach(drawerObserver2, event)
     }
 
     // create a connection to handle the menu close after viewed page changed.
@@ -77,13 +82,15 @@ Drawer {
         Components.RoundedImage {
             id: drawerUserImageProfile
             width: 50; height: width; z: 3
+            visible: Config.hasLogin
             borderColor: Config.theme.colorAccent
-            imgSource: window.userProfile && "image_url" in window.userProfile ? window.userProfile.image_url : "qrc:/default_user_profile.svg"
+            imgSource: window.userProfile && "image_path" in window.userProfile.profile ? window.userProfile.profile.image_path : "qrc:/default_user_profile.svg"
             anchors { top: parent.top; topMargin: 70; left: parent.left; leftMargin: 20 }
         }
 
         Text {
             z: 3
+            visible: Config.hasLogin
             color: userInfoTextColor; textFormat: Text.RichText
             text: window.userProfile ? ("<b>" + window.userProfile.profile.name + "</b><br>" + window.userProfile.profile.email) : ""
             font.pointSize: Config.fontSize.normal

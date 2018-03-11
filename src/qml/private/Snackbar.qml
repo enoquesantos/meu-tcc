@@ -1,6 +1,6 @@
-import QtQuick 2.8
+import QtQuick 2.9
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.2
 
 // implementation of Google Material Snackbar.
 // https://material.google.com/components/snackbars-toasts.html

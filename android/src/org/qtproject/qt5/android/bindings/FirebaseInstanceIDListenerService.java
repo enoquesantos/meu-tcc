@@ -1,14 +1,16 @@
 package org.qtproject.qt5.android.bindings;
 
-// import android.util.Log;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 public class FirebaseInstanceIDListenerService extends FirebaseInstanceIdService
 {
+    private static String TAG = "FirebaseInstanceIDListenerService";
+
     /**
      * call by Firebase API when token is registered or when is updated
      * 1: When app is started at first time, a new token is registered
@@ -31,18 +33,20 @@ public class FirebaseInstanceIDListenerService extends FirebaseInstanceIdService
             prefsEditor.putString("push_notification_token_id", token);
             prefsEditor.apply();
 
-            // Log.i("FirebaseInstanceIDListenerService", "token saved:");
-            // Log.i("FirebaseInstanceIDListenerService", token);
+            Log.i(TAG, "Firebase token is: ");
+            Log.i(TAG, token);
 
             // after save, we need to pass the token to Qt application.
             // this method is connected with Qt application via JNI
             // the method assignature is
             // ActivityToApplication.eventNotify(String eventName, String data);
             try {
-                if (CustomActivity.isRunning())
+                if (CustomActivity.isRunning()) {
+                    Log.i(TAG, "sending token to Qt::Application...");
                     ActivityToApplication.eventNotify("newPushNotificationToken", token);
+                }
             } catch(Exception e) {
-                // Log.e("FirebaseListenerService", e);
+                Log.e(TAG, Log.getStackTraceString(e));
             }
         }
     }

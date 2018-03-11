@@ -1,6 +1,6 @@
-import QtQuick 2.8
+import QtQuick 2.9
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
 
 import "qrc:/privateComponents" as Private
@@ -25,7 +25,7 @@ ToolBar {
     /**
       * Pages can add buttons dynamically to toolbar, using a object array.
       * Each button needs a icon and a callback function.
-      * If actionName is send, will be sent to App.eventNotify(actionName, null).
+      * If actionName is send, will be sent to Subject.notify(actionName, argument).
       * To add a buttons to ToolBar, the page needs to set a object like this:
       * property var toolBarButtons: [
       *       {
@@ -143,7 +143,7 @@ ToolBar {
 
     RowLayout {
         id: toolBarItens
-        anchors { top: parent.top; left: parent.left; right: parent.right }
+        anchors { verticalCenter: parent.verticalCenter; left: parent.left; right: parent.right }
 
         Private.ToolBarButton {
             id: toolButtonFirst
@@ -161,9 +161,8 @@ ToolBar {
             text: window.currentPage && window.currentPage.title || ""
             width: visible ? parent.width * 0.55 : 0; height: parent.height
             visible: toolBar.state !== "search"
-            verticalAlignment: Text.AlignVCenter
             color: Config.theme.colorAccent
-            anchors { left: toolButtonFirst.right; leftMargin: 15; verticalCenter: parent.verticalCenter }
+            anchors { left: toolButtonFirst.right; leftMargin: 16; verticalCenter: parent.verticalCenter }
             font { weight: Font.DemiBold; pointSize: Config.fontSize.large + 1 }
         }
 

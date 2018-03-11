@@ -1,7 +1,8 @@
-import QtQuick 2.8
+import QtQuick 2.9
 import QtMultimedia 5.8
 
 BasePage {
+    id: cameraCapturePage
     title: qsTr("Capture a image")
     toolBarState: "goBack"
     hasListView: false; hasNetworkRequest: false
@@ -17,7 +18,7 @@ BasePage {
     function close() {
         camera.stop()
         // remove page from the stack
-        App.eventNotify(Config.events.popCurrentPage, null)
+        Subject.notify(Config.events.popCurrentPage, null)
     }
 
     Timer {
@@ -42,7 +43,7 @@ BasePage {
         }
         imageCapture {
             onImageCaptured: photoPreview.source = preview
-            onImageSaved: App.eventNotify(Config.events.cameraImageSaved, "file://" + path)
+            onImageSaved: Subject.notify(Config.events.cameraImageSaved, "file://" + path)
         }
     }
 
@@ -50,13 +51,12 @@ BasePage {
         id: photoPreview
         z: 0; mirror: true
         smooth: true; asynchronous: true
-        width: window.width*1.175; height: window.height*1.175; clip: true
+        width: window.width * 1.175; height: window.height * 1.175; clip: true
         fillMode: Image.PreserveAspectFit
         anchors { top: parent.top; topMargin: 0; bottom: parent.bottom; bottomMargin: 0 }
 
         VideoOutput {
-            z: 0
-            visible: true
+            z: 0; visible: true
             focus: visible // to receive focus and capture key events when visible
             source: camera
             orientation: -90
@@ -83,12 +83,7 @@ BasePage {
             color: "#fafafa"
             anchors { left: parent.left; leftMargin: 15; verticalCenter: parent.verticalCenter }
             name: "refresh"; size: 26
-            onClicked: {
-                if (camera.position == Camera.BackFace)
-                    camera.position = Camera.FrontFace
-                else
-                    camera.position = Camera.BackFace
-            }
+            onClicked: camera.position = camera.position == Camera.BackFace ? Camera.FrontFace : Camera.BackFace
         }
 
         AwesomeIcon {

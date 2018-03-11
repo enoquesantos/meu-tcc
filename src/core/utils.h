@@ -19,9 +19,8 @@ class QJsonParseError;
  *  2: read a file content, receiving as plain text or json object or array with readFile(...);
  *  3: serializing a object (javascript object) or array (javascript array) to string with stringfyJson(...);
  *  4: parse a json string to object or array with jsonParse(...);
- *  5: read the firebase token from native local register with readFirebaseToken();
- *  6: create a HTML <a> link from some string if exists with linkifyText(...);
- *  7: parse generic file url to local url or html valid url from string with parseUrl(...).
+ *  5: create a HTML <a> link from some string if exists with linkifyText(...);
+ *  6: parse generic file url to local url or html valid url from string with parseUrl(...).
  */
 class Utils : public QObject
 {
@@ -110,18 +109,6 @@ public:
      * @return QVariant
      */
     Q_INVOKABLE QVariant readFile(const QString &filePath);
-
-    /**
-     * @brief readFirebaseToken()
-     * This method is useful and needed only for android API level >= 7 and is used to read
-     * the firebase token, that can be registered before user enable write permission.
-     * If the token was passed to application before user enable write permission to the app,
-     * the Qt cannot writer in writteable directory to save any data with qsettings instance.
-     * The request permission is make after app startup on the onResume activity method
-     * using a native system dialog, and user need to confirm for enable write in local storage.
-     * @return QString a string with application token
-     */
-    Q_INVOKABLE QString readFirebaseToken();
 
     /**
      * @brief copyFile

@@ -9,10 +9,6 @@
 #include <QJsonParseError>
 #include <QNetworkConfigurationManager>
 
-#ifdef Q_OS_ANDROID
-#include <QtAndroid>
-#endif
-
 Utils* Utils::m_instance = nullptr;
 
 Utils::Utils(QObject *parent) : QObject(parent)
@@ -85,16 +81,6 @@ QVariant Utils::readFile(const QString &filePath)
             return jsonDocument.object().toVariantMap();
     }
     return fileContent;
-}
-
-QString Utils::readFirebaseToken()
-{
-    QString token;
-#ifdef Q_OS_ANDROID
-    if (token.isEmpty())
-        return QtAndroid::androidActivity().callObjectMethod("getPushNotificationToken", "()Ljava/lang/String;").toString();
-#endif
-    return token;
 }
 
 bool Utils::copyFile(const QString &fileName, const QString &newName, bool overwriteIfExists)

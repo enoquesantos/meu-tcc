@@ -1,5 +1,6 @@
 #include "requesthttp.h"
 
+#include <QDebug>
 #include <QJSEngine>
 #include <QList>
 #include <QJSValueList>
@@ -14,6 +15,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 
+#include "../core/app.h"
 #include "uploadmanager.h"
 #include "downloadmanager.h"
 
@@ -24,6 +26,12 @@ QByteArray RequestHttp::m_basicAuthorizationPassword = QByteArrayLiteral("");
 RequestHttp::RequestHttp(QObject *parent) : QObject(parent)
   ,m_status(Status::Ready)
 {
+    static QVariantMap config;
+    if (config.isEmpty()) {
+        config = App::instance()->config().value(QStringLiteral("restService")).toMap();
+        setBaseUrl(config.value(QStringLiteral("baseUrl")).toByteArray());
+        setBasicAuthorization(config.value(QStringLiteral("userName")).toByteArray(), config.value(QStringLiteral("userPass")).toByteArray());
+    }
 }
 
 void RequestHttp::setBasicAuthorizationUser(const QByteArray &user)
@@ -90,7 +98,7 @@ void RequestHttp::setStatus(Status status)
     emit statusChanged(m_status);
 }
 
-void RequestHttp::setUrl(const QByteArray &url)
+void RequestHttp::setBaseUrl(const QByteArray &url)
 {
     m_baseUrl = url;
     emit baseUrlChanged(m_baseUrl);
@@ -266,6 +274,8 @@ void RequestHttp::onFinished(QNetworkReply *reply)
 {
     // get the http status code: 200, 400, 500
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+
+    qDebug() << "Response->statusCode: " << statusCode;
 
     // get all response data as ByteArray
     QByteArray result(reply->readAll());

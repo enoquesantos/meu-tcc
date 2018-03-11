@@ -2,6 +2,7 @@
 #define JAVA_CPP_CONNECT_H
 
 #include <jni.h>
+#include <QDebug>
 #include <QAndroidJniEnvironment>
 #include "../core/app.h"
 

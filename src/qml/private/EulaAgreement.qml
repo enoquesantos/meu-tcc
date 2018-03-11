@@ -1,5 +1,5 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 Page {
     id: page
@@ -41,7 +41,7 @@ Page {
             anchors.centerIn: parent
             onClicked: {
                 App.saveSetting("eula_accepted", "1")
-                App.notifyEvent("eula_accepted", 0)
+                functions.setActivePage()
             }
         }
 

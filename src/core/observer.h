@@ -16,6 +16,7 @@ class Subject;
 class Observer : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString event READ event WRITE setEvent NOTIFY eventsChanged)
     Q_PROPERTY(QStringList events READ events WRITE setEvents NOTIFY eventsChanged)
 public:
     /**
@@ -38,8 +39,15 @@ public:
     QStringList events();
 
     /**
+     * @brief event
+     * Return the last event from m_events list
+     * @return QString
+     */
+    QString event();
+
+    /**
      * @brief setSubject
-     * Set the Subject pointer to m_subject member
+     * Set the Subject pointer to m_subject list
      * m_subject is used in destructor to detach from all signed events
      * @param subject Subject*
      */
@@ -47,19 +55,25 @@ public:
 
     /**
      * @brief setEvents
-     * Set a event list to m_events member
+     * Set a event list to m_events list
      * @param events QStringList
      */
     void setEvents(const QStringList &events);
+
+    /**
+     * @brief setEvent
+     * Append a single event to m_events list
+     * @param event QString
+     */
+    void setEvent(const QString &event);
 
     /**
      * @brief update
      * Set a event notification to observer instance, where reply with updated signal
      * @param eventName QString the name of event where the observer are notificated
      * @param eventData QVariant the event generic arguments. Can be a integer, string or QVariant[Map|List]
-     * @param sender QObject* a pointer to the event sender
      */
-    void update(const QString &eventName, const QVariant &eventData, QObject *sender);
+    void update(const QString &eventName, const QVariant &eventData);
 
 signals:
     /**
@@ -74,9 +88,8 @@ signals:
      * Notify the observer from new update from any of signed events
      * @param eventName QString
      * @param eventData QVariant
-     * @param sender QObject*
      */
-    void updated(const QString &eventName, const QVariant &eventData, QObject *sender);
+    void updated(const QString &eventName, const QVariant &eventData);
 
 private:
     /**

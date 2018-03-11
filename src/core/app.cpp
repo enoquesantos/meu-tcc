@@ -45,29 +45,28 @@ void App::init()
 
     // the default events names used by application qml components
     QStringList defaultEvents({
-        QStringLiteral("appendOptionPage"),
-        QStringLiteral("cameraImageSaved"),
-        QStringLiteral("cancelSearch"),
-        QStringLiteral("imageFileSelected"),
-        QStringLiteral("logoutApplication"),
-        QStringLiteral("newActionNotification"),
-        QStringLiteral("newPushNotification"),
-        QStringLiteral("newPushNotificationToken"),
-        QStringLiteral("openDrawer"),
-        QStringLiteral("popCurrentPage"),
-        QStringLiteral("requestUpdateUserProfile"),
-        QStringLiteral("initUserProfile"),
-        QStringLiteral("setUserProfileData"),
-        QStringLiteral("userProfileChanged")
+        QStringLiteral("appendOptionPage"),         // evt 1
+        QStringLiteral("cameraImageSaved"),         // evt 2
+        QStringLiteral("cancelSearch"),             // evt 3
+        QStringLiteral("imageFileSelected"),        // evt 4
+        QStringLiteral("initUserProfile"),          // evt 5
+        QStringLiteral("logoutUser"),               // evt 6
+        QStringLiteral("newActionNotification"),    // evt 7
+        QStringLiteral("newPushNotification"),      // evt 8
+        QStringLiteral("newPushNotificationToken"), // evt 9
+        QStringLiteral("openDrawer"),               // evt 10
+        QStringLiteral("popCurrentPage"),           // evt 11
+        QStringLiteral("setUserProperty"),          // evt 12
+        QStringLiteral("updateUserProfile"),        // evt 13
+        QStringLiteral("userProfileChanged")        // evt 14
     });
 
     // initialize a temporary list with the events names defined by user
     // append or override default events names if already defined by user
     defaultEvents << m_config.value(QStringLiteral("events")).toStringList();
-    int i = 0;
     QVariantMap map;
     foreach(const QString &eventName, defaultEvents)
-        map.insert(eventName, ++i);
+        map.insert(eventName, eventName);
     m_config.insert(QStringLiteral("events"), map);
 
     QApplication::setApplicationName(m_config.value(QStringLiteral("applicationName")).toString());
@@ -92,9 +91,6 @@ void App::init()
      * to decide if remove all qml cached files (*.qmlc and *.jsc) to refresh new changes
      */
     PluginManager pluginManager(this);
-
-    connect(&pluginManager, &PluginManager::finished, &QObject::deleteLater);
-
     pluginManager.setApp(this);
     pluginManager.loadPlugins();
 
@@ -105,7 +101,7 @@ void App::init()
 #elif defined Q_OS_IOS
     // pass
 #else
-    // set application icon if running at desktop linux or osx
+    // set application icon if running in desktop linux or osx
     qApp->setWindowIcon(QIcon::fromTheme(":/icon.png"));
     QApplication::addLibraryPath(qApp->applicationDirPath() + "/plugins");
 #endif
@@ -171,7 +167,7 @@ void App::fireEventNotify(const QString &eventName, const QString &eventData)
 {
     if (App::m_instance == nullptr)
         return;
-    App::m_instance->eventNotify(eventName, eventData);
+    emit App::m_instance->eventNotify(eventName, eventData);
 }
 
 App *App::instance()

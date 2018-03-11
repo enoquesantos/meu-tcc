@@ -1,5 +1,5 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 import RequestHttp 1.0
 
 Page {
@@ -137,7 +137,7 @@ Page {
                 // alert is a signal on Main.qml.
                 // on iOS, the alert show a dialog with a native appearence,
                 // snackbar is a object on Main.qml most used in Android to show short warnings in android.
-                if (["ios", "osx"].indexOf(Qt.platform.os) > -1)
+                if (["ios","osx"].indexOf(Qt.platform.os) > -1)
                     functions.alert(qsTr("Error!"), qsTr("Cannot connect to server!"))
                 else
                     snackbar.show(qsTr("Cannot connect to server!"))

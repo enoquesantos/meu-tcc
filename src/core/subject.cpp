@@ -1,5 +1,4 @@
 #include "subject.h"
-
 #include <QMapIterator>
 
 Subject::Subject(QObject *parent) : QObject(parent)
@@ -58,14 +57,14 @@ void Subject::detach(Observer *observer, const QStringList &events)
         detach(observer, event);
 }
 
-void Subject::notify(const QString &event, const QVariant &data, QObject *sender)
+void Subject::notify(const QString &event, const QVariant &data)
 {
     QVector<Observer *> observers = m_attacheds.value(event);
     int size = observers.size();
     for (int i = 0; i < size; ++i) {
         Observer *obs = observers.at(i);
         if (obs && !obs->objectName().isEmpty()) {
-            Private::Worker *worker = new Private::Worker(obs, event, data, sender, this);
+            Private::Worker *worker = new Private::Worker(obs, event, data, this);
             connect(worker, &QThread::finished, worker, &QObject::deleteLater);
             worker->start();
         }

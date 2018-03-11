@@ -1,4 +1,4 @@
-import QtQuick 2.8
+import QtQuick 2.9
 
 QtObject {
     /**
@@ -10,11 +10,12 @@ QtObject {
       * in specific position, using the "order" value defined by page object.
       */
     function addNewMenuItem(page, isDynamicallyAdded) {
-        if (!page.title.length || !page.absPath)
+        if (!page.title || !page.absPath)
             return
         // if application uses drawer, add the pages to drawer list options
         if (!Config.usesSwipeView) {
-            if (page.showInDrawer && !Config.hasLogin || (page.showInDrawer && Config.hasLogin && window.userProfile.profileName && page.roles.indexOf(window.userProfile.profileName) > -1))
+            var userProfileName = window.userProfile.profileName
+            if (page.showInDrawer && !Config.hasLogin || (page.showInDrawer && Config.hasLogin && userProfileName && page.roles.indexOf(userProfileName) > -1))
                 window.drawer.listViewModel.insert(isDynamicallyAdded ? page.order : window.drawer.listViewModel.count, page)
         } else {
             // if application uses SwipeView, for each plugin page, create a page and TabBarButton
@@ -153,6 +154,21 @@ QtObject {
                 pageStack.replace(loginPageUrl)
             else
                 pageStack.push(loginPageUrl)
+        }
+    }
+
+    /**
+     * load application listeners, a list of qml files
+     * defined by plugins.
+     */
+    function loadListeners() {
+        var component = {}, listeners = App.readSetting("listeners", App.SettingTypeJsonArray)
+        while (listeners.length) {
+            component = Qt.createComponent(listeners.pop())
+            if (component.status === Component.Ready)
+                component.createObject(window, {"visible":false})
+            else
+                console.error("Listener Component Error: ", component.errorString())
         }
     }
 }

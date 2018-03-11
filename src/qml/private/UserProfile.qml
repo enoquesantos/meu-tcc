@@ -1,7 +1,9 @@
-import QtQuick 2.8
+import QtQuick 2.9
+import Observer 1.0
 
 Item {
-    visible: false
+    id: _userProfile
+    objectName: "UserProfile"; visible: false
 
     // this property is a shortcut to the user profile permission
     property string profileName
@@ -15,27 +17,27 @@ Item {
             return
 
         // check user profile image
-        if (!profile.image_url)
-            internal.setProperty("image_url", "qrc:/default_user_image.svg")
-        else if (!internal.isLocalImagePath() && profile.image_url.indexOf("http") < 0)
-            internal.setProperty("image_url", (Config.restService.baseImagesUrl || Config.restService.baseUrl) + profile.image_url)
+        if (!profile.image_path)
+            internal.setProperty("image_path", "qrc:/default_user_profile.svg")
+        else if (!internal.isLocalImagePath() && profile.image_path.indexOf("http") < 0)
+            internal.setProperty("image_path", (Config.restService.baseImagesUrl || Config.restService.baseUrl) + profile.image_path)
 
         // save the new user profile in local settings
         App.saveSetting("user_profile_data", profile)
 
         // notify pages and components that make bind with user profile
-        App.eventNotify(Config.events.userProfileChanged, profile)
+        Subject.notify(Config.events.userProfileChanged, profile)
 
         // if profileName is not defined, set the user permission name
         if (!profileName)
-            profileName = profile.user_role.name
+            profileName = "permission" in profile && "name" in profile.permission ? profile.permission.name : ""
     }
 
     QtObject {
         id: internal
 
         function isLocalImagePath() {
-            return profile.image_url.indexOf("file:/") > -1 || profile.image_url.indexOf("qrc:/") > -1
+            return profile.image_path.indexOf("file:/") > -1 || profile.image_path.indexOf("qrc:/") > -1
         }
 
         // set a new property value in user profile
@@ -56,20 +58,53 @@ Item {
                 App.saveSetting("user_profile_data", "")
             }
             // after user login or logout,
-            // the application page needs to be updated
+            // the application active page will be replaced
             window.setActivePage()
+        }
+
+        function updateProfile(userData) {
+            if (userData && "email" in userData)
+                profile = userData
         }
     }
 
-    Connections {
-        target: App
-        onEventNotify: {
-            if (eventName === Config.events.initUserProfile)
-                internal.initProfile(eventData)
-            else if (eventName === Config.events.setUserProfileData)
-                internal.setProperty(eventData.key, eventData.value)
-            else if (eventName === Config.events.logoutApplication)
-                internal.initProfile(false)
-        }
+    // observe a signal to init the user profile data.
+    // This event can be sent by some plugin, after the user login
+    Observer {
+        id: observer1
+        objectName: _userProfile.objectName
+        event: Config.events.initUserProfile
+        onUpdated: internal.initProfile(eventData)
+        Component.onCompleted: Subject.attach(observer1, event)
+    }
+
+    // observe a signal to set or update some user profile property.
+    // This event can be sent by profile edition page or object listener
+    Observer {
+        id: observer2
+        objectName: _userProfile.objectName
+        event: Config.events.setUserProperty
+        onUpdated: internal.setProperty(eventData.key, eventData.value)
+        Component.onCompleted: Subject.attach(observer2, event)
+    }
+
+    // observe a signal to clear the user profile data.
+    // This event can be sent by a plugin, after user confirm logout
+    Observer {
+        id: observer3
+        objectName: _userProfile.objectName
+        event: Config.events.logoutUser
+        onUpdated: internal.initProfile(false)
+        Component.onCompleted: Subject.attach(observer3, event)
+    }
+
+    // observe a signal to update the user profile.
+    // This event can be sent by profile edition page or object listener
+    Observer {
+        id: observer4
+        objectName: _userProfile.objectName
+        event: Config.events.updateUserProfile
+        onUpdated: internal.updateProfile(eventData)
+        Component.onCompleted: Subject.attach(observer4, event)
     }
 }

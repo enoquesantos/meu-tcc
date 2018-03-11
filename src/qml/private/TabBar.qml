@@ -1,6 +1,7 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
+import Observer 1.0
 
 TabBar {
     id: tabBar
@@ -25,16 +26,13 @@ TabBar {
         }
     }
 
-    // to reduce the couplin with anothers components, the Drawer menu listener events
-    // from the application. This connection handle the signals:
-    //     1: a signal to add new option to list pages in menu
-    Connections {
-        target: App
-        onEventNotify: {
-            // signal signature: eventNotify(string eventName, var eventData)
-            if (eventName === Config.events.appendOptionPage)
-                functions.addNewMenuItem(eventData, true)
-        }
+    // observe a signal to add new option to list pages in TabBar menu
+    Observer {
+        id: tabBarObserver
+        objectName: "tabBarObserver"
+        event: Config.events.appendOptionPage
+        onUpdated: functions.addNewMenuItem(eventData, true)
+        Component.onCompleted: Subject.attach(tabBarObserver, event)
     }
 
     // tooltip can be visible when user press and hold in any of buttons from TabBar

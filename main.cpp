@@ -49,6 +49,12 @@ int main(int argc, char *argv[])
     Notification* notification = notificationHandle(&qApplication);
     context->setContextProperty(QStringLiteral("Notification"), notification);
 
+//    app.connect(&app, &App::eventNotify, [=, &subject](const QVariant &evtName, const QVariant &evtData) {
+//        subject.notify(evtName.toString(), evtData.toString());
+//    });
+
+    app.connect(&app, SIGNAL(eventNotify(QVariant, QVariant)), &subject, SLOT(notify(QString, QString)));
+
 #ifdef Q_OS_ANDROID
     AndroidFileDialog androidFileDialog;
     context->setContextProperty(QLatin1String("FileDialog"), &androidFileDialog);

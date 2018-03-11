@@ -1,59 +1,64 @@
-import QtQuick 2.8
+import QtQuick 2.9
+import Observer 1.0
+import RequestHttp 1.0
 
 import "qrc:/publicComponentes/" as Components
 
 Item {
     id: rootItem
-    objectName: "PushNotificationRegister.qml"
+    objectName: "PushNotificationRegister"
 
     property string token
+    onTokenChanged: if (token) sendTokenToServer()
 
-    // Component.onCompleted: console.log(rootItem.objectName + " created!")
-    // Component.onDestruction: console.log(rootItem.objectName + " onDestruction!")
+    Component.onCompleted: console.log(rootItem.objectName + " created_> "+ Config.events.newPushNotificationToken)
+    Component.onDestruction: console.log(rootItem.objectName + " onDestruction!")
 
     signal sendTokenToServer()
     onSendTokenToServer: {
-        if (!window.userProfile || !window.userProfile.profile.id)
+        if (!window.userProfile || !window.userProfile.profile.id) {
             return
-        if (!rootItem.token)
-            rootItem.token = Utils.readFirebaseToken()
-        if (!rootItem.token || window.userProfile.profile.push_notification_token && window.userProfile.profile.push_notification_token === rootItem.token) {
+        } else if (window.userProfile.profile.push_notification_token && window.userProfile.profile.push_notification_token === rootItem.token) {
             rootItem.destroy()
             return
         }
         var params = JSON.stringify({
             "id": window.userProfile.profile.id,
-            "push_notification_token": token
+            "push_notification_token": rootItem.token
         })
+        console.log("sending Firebase token to webservice...")
         requestHttp.post("/token_register/", params)
-        params = null
     }
 
-    Components.RequestHttp {
+    RequestHttp {
         id: requestHttp
         onFinished: {
             if (statusCode === 200) {
-                App.eventNotify(Config.events.setUserProfileData, {"key": "push_notification_token", "value": rootItem.token})
-                App.removeSetting(Config.events.newPushNotificationToken)
+                Subject.notify(Config.events.setUserProperty, {"key": "push_notification_token", "value": rootItem.token})
+                App.removeSetting("pushNotificationToken")
                 rootItem.destroy()
             }
         }
     }
 
-    // this action is necessary when firebase token is generated or updated after user logged in.
-    // the token will be registered in another application process started by firebase service.
-    // when token are updated, if user is logged in, we need to send the token to webservice.
-    Connections {
-        target: App
-        onEventNotify: {
-            // signal signature: eventNotify(QString eventName, QVariant eventData)
-            if (eventName === Config.events.newPushNotificationToken) {
-                rootItem.token = eventData
-                sendTokenToServer()
-            } else if (eventName === Config.events.userProfileChanged) {
-                rootItem.token = App.readSetting(Config.events.newPushNotificationToken, App.STRING)
-                sendTokenToServer()
-            }
-        }
+    // observe a signal to sent the token to webserveice after registered by Firebase Service.
+    // this action is useful when firebase token is registered after user logged in.
+    // when token are updated, if user is logged in, we need to sent the token to webservice.
+    Observer {
+        id: tokenRegisterObserver1
+        objectName: rootItem.objectName
+        event: Config.events.newPushNotificationToken
+        onUpdated: rootItem.token = eventData
+        Component.onCompleted: Subject.attach(tokenRegisterObserver1, event)
+    }
+
+    // observe a signal to sent the token to webserveice after registered by Firebase Service.
+    // this action is useful when firebase token is registered before user logged in.
+    Observer {
+        id: tokenRegisterObserver2
+        objectName: rootItem.objectName
+        event: Config.events.userProfileChanged
+        onUpdated: rootItem.token = App.readSetting("pushNotificationToken", App.SettingTypeString)
+        Component.onCompleted: Subject.attach(tokenRegisterObserver2, event)
     }
 }

@@ -27,15 +27,13 @@ void NotifyAndroid::show(const QString &title, const QString &message, const QVa
 
     QAndroidJniObject jTitle(QAndroidJniObject::fromString(title));
     QAndroidJniObject jMessage(QAndroidJniObject::fromString(message));
-    QAndroidJniObject jSender(QAndroidJniObject::fromString(QStringLiteral("")));
     QAndroidJniObject jMessageData(QAndroidJniObject::fromString(messageData));
 
     QtAndroid::androidActivity().callMethod<void>(
         "showNotification",
-        "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+        "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
         jTitle.object<jstring>(),
         jMessage.object<jstring>(),
-        jSender.object<jstring>(),
         jMessageData.object<jstring>()
     );
 #else

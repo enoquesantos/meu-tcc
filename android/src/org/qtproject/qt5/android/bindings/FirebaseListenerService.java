@@ -1,10 +1,9 @@
 package org.qtproject.qt5.android.bindings;
 
-// import android.util.Log;
-
 import java.util.Map;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -21,6 +20,8 @@ import org.json.JSONObject;
  */
 public class FirebaseListenerService extends FirebaseMessagingService
 {
+    private static String TAG = "FirebaseListenerService";
+
     /**
      * Called when message is received and app is running (background or foreground).
      *
@@ -37,16 +38,17 @@ public class FirebaseListenerService extends FirebaseMessagingService
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage)
     {
-        //
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         Map<String,String> extraData = remoteMessage.getData();
 
         // whe app is in background or closed, the notification object
         // is null, because all push data become in remoteMessage.getData()
         if (notification != null) {
-            String title = notification.getTitle();
-            String message = notification.getBody();
-            String messageData = "";
+            String title        = notification.getTitle();
+            String message      = notification.getBody();
+            String messageData  = "";
+
+            Log.i(TAG, "new push message!");
 
             if (message == null)
                 message = extraData.get("body");
@@ -58,11 +60,11 @@ public class FirebaseListenerService extends FirebaseMessagingService
                 json = new JSONObject(extraData);
                 messageData = json.toString();
             } catch(Exception e) {
-                // Log.e("FirebaseListenerService", e);
+                Log.e(TAG, Log.getStackTraceString(e));
             }
 
             // show system notification
-            new SystemNotification(getApplicationContext(), CustomActivity.class).notify(title, message, remoteMessage.getFrom(), messageData);
+            new SystemNotification(getApplicationContext(), CustomActivity.class).notify(title, message, messageData);
         }
     }
 }

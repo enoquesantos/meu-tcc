@@ -1,12 +1,10 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
-
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 import Qt.project.AwesomeIconFontLoader 1.0
 
-RoundButton {
+Item {
     id: widget
-    antialiasing: true; flat: true
-    width: 75; height: width
+    width: parent.width; height: width
 
     property string name
     property int size: 16
@@ -14,7 +12,10 @@ RoundButton {
     property alias color: text.color
     property alias weight: text.font.weight
     property bool rotate: widget.name.match(/.*-rotate/) !== null
-    property alias clickEnabled: widget.enabled
+    property alias clickEnabled: loaderBtn.active
+
+    signal clicked
+    signal pressAndHold
 
     Item {
         anchors.fill: parent
@@ -43,4 +44,15 @@ RoundButton {
             }
         }
     }
+
+    Loader {
+        id: loaderBtn
+        sourceComponent: RoundButton {
+            anchors.fill: parent
+            onClicked: widget.clicked()
+            onPressAndHold: widget.pressAndHold()
+            antialiasing: true; flat: true
+        }
+    }
 }
+
