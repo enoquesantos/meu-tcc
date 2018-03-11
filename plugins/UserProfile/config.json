@@ -1,0 +1,13 @@
+{
+    "pages": [
+        {
+            "qml": "ProfileView.qml",
+            "title": "Meu perfil",
+            "roles": ["administrator", "student", "editor", "teacher", "coordinator"],
+            "awesomeIcon": "user",
+            "order": 1,
+            "showInDrawer": true,
+            "showInTabBar": true
+        }
+    ]
+}

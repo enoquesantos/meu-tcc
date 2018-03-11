@@ -1,6 +1,6 @@
-import QtQuick 2.8
+import QtQuick 2.9
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.2
 
 import "qrc:/publicComponentes/" as Components
 
@@ -9,37 +9,41 @@ Components.BasePage {
     title: qsTr("Edit my profile")
     hasListView: false; hasNetworkRequest: false
     toolBarState: "goBack"
-    absPath: Config.plugins.session + "ProfileEdit.qml"
-    toolBarButtons: [ // add save icon in window.toolbar
+    absPath: Config.plugins.userprofile + "ProfileEdit.qml"
+    toolBarButtons: [ // add 'save' icon in window.toolbar
         {
             "iconName": "save",
-            "callback": function() { saveUserProfile() }
+            "callback": function() {
+                var _regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                email.text = email.text.toString().trim()
+                if (!email.text) {
+                    functions.alert(qsTr("Error!"), qsTr("The email field is blank!"))
+                    return
+                } else if (!_regex.test(email.text)) {
+                    functions.alert(qsTr("Error!"), qsTr("The email is not valid!"))
+                    return
+                } else if (password1.text !== password2.text) {
+                    functions.alert(qsTr("Error!"), qsTr("The passwords does not match!"))
+                    return
+                } else if (password1.text && password1.text == password2.text) {
+                    page.focus = true
+
+                    var args = window.userProfile.profile
+                    args["email"] = email.text
+                    args["password"] = password1.text
+
+                    toast.show(qsTr("Updating profile..."), true)
+                    Subject.notify(Config.events.updateUserProfile, args)
+
+                    password1.text = password2.text = ""
+                }
+            }
         }
     ]
 
-    // handle click in save button from toolbar
-    function saveUserProfile() {
-        var _regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        email.text = email.text.toString().trim()
-        if (!email.text) {
-            functions.alert(qsTr("Error!"), qsTr("The email field is blank!"))
-            return
-        } else if (!_regex.test(email.text)) {
-            functions.alert(qsTr("Error!"), qsTr("The email is not valid!"))
-            return
-        } else if (password1.text !== password2.text) {
-            functions.alert(qsTr("Error!"), qsTr("The passwords does not match!"))
-            return
-        } else if (password1.text && password1.text == password2.text) {
-            page.focus = true
-            toast.show(qsTr("Updating profile..."), true)
-            var args = ({})
-            args.id = userProfile.profile.id
-            args.email = email.text
-            args.password = password1.text
-            window.notifyEvent(Config.events.requestUpdateUserProfile, args)
-            password1.text = password2.text = ""
-        }
+    Connections {
+        target: FileDialog
+        onAccepted: if (fileUrl) Subject.notify(Config.events.setUserProperty, {"key":"image_path","value":fileUrl})
     }
 
     Components.PhotoSelection {
@@ -70,7 +74,7 @@ Components.BasePage {
                 Components.RoundedImage {
                     width: 90; height: width
                     borderColor: Config.theme.colorPrimary
-                    imgSource: userProfile.profile.image_url || "qrc:/default_user_image.svg"
+                    imgSource: userProfile.profile.image_path
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors { bottom: parent.bottom; bottomMargin: 15 }
                     onClicked: photoSelection.open()

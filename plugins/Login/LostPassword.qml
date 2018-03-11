@@ -1,11 +1,11 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 import "qrc:/publicComponentes/" as Components
 
 Components.BasePage {
     id: page
-    absPath: Config.plugins.session + objectName
+    absPath: Config.plugins.login + objectName
     showTabBar: false; hasListView: false
 
     // handle request http responses
@@ -13,7 +13,7 @@ Components.BasePage {
         if (statusCode === 404)
             functions.alert(qsTr("Error!"), qsTr("Email not found. try again!"))
         else if (statusCode === 200)
-            functions.alert(qsTr("OK"), qsTr("Your password was sent for your email!"))
+            functions.alert(qsTr("OK!"), qsTr("Your password was sent for your email!"))
         else
             functions.alert(qsTr("Error!"), qsTr("An error occur in the server! Try again!"))
     }

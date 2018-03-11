@@ -1,12 +1,13 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.1
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 import "qrc:/publicComponentes/" as Components
 
 Components.BasePage {
+    id: page
     title: qsTr("Logout")
     toolBarState: "goBack"
-    absPath: Config.plugins.session + "Logout.qml"
+    absPath: Config.plugins.login + "Logout.qml"
     hasListView: false; hasNetworkRequest: false; showToolBar: !timer.running
     showTabBar: !timer.running // hide the tabBar after user confirm to exit
     lockGoBack: timer.running // disable return to previous page, after user confirm to exit
@@ -15,7 +16,7 @@ Components.BasePage {
     Timer {
         id: timer
         interval: 2000
-        onTriggered: App.eventNotify(Config.events.logoutApplication, 0)
+        onTriggered: Subject.notify(Config.events.logoutUser, 0)
     }
 
     BusyIndicator {

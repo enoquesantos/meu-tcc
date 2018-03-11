@@ -1,6 +1,6 @@
-import QtQuick 2.8
+import QtQuick 2.9
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.2
 
 import "qrc:/publicComponentes/" as Components
 
@@ -8,13 +8,21 @@ Components.BasePage {
     id: page
     title: qsTr("My profile")
     hasNetworkRequest: false
-    absPath: Config.plugins.session + "ProfileView.qml"
+    absPath: Config.plugins.userprofile + "ProfileView.qml"
     listViewDelegate: Components.ListItem {
         showSeparator: true
         primaryLabelText: field
         secondaryLabelText: value
         primaryIconName: awesomeIcon
     }
+    toolBarButtons: [
+        {
+            "iconName": "pencil",
+            "callback": function() {
+                pageStack.push(Config.plugins.userprofile + "ProfileEdit.qml")
+            }
+        }
+    ]
 
     Component.onCompleted: {
         listView.anchors.topMargin = rec.height
@@ -41,17 +49,18 @@ Components.BasePage {
         anchors { top: parent.top; topMargin: 0; horizontalCenter: parent.horizontalCenter }
 
         Components.AwesomeIcon {
-            width: 32; height: width
+            width: 32
             name: "pencil"; size: 22
+            visible: Config.usesSwipeView
             color: Config.theme.colorAccent
-            onClicked: pageStack.push(Config.plugins.session + "ProfileEdit.qml")
+            onClicked: pageStack.push(Config.plugins.userprofile + "ProfileEdit.qml")
             anchors { top: parent.top; topMargin: 35; right: parent.right; rightMargin: 20 }
         }
 
         Components.RoundedImage {
             width: 100; height: width
             borderColor: Config.theme.colorAccent
-            imgSource: userProfile.profile.image_url || "qrc:/default_user_image.svg"
+            imgSource: userProfile.profile.image_path
             anchors.centerIn: parent
         }
     }

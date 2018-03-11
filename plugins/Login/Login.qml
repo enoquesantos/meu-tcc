@@ -1,30 +1,35 @@
-import QtQuick 2.8
+import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 import "qrc:/publicComponentes/" as Components
 
 Components.BasePage {
     id: page
-    absPath: Config.plugins.session + objectName
+    absPath: Config.plugins.login + "Login.qml"
     lockGoBack: true; showTabBar: false; showToolBar: false; hasListView: false
 
     // handle request http responses
     onRequestFinished: {
-       if (statusCode === 400 || statusCode === 403 || statusCode === 404)
-           functions.alert(qsTr("Error!"), qsTr("Login or Password is invalid. Check your credentials and try again!"))
-       else if (statusCode === 200)
-           loginResult = response
-       else
-           functions.alert(qsTr("Error!"), qsTr("A error occur in the server! Try again!"))
-   }
+        if (statusCode === 400 || statusCode === 403 || statusCode === 404) {
+            functions.alert(qsTr("Error!"), qsTr("Login or Password is invalid. Check your credentials and try again!"))
+        } else if (statusCode === 200) {
+            var _response = response.user
+            _response.enrollment = response.enrollment
+            _response.program = response.program
+            _response.permission.name = _response.permission.description
+            loginResult = _response
+        } else {
+            functions.alert(qsTr("Error!"), qsTr("A error occur in the server! Try again!"))
+        }
+    }
 
     property var loginResult: null
 
     // countdown to pop the login page
     Timer {
-        interval: 1200; repeat: false
+        interval: 1500
         running: loginResult != null
-        onTriggered: App.eventNotify(Config.events.initUserProfile, loginResult)
+        onTriggered: Subject.notify(Config.events.initUserProfile, loginResult)
         onRunningChanged: if (running) busyIndicator.visible = true
     }
 
@@ -70,7 +75,7 @@ Components.BasePage {
                     else if (!password.text.length)
                         functions.alert(qsTr("Error!"), qsTr("Please! Enter your password!"))
                     else
-                        requestHttp.post("/login", JSON.stringify({"login":login.text,"password":password.text}))
+                        requestHttp.post("/login/", JSON.stringify({"login":login.text,"password":password.text}))
                 }
             }
 
@@ -81,7 +86,7 @@ Components.BasePage {
                 anchors.horizontalCenter: parent.horizontalCenter
                 enabled: !isPageBusy && loginResult === null
                 text: qsTr("Retrieve password")
-                onClicked: pageStack.push(Config.plugins.session + "LostPassword.qml")
+                onClicked: pageStack.push(Config.plugins.login + "LostPassword.qml")
             }
         }
     }
