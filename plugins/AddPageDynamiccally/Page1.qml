@@ -1,4 +1,4 @@
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.2
 
 import "qrc:/publicComponentes/" as Components
 
@@ -6,7 +6,7 @@ Components.BasePage {
     id: page
     hasListView: false
     hasNetworkRequest: true
-    absPath: Config.plugins.examples + "Page1.qml"
+    absPath: Config.plugins.addpagedynamiccally + "Page1.qml"
     title: qsTr("Page 1")
     toolBarState: "goBack"
     onRequestFinished: {
