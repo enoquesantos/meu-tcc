@@ -99,13 +99,14 @@ public:
      */
     Q_INVOKABLE void detach(Observer *observer, const QStringList &events);
 
+public slots:
     /**
      * @brief notify
      * Notify all observers from new event, sending the event data as event argument and the event issuer.
      * @param event QString the event name
      * @param data QVariant the event data. Can be a integer, float, array or a object
      */
-    Q_INVOKABLE void notify(const QString &event, const QVariant &data);
+    Q_INVOKABLE void notify(const QString &eventName, const QVariant &eventData);
 
 private:
     /**

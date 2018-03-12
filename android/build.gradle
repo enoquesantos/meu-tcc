@@ -71,7 +71,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "org.qtproject.example"
+        applicationId "qt.project.example.emile"
     }
 
     buildTypes {

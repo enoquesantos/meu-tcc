@@ -19,7 +19,6 @@ public class CustomActivity extends QtActivity
     private static String TAG = "CustomActivity";
     private static boolean isRunning = false;
     private static final int PERMISSION_REQUEST_CODE = 1;
-    private static final int sdkVersion = Build.VERSION.SDK_INT;
 
     @Override
     protected void onResume()
@@ -43,16 +42,8 @@ public class CustomActivity extends QtActivity
 
         // if android marshmallow or above
         // show request permission dialog to app read/write in local storage (if is not allowed yet)
-        if (sdkVersion >= 23 && !isEnabledToHandleStorage())
+        if (Build.VERSION.SDK_INT >= 23 && !isEnabledToHandleStorage())
             requestToHandleStorage();
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                sendFirebaseTokenToQtApplication();
-            }
-        }, 15000);
     }
 
     @Override
@@ -82,7 +73,7 @@ public class CustomActivity extends QtActivity
                         public void run() {
                             ActivityToApplication.eventNotify("newActionNotification", messageData);
                         }
-                    }, 10000);
+                    }, 5000);
                 } catch(Exception e) {
                     Log.e(TAG, Log.getStackTraceString(e));
                 }
@@ -157,7 +148,7 @@ public class CustomActivity extends QtActivity
      * Get the Firebase Token from application Shared Preferences
      * @return String
      */
-    private String getFirebaseToken()
+    public String getFirebaseToken()
     {
         SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         return sp.getString("push_notification_token_id", "");
@@ -178,6 +169,7 @@ public class CustomActivity extends QtActivity
             new java.lang.Thread(new Runnable() {
                 @Override
                 public void run() {
+                    Log.i(TAG, "sending firebase token to QtApplication...");
                     ActivityToApplication.eventNotify("newPushNotificationToken", token);
                 }
             }).start();

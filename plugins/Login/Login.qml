@@ -50,6 +50,7 @@ Components.BasePage {
 
             Components.PasswordField {
                 id: login
+                echoMode: TextInput.Normal
                 nextFocusItem: password
                 placeholderText: qsTr("Login")
             }
@@ -65,7 +66,7 @@ Components.BasePage {
 
             Button {
                 id: loginButton
-                width: page.width * 0.40
+                width: page.width * 0.50
                 enabled: !isPageBusy && loginResult === null
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: qsTr("LOG IN")
@@ -82,7 +83,7 @@ Components.BasePage {
             Button {
                 id: lostPasswordButton
                 flat: true
-                width: page.width * 0.40
+                width: page.width * 0.50
                 anchors.horizontalCenter: parent.horizontalCenter
                 enabled: !isPageBusy && loginResult === null
                 text: qsTr("Retrieve password")

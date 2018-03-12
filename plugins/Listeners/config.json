@@ -2,7 +2,7 @@
     "pages": [],
     "listeners": [
         "Listener1.qml",
-        "Listener2.qml",
+        "UpdateUserProfileImage.qml",
         "PushNotificationRegister.qml"
     ]
 }

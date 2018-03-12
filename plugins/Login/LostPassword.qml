@@ -5,7 +5,7 @@ import "qrc:/publicComponentes/" as Components
 
 Components.BasePage {
     id: page
-    absPath: Config.plugins.login + objectName
+    absPath: Config.plugins.login + "LostPassword.qml"
     showTabBar: false; hasListView: false
 
     // handle request http responses
@@ -19,10 +19,10 @@ Components.BasePage {
     }
 
     Components.AwesomeIcon {
-        z: 1; width: size*1.2; height: width
-        size: 22; name: "arrow_left"; color: Config.theme.colorPrimary
-        anchors { top: parent.top; topMargin: 25; left: parent.left; leftMargin: 20 }
-        onClicked: pageStack.pop()
+        z: 2; width: 50
+        size: 25; name: "arrow_left"; color: Config.theme.colorPrimary
+        anchors { top: parent.top; topMargin: 25; left: parent.left; leftMargin: 2 }
+        onClicked: Subject.notify(Config.events.popCurrentPage, 0)
     }
 
     Brand {

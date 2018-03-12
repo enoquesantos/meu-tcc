@@ -156,13 +156,6 @@ void App::removeSetting(const QString &key)
         m_qsettings->remove(key);
 }
 
-void App::minimizeWindow()
-{
-#ifdef Q_OS_ANDROID
-    QtAndroid::androidActivity().callMethod<jboolean>("moveTaskToBack", "(Z)Z", true);
-#endif
-}
-
 void App::fireEventNotify(const QString &eventName, const QString &eventData)
 {
     if (App::m_instance == nullptr)

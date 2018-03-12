@@ -1,7 +1,7 @@
 {
-    "applicationName": "The application name",
-    "organizationName": "The organization name",
-    "organizationDomain": "the.organization.domain",
+    "applicationName": "emile_mobile",
+    "organizationName": "Emile",
+    "organizationDomain": "qt.project.example.emile",
     "applicationStyle": "Material",
     "forceEulaAgreement": false,
     "hasLogin": true,
@@ -13,7 +13,7 @@
     "restService": {
         "userName": "apirest",
         "userPass": "1q2w3e4r5t6y",
-        "baseUrl": "http://192.168.43.123:5000"
+        "baseUrl": "http://192.168.43.190:5000"
     },
     "fontSize": {
         "small": 10,

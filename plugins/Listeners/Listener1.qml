@@ -4,5 +4,5 @@ Item {
     objectName: "Listener1.qml"
 
     Component.onCompleted: console.log(objectName + " created!")
-    Component.onDestruction: console.log(objectName + " onDestruction!")
+    Component.onDestruction: console.log(objectName + " deleted!")
 }

@@ -12,12 +12,21 @@ Item {
     property alias color: text.color
     property alias weight: text.font.weight
     property bool rotate: widget.name.match(/.*-rotate/) !== null
-    property alias clickEnabled: loaderBtn.active
+    property bool clickEnabled: true
 
     signal clicked
     signal pressAndHold
 
+    MouseArea {
+        id: mouseArea
+        enabled: clickEnabled
+        anchors.fill: parent
+        onClicked: widget.clicked()
+        onPressAndHold: widget.pressAndHold()
+    }
+
     Item {
+        z: 1
         anchors.fill: parent
         width: parent.weight; height: width
 
@@ -42,16 +51,6 @@ Item {
                 from: 0; to: 360; running: widget.rotate
                 duration: 1100; loops: Animation.Infinite
             }
-        }
-    }
-
-    Loader {
-        id: loaderBtn
-        sourceComponent: RoundButton {
-            anchors.fill: parent
-            onClicked: widget.clicked()
-            onPressAndHold: widget.pressAndHold()
-            antialiasing: true; flat: true
         }
     }
 }

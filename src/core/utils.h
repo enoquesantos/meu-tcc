@@ -139,6 +139,27 @@ public:
      */
     Q_INVOKABLE bool isDeviceOnline();
 
+    /**
+     * @brief readFirebaseToken()
+     * This method is useful and needed only for android API level >= 7 and is used to read
+     * the firebase token, that can be registered before user enable write permission.
+     * If the token was passed to application before user enable write permission to the app,
+     * the Qt cannot writer in writteable directory to save any data with qsettings instance.
+     * The request permission is make after app startup on the onResume activity method
+     * using a native system dialog, and user need to confirm for enable write in local storage.
+     * @return QString a string with application token
+     */
+    Q_INVOKABLE QString readFirebaseToken();
+
+    /**
+     * @brief minimizeWindow
+     * This method is used only in android to minimize the app, placing above others apps or
+     * focusing in the home screen. Is used when back button is pressed by user.
+     * This method is called by main window from event handle 'Keys.onBackPressed' and 'onClosing'.
+     * This method call the android native method 'moveTaskToBack'.
+     */
+    Q_INVOKABLE void minimizeWindow();
+
 private:
     /**
      * @brief m_instance

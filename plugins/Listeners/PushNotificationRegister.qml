@@ -8,26 +8,23 @@ Item {
     id: rootItem
     objectName: "PushNotificationRegister"
 
-    property string token
-    onTokenChanged: if (token) sendTokenToServer()
+    Component.onCompleted: console.log(rootItem.objectName + " created!!")
+    Component.onDestruction: console.log(rootItem.objectName + " deleted!")
 
-    Component.onCompleted: console.log(rootItem.objectName + " created_> "+ Config.events.newPushNotificationToken)
-    Component.onDestruction: console.log(rootItem.objectName + " onDestruction!")
-
-    signal sendTokenToServer()
-    onSendTokenToServer: {
-        if (!window.userProfile || !window.userProfile.profile.id) {
+    property string token: Utils.readFirebaseToken()
+    onTokenChanged: {
+        if (!token || !window.userProfile || !window.userProfile.profile.id) {
             return
-        } else if (window.userProfile.profile.push_notification_token && window.userProfile.profile.push_notification_token === rootItem.token) {
+        } else if (window.userProfile.profile.push_notification_token === token) {
             rootItem.destroy()
-            return
+        } else {
+            var params = JSON.stringify({
+                "id": window.userProfile.profile.id,
+                "push_notification_token": rootItem.token
+            })
+            console.log("sending Firebase token to webservice...")
+            requestHttp.post("/token_register/", params)
         }
-        var params = JSON.stringify({
-            "id": window.userProfile.profile.id,
-            "push_notification_token": rootItem.token
-        })
-        console.log("sending Firebase token to webservice...")
-        requestHttp.post("/token_register/", params)
     }
 
     RequestHttp {
@@ -35,7 +32,6 @@ Item {
         onFinished: {
             if (statusCode === 200) {
                 Subject.notify(Config.events.setUserProperty, {"key": "push_notification_token", "value": rootItem.token})
-                App.removeSetting("pushNotificationToken")
                 rootItem.destroy()
             }
         }
@@ -47,18 +43,8 @@ Item {
     Observer {
         id: tokenRegisterObserver1
         objectName: rootItem.objectName
-        event: Config.events.newPushNotificationToken
-        onUpdated: rootItem.token = eventData
+        events: [Config.events.userProfileChanged, Config.events.newPushNotificationToken]
+        onUpdated: rootItem.token = Utils.readFirebaseToken()
         Component.onCompleted: Subject.attach(tokenRegisterObserver1, event)
-    }
-
-    // observe a signal to sent the token to webserveice after registered by Firebase Service.
-    // this action is useful when firebase token is registered before user logged in.
-    Observer {
-        id: tokenRegisterObserver2
-        objectName: rootItem.objectName
-        event: Config.events.userProfileChanged
-        onUpdated: rootItem.token = App.readSetting("pushNotificationToken", App.SettingTypeString)
-        Component.onCompleted: Subject.attach(tokenRegisterObserver2, event)
     }
 }

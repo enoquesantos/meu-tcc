@@ -95,15 +95,6 @@ public:
     Q_INVOKABLE void removeSetting(const QString &key);
 
     /**
-     * @brief minimizeWindow
-     * This method is used only in android to minimize the app, placing above others apps or
-     * focusing in the home screen. Is used when back button is pressed by user.
-     * This method is called by main window from event handle 'Keys.onBackPressed' and 'onClosing'.
-     * This method call the android native method 'moveTaskToBack'.
-     */
-    Q_INVOKABLE void minimizeWindow();
-
-    /**
      * @brief fireEventNotify
      * This method make a connection with android Activity to receive push events (messages and firebase token).
      * In android, the connection is created in JavaCppConnect.h before application running (via JNI_OnLoad).
@@ -129,7 +120,7 @@ signals:
      * @param eventName QVariant the name (or indentity) of the event
      * @param eventData QVariant the event argument data
      */
-    void eventNotify(const QVariant &eventName, const QVariant &eventData);
+    void eventNotify(const QString &eventName, const QVariant &eventData);
 
 private:
     /**

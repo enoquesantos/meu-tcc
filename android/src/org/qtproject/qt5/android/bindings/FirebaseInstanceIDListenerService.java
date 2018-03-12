@@ -38,11 +38,11 @@ public class FirebaseInstanceIDListenerService extends FirebaseInstanceIdService
 
             // after save, we need to pass the token to Qt application.
             // this method is connected with Qt application via JNI
-            // the method assignature is
+            // the method assignature is:
             // ActivityToApplication.eventNotify(String eventName, String data);
             try {
                 if (CustomActivity.isRunning()) {
-                    Log.i(TAG, "sending token to Qt::Application...");
+                    Log.i(TAG, "sending firebase token to QtApplication...");
                     ActivityToApplication.eventNotify("newPushNotificationToken", token);
                 }
             } catch(Exception e) {

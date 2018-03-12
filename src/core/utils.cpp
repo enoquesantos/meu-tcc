@@ -9,6 +9,10 @@
 #include <QJsonParseError>
 #include <QNetworkConfigurationManager>
 
+#ifdef Q_OS_ANDROID
+#include <QtAndroid>
+#endif
+
 Utils* Utils::m_instance = nullptr;
 
 Utils::Utils(QObject *parent) : QObject(parent)
@@ -103,4 +107,20 @@ bool Utils::isDeviceOnline()
 {
     QNetworkConfigurationManager qcm(this);
     return qcm.isOnline();
+}
+
+QString Utils::readFirebaseToken()
+{
+    QString token;
+#ifdef Q_OS_ANDROID
+    return QtAndroid::androidActivity().callObjectMethod("getFirebaseToken", "()Ljava/lang/String;").toString();
+#endif
+    return token;
+}
+
+void Utils::minimizeWindow()
+{
+#ifdef Q_OS_ANDROID
+    QtAndroid::androidActivity().callMethod<jboolean>("moveTaskToBack", "(Z)Z", true);
+#endif
 }

@@ -80,7 +80,7 @@ BasePage {
 
         AwesomeIcon {
             z: 2
-            color: "#fafafa"
+            color: "#fafafa"; width: 50
             anchors { left: parent.left; leftMargin: 15; verticalCenter: parent.verticalCenter }
             name: "refresh"; size: 26
             onClicked: camera.position = camera.position == Camera.BackFace ? Camera.FrontFace : Camera.BackFace
@@ -88,7 +88,7 @@ BasePage {
 
         AwesomeIcon {
             z: 2
-            color: "#fafafa"
+            color: "#fafafa"; width: 50
             anchors.centerIn: parent
             name: "camera"; size: 26
             onClicked: capture()
@@ -96,7 +96,7 @@ BasePage {
 
         AwesomeIcon {
             z: 2
-            color: "#fafafa"
+            color: "#fafafa"; width: 50
             anchors { right: parent.right; rightMargin: 15; verticalCenter: parent.verticalCenter }
             name: "picture_o"; size: 26
             onClicked: {
