@@ -13,7 +13,7 @@
     "restService": {
         "userName": "apirest",
         "userPass": "1q2w3e4r5t6y",
-        "baseUrl": "http://192.168.43.190:5000"
+        "baseUrl": "http://enoque.pythonanywhere.com"
     },
     "fontSize": {
         "small": 10,

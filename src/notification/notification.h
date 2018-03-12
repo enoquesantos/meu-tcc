@@ -51,7 +51,7 @@ public:
 signals:
     /**
      * @brief notificationClicked
-     * This signal is emitted when user click in notification, valid for desktop only!
+     * This signal is emitted when user click in notification and is valid only for desktop.
      * @param actionName QString the action name read from the notification
      * @param actionValue QVariant the notification action value, like a string or json object
      */
