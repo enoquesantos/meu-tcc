@@ -16,7 +16,8 @@ Item {
         if (!token || !window.userProfile || !window.userProfile.profile.id) {
             return
         } else if (window.userProfile.profile.push_notification_token === token) {
-            rootItem.destroy()
+            // rootItem.destroy()
+            return
         } else {
             var params = JSON.stringify({
                 "id": window.userProfile.profile.id,
