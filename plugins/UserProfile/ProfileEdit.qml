@@ -98,20 +98,23 @@ Components.BasePage {
                 }
             }
 
-            Components.PasswordField {
+            TextField {
                 id: email
-                Layout.fillWidth: true
+                color: Config.theme.textColorPrimary
+                selectByMouse: true; cursorVisible: focus
+                renderType: Text.NativeRendering
+                anchors.horizontalCenter: parent.horizontalCenter
                 text: userProfile.profile.email
                 font.capitalization: Font.AllLowercase
-                renderType: Text.NativeRendering
                 inputMethodHints: Qt.ImhEmailCharactersOnly
                 placeholderText: qsTr("youremail@example.com")
+                onAccepted: password1.focus = true
+                onEditingFinished: text = text.trim()
                 onFocusChanged: if (focus) flickable.contentY = email.y
             }
 
             Components.PasswordField {
                 id: password1
-                Layout.fillWidth: true
                 nextFocusItem: password2
                 echoMode: TextInput.Password
                 inputMethodHints: Qt.ImhNoPredictiveText
@@ -121,10 +124,10 @@ Components.BasePage {
 
             Components.PasswordField {
                 id: password2
-                Layout.fillWidth: true
                 echoMode: TextInput.Password
                 inputMethodHints: Qt.ImhNoPredictiveText
                 placeholderText: qsTr("Confirm the new password")
+                onAccepted: page.focus = true
                 onFocusChanged: if (focus) flickable.contentY = email.y
             }
         }

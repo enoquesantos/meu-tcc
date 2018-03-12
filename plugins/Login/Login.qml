@@ -48,11 +48,15 @@ Components.BasePage {
             width: parent.width * 0.90
             anchors { top: brand.bottom; topMargin: 15; horizontalCenter: parent.horizontalCenter }
 
-            Components.PasswordField {
+            TextField {
                 id: login
-                echoMode: TextInput.Normal
-                nextFocusItem: password
+                color: Config.theme.textColorPrimary
+                selectByMouse: true; cursorVisible: focus
+                renderType: Text.NativeRendering
+                anchors.horizontalCenter: parent.horizontalCenter
                 placeholderText: qsTr("Login")
+                onAccepted: password.focus = true
+                onEditingFinished: text = text.trim()
             }
 
             Components.PasswordField {

@@ -35,10 +35,15 @@ Components.BasePage {
         width: parent.width * 0.90
         anchors { top: brand.bottom; topMargin: 15; horizontalCenter: parent.horizontalCenter }
 
-        Components.PasswordField {
+        TextField {
             id: email
+            color: Config.theme.textColorPrimary
+            selectByMouse: true; cursorVisible: focus
+            renderType: Text.NativeRendering
+            anchors.horizontalCenter: parent.horizontalCenter
             placeholderText: qsTr("Email")
             inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhLowercaseOnly
+            onEditingFinished: text = text.trim()
         }
 
         Button {
