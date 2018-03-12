@@ -44,8 +44,8 @@ Components.BasePage {
     }
 
     Button {
-        text: "Go to page 1"
+        text: qsTr("Show a notification")
         anchors { top: label.bottom; topMargin: 25; horizontalCenter: parent.horizontalCenter }
-        onClicked: pageStack.push(Config.plugins.pages + "Page1.qml")
+        onClicked: Notification.show("Sed ut perspiciatis", "Lorem ipsum dolor sit amet, consectetur adipiscing...")
     }
 }
