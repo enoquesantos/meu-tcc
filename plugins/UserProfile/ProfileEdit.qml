@@ -102,6 +102,7 @@ Components.BasePage {
                 id: email
                 color: Config.theme.textColorPrimary
                 selectByMouse: true; cursorVisible: focus
+                Layout.fillWidth: true
                 renderType: Text.NativeRendering
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: userProfile.profile.email
@@ -117,6 +118,7 @@ Components.BasePage {
                 id: password1
                 nextFocusItem: password2
                 echoMode: TextInput.Password
+                Layout.fillWidth: true
                 inputMethodHints: Qt.ImhNoPredictiveText
                 placeholderText: qsTr("Set the new password")
                 onFocusChanged: if (focus) flickable.contentY = email.y
@@ -125,6 +127,7 @@ Components.BasePage {
             Components.PasswordField {
                 id: password2
                 echoMode: TextInput.Password
+                Layout.fillWidth: true
                 inputMethodHints: Qt.ImhNoPredictiveText
                 placeholderText: qsTr("Confirm the new password")
                 onAccepted: page.focus = true
