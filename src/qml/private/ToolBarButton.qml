@@ -7,7 +7,7 @@ ToolButton {
 
     Components.AwesomeIcon {
         id: toolButtonIcon
-        size: 18
+        size: 21
         clickEnabled: false
         anchors { horizontalCenter: parent.horizontalCenter; verticalCenter: parent.verticalCenter }
     }
