@@ -20,15 +20,19 @@ public class CustomActivity extends QtActivity
     private static boolean isRunning = false;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
-    @Override
-    protected void onResume()
+    public CustomActivity()
     {
-        super.onResume();
-
+        super();
         // set the theme package to configure lollipop (or above) action bar style and others configurations
         // like transparent status bar via style.xml and the window colors via properties from colors.xml.
         QT_ANDROID_THEMES = new String[] {"Theme.AppCompat"};
         QT_ANDROID_DEFAULT_THEME = "Theme.AppCompat";
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
 
         isRunning   = true;
         context     = getApplicationContext();
