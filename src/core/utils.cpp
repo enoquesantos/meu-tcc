@@ -6,7 +6,6 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonParseError>
 #include <QNetworkConfigurationManager>
 
 #ifdef Q_OS_ANDROID
@@ -48,10 +47,13 @@ QString Utils::stringfyJson(const QVariant &data, bool compact)
 
 QVariant Utils::jsonParse(const QByteArray &jsonStr)
 {
-    QJsonDocument qJsonDocument(QJsonDocument::fromJson(jsonStr));
-    if (qJsonDocument.isArray())
-        return qJsonDocument.array().toVariantList();
-    return qJsonDocument.object().toVariantMap();
+    QJsonDocument doc(QJsonDocument::fromJson(jsonStr, &m_jsonParseError));
+    if (m_jsonParseError.error == QJsonParseError::NoError && !doc.isEmpty()) {
+        if (doc.isArray())
+            return doc.array().toVariantList();
+        return doc.object().toVariantMap();
+    }
+    return jsonStr;
 }
 
 QString Utils::parseUrl(const QString &url)
@@ -59,8 +61,6 @@ QString Utils::parseUrl(const QString &url)
     if (url.isEmpty())
         return QStringLiteral("");
     QUrl _qurl = QUrl::fromUserInput(url);
-    if (url.at(0) == QStringLiteral("/"))
-        return _qurl.toString();
     return _qurl.toString();
 }
 
@@ -72,19 +72,11 @@ QVariant Utils::readFile(const QString &filePath)
 {
     QString _path(filePath);
     QFile file(_path.remove(QStringLiteral("file://")));
-    QJsonParseError error;
     if (!file.exists() || !file.open(QIODevice::ReadOnly | QIODevice::Text))
         return QVariant();
     QByteArray fileContent(file.readAll());
     file.close();
-    QJsonDocument jsonDocument = QJsonDocument::fromJson(fileContent, &error);
-    if (error.error == QJsonParseError::NoError && !jsonDocument.isEmpty()) {
-        if (jsonDocument.isArray())
-            return jsonDocument.array().toVariantList();
-        else if (jsonDocument.isObject())
-            return jsonDocument.object().toVariantMap();
-    }
-    return fileContent;
+    return jsonParse(fileContent);
 }
 
 bool Utils::copyFile(const QString &fileName, const QString &newName, bool overwriteIfExists)
@@ -105,8 +97,7 @@ QString Utils::fileBaseName(const QString &filePath)
 
 bool Utils::isDeviceOnline()
 {
-    QNetworkConfigurationManager qcm(this);
-    return qcm.isOnline();
+    return QNetworkConfigurationManager().isOnline();
 }
 
 QString Utils::readFirebaseToken()

@@ -4,8 +4,11 @@
 #include <QObject>
 #include <QUrl>
 #include <QVariant>
+#include <QJsonParseError>
 
+class QByteArray;
 class QFile;
+class QFileInfo;
 class QJsonArray;
 class QJsonDocument;
 class QJsonObject;
@@ -161,6 +164,11 @@ public:
     Q_INVOKABLE void minimizeWindow();
 
 private:
+    /**
+     * @brief error
+     */
+    QJsonParseError m_jsonParseError;
+
     /**
      * @brief m_instance
      * A pointer to class instance
