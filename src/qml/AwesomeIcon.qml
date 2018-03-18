@@ -4,7 +4,7 @@ import Qt.project.AwesomeIconFontLoader 1.0
 
 Item {
     id: widget
-    width: parent.width; height: width
+    width: size; height: width
 
     property string name
     property int size: 16

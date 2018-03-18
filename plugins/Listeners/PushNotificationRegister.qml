@@ -2,8 +2,6 @@ import QtQuick 2.9
 import Observer 1.0
 import RequestHttp 1.0
 
-import "qrc:/publicComponentes/" as Components
-
 Item {
     id: rootItem
     objectName: "PushNotificationRegister"

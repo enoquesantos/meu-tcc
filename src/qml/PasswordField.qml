@@ -17,7 +17,7 @@ TextField {
 
     AwesomeIcon {
         id: icon
-        visible: Qt.platform.os !== "ios"
+        visible: !Settings.IS_IOS
         width: 25; height: width; y: 1
         clickEnabled: iconClickEnabled
         z: 1; size: 25; color: textField.color

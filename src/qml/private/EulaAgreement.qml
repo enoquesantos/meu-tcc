@@ -40,7 +40,7 @@ Page {
             visible: !Config.forceEulaAgreement
             anchors.centerIn: parent
             onClicked: {
-                App.saveSetting("eula_accepted", "1")
+                Settings.saveSetting("eula_accepted", "1")
                 functions.setActivePage()
             }
         }
@@ -59,8 +59,8 @@ Page {
             visible: Config.forceEulaAgreement
             anchors { right: parent.right; rightMargin: 10; verticalCenter: parent.verticalCenter; horizontalCenter: undefined }
             onClicked: {
-                App.saveSetting("eula_accepted", "1")
-                window.setActivePage()
+                Settings.saveSetting("eula_accepted", "1")
+                functions.setActivePage()
             }
         }
     }

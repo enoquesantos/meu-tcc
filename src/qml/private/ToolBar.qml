@@ -17,7 +17,7 @@ ToolBar {
         if (toolBarColor) {
             toolBar.background.color = toolBarColor
             // in android, set the System Status Bar to same color of ToolBar
-            if (Qt.platform.os === "android")
+            if (Settings.IS_ANDROID)
                 SystemStatusBar.color = toolBarColor
         }
     }

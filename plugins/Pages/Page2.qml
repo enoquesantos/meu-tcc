@@ -21,10 +21,12 @@ Components.BasePage {
     property string searchText
     onSearchTextChanged: label.text = searchText || page.title
 
-    Connections {
-        target: App
-        onEventNotify: if (eventName === Config.events.cancelSearch) toolBarState = "normal"
-    }
+    // TODO
+    // replace by a observer
+//    Connections {
+//        target: App
+//        onEventNotify: if (eventName === Config.events.cancelSearch) toolBarState = "normal"
+//    }
 
     Label {
         id: label

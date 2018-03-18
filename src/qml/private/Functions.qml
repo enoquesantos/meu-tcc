@@ -52,7 +52,7 @@ QtObject {
       */
     function setMenuItens() {
         var i = 0, length = 0, pages = []
-        pages = App.readSetting("pages", App.SettingTypeJsonArray)
+        pages = Settings.readSetting("pages", Settings.SettingTypeJsonArray)
         length = pages.length
         while (i < length) addNewMenuItem(pages[i++], false)
     }
@@ -81,7 +81,7 @@ QtObject {
     }
 
     /**
-      * buttonPressed is a function to handle the Android back button and prevent close the app.
+      * buttonPressed is a function to handle the Android back button and prevent close the application.
       * If the platform is iOS, this signal is ignored.
       *
       * The signal is emited by Keys.onBackPressed and not exists on iOS.
@@ -98,7 +98,7 @@ QtObject {
       * @e a Event QML object
       */
     function buttonPressed(e) {
-        if (Qt.platform.os !== "android") {
+        if (!Settings.IS_ANDROID) {
             e.accepted = true
             return
         } else if (dialog.visible) {
@@ -115,7 +115,7 @@ QtObject {
         } else if (!pageStack.depth && swipeView && swipeView.count && footer.currentIndex) {
             swipeView.decrementCurrentIndex()
         } else {
-            // App.minize call a android java to move app to background, but keep running
+            // Utils.minimize call a android java to move app to background, but keep running
             Utils.minimizeWindow()
         }
         // setting button.accepted to false, prevent the ApplicationWindow to be closed
@@ -133,7 +133,7 @@ QtObject {
       *    Login page needs to be set by some plugin and the path is saved by PluginManager.
       */
     function setActivePage() {
-        if (Config.showEula && App.readSetting("eula_accepted") !== "1") {
+        if (Config.showEula && Settings.readSetting("eula_accepted") !== "1") {
             pageStack.push(Qt.resolvedUrl("EulaAgreement.qml"))
             return
         }
@@ -142,11 +142,11 @@ QtObject {
                 pageStack.clear()
                 setMenuItens()
             } else {
-                pageStack.replace(App.readSetting("homePageUrl", App.SettingTypeString))
+                pageStack.replace(Settings.readSetting("homePageUrl", Settings.SettingTypeString))
             }
         } else {
             // get the login page url defined by some plugin
-            var loginPageUrl = App.readSetting("loginPageUrl", App.SettingTypeString)
+            var loginPageUrl = Settings.readSetting("loginPageUrl", Settings.SettingTypeString)
             // if pageStack has more of one item like logout page,
             // replace the last page by login page to prevent user back to
             // previous page using the android back button
@@ -162,7 +162,7 @@ QtObject {
      * defined by plugins.
      */
     function loadListeners() {
-        var component = {}, listeners = App.readSetting("listeners", App.SettingTypeJsonArray)
+        var component = {}, listeners = Settings.readSetting("listeners", Settings.SettingTypeJsonArray)
         while (listeners.length) {
             component = Qt.createComponent(listeners.pop())
             if (component.status === Component.Ready)

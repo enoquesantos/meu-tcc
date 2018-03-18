@@ -81,7 +81,7 @@ Page {
 
     // keeps the status for current page
     // The currentPage is a window alias to currentItem in pageStack or swipeView
-    property bool isActivePage: window.currentPage && window.currentPage.absPath === absPath
+    property bool isActivePage: window.currentPage.absPath === absPath
 
     // each page can set a custom color to page background using this alias
     property alias pageBackgroundColor: _pageBackgroundRec.color
@@ -137,7 +137,7 @@ Page {
                 // alert is a signal on Main.qml.
                 // on iOS, the alert show a dialog with a native appearence,
                 // snackbar is a object on Main.qml most used in Android to show short warnings in android.
-                if (["ios","osx"].indexOf(Qt.platform.os) > -1)
+                if (Settings.IS_IOS || Settings.IS_OSX)
                     functions.alert(qsTr("Error!"), qsTr("Cannot connect to server!"))
                 else
                     snackbar.show(qsTr("Cannot connect to server!"))

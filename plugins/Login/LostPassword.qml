@@ -37,6 +37,7 @@ Components.BasePage {
 
         TextField {
             id: email
+            width: parent.width
             color: Config.theme.textColorPrimary
             selectByMouse: true; cursorVisible: focus
             renderType: Text.NativeRendering

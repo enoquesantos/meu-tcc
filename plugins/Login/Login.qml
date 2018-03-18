@@ -50,6 +50,7 @@ Components.BasePage {
 
             TextField {
                 id: login
+                width: parent.width
                 color: Config.theme.textColorPrimary
                 selectByMouse: true; cursorVisible: focus
                 renderType: Text.NativeRendering
