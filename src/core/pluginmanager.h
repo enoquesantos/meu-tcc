@@ -5,7 +5,7 @@
 #include <QObject>
 #include <QVariant>
 
-class App;
+class Settings;
 class PluginDatabaseTableCreator;
 
 /**
@@ -18,7 +18,7 @@ class PluginDatabaseTableCreator;
  * 3: Handle all plugins and application files cache deletion, when application are updated.
  * 4: When load all plugins, save in local settings the plugins pages list, to be used by follow QML components:
  *      Navigation Drawer menu retrieve the 'pages' list to show the options to the user;
- *      When app uses TabBar (specify in config.json), the 'pages' will be used to show the tab buttons to user navigate in the app.
+ *      When app uses TabBar (specify in config.json), the 'pages' will be used to show the tab buttons to user navigate in application.
  * 5: The Login and Home pages will be defined by some plugin, and will be saved in local settings to application window load in PageStack or SwipeView.
  * 5: Save the app version, used to decide when delete and reload all plugins and to optimize the app start'up.
  *      If app not updated (the version is the same of previous execution), abort and the object will be deleted by App instance (the parent of PluginManager).
@@ -48,10 +48,10 @@ public:
     /**
      * @brief setApp
      * Set a pointer to App object. Used to get access to qsettings methods.
-     * The pointer will be set to m_app, the parent of this object.
+     * The pointer will be set to m_settings, the parent of this object.
      * @param app App*
      */
-    void setApp(App *app);
+    void setSettings(Settings *settings);
 
     /**
      * @brief loadPlugins
@@ -90,15 +90,6 @@ public:
      * @return bool
      */
     static bool sortByKey(const QVariant &a, const QVariant &b);
-
-signals:
-    /**
-     * @brief finished
-     * This signal is emitted when a intance of this class finished the job, sending
-     * a signal to parent delete the pointer to improve the memory consumption.
-     * @param thiz PluginManager* a pointer to this current instance
-     */
-    void finished(PluginManager *thiz);
 
 private:
     /**
@@ -174,11 +165,11 @@ private:
     QVariantMap m_pluginsPaths;
 
     /**
-     * @brief m_app
+     * @brief m_settings
      * Keeps a pointer to this class instance parent and is set by void::setApp(App*) method.
      * This pointer is needed to access, ready and write in application settings (QSettings)
      */
-    App *m_app;
+    Settings *m_settings;
 };
 
 #endif // PLUGINMANAGER_H

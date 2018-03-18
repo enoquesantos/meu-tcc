@@ -1,6 +1,6 @@
 #include "pluginmanager.h"
 #include "plugindatabasetablecreator.h"
-#include "app.h"
+#include "settings.h"
 #include "utils.h"
 
 #include <QApplication>
@@ -21,33 +21,30 @@ PluginManager::PluginManager(QObject *parent) : QObject(parent)
 
 QDir PluginManager::pluginsDir()
 {
+    static QDir pluginsDir;
+
 #ifdef Q_OS_ANDROID
-    QDir dir(QStringLiteral("assets:/plugins"));
-    dir.cd(QStringLiteral("plugins"));
-    return dir;
-#elif defined Q_OS_LINUX
-    QDir dir(qApp->applicationDirPath());
-    dir.cd("plugins");
-    return dir;
+    pluginsDir.setPath(QStringLiteral("assets:/plugins"));
 #else
-    QDir dir(qApp->applicationDirPath());
+    pluginsDir.setPath(qApp->applicationDirPath());
+#endif
+
+#ifdef Q_OS_DARWIN
     // for osx desktop
-#ifndef Q_OS_IOS
-    dir.cd(QStringLiteral("../../../"));
+    pluginsDir.cd(QStringLiteral("../../../"));
 #endif
-    dir.cd(QStringLiteral("plugins"));
-    return dir;
-#endif
+    pluginsDir.cd(QStringLiteral("plugins"));
+    return pluginsDir;
 }
 
-void PluginManager::setApp(App *app)
+void PluginManager::setSettings(Settings *settings)
 {
-    m_app = app;
+    m_settings = settings;
 }
 
 void PluginManager::loadPlugins()
 {
-    QString savedVersion(m_app->readSetting(QStringLiteral("version")).toString());
+    QString savedVersion(m_settings->readSetting(QStringLiteral("version")).toString());
 
     // read the plugins directory path
     QDir pluginsDir(PluginManager::pluginsDir());
@@ -71,10 +68,8 @@ void PluginManager::loadPlugins()
     // check the saved version with the current running version.
     // if the current running version is the same value of saved version
     // nothing to be done. Otherwise, all cached data needs to be removed to be recreated and plugins and pages will be re-reload.
-    if (!savedVersion.isEmpty() && !applicationVersion.isEmpty() && savedVersion.compare(applicationVersion) == 0) {
-        emit finished(this);
+    if (!savedVersion.isEmpty() && !applicationVersion.isEmpty() && savedVersion.compare(applicationVersion) == 0)
         return;
-    }
 #endif
     clearCache();
 
@@ -119,7 +114,6 @@ void PluginManager::loadPlugins()
 
     sortPages();
     save();
-    emit finished(this);
 }
 
 bool PluginManager::sortByKey(const QVariant &a, const QVariant &b)
@@ -130,10 +124,10 @@ bool PluginManager::sortByKey(const QVariant &a, const QVariant &b)
 
 void PluginManager::save()
 {
-    m_app->saveSetting(QStringLiteral("listeners"), m_listeners);
-    m_app->saveSetting(QStringLiteral("pages"), m_pages);
-    m_app->saveSetting(QStringLiteral("pluginsPaths"), m_pluginsPaths);
-    m_app->saveSetting(QStringLiteral("version"), QApplication::applicationVersion());
+    m_settings->saveSetting(QStringLiteral("listeners"), m_listeners);
+    m_settings->saveSetting(QStringLiteral("pages"), m_pages);
+    m_settings->saveSetting(QStringLiteral("pluginsPaths"), m_pluginsPaths);
+    m_settings->saveSetting(QStringLiteral("version"), QApplication::applicationVersion());
 
     #ifdef QT_DEBUG
         qDebug() << QStringLiteral("Application plugins, listeners and version was saved success!");
@@ -166,10 +160,10 @@ void PluginManager::clearCache()
         qDebug() << QStringLiteral("All application cached files was success deleted!");
     #endif
 
-    m_app->removeSetting(QStringLiteral("listeners"));
-    m_app->removeSetting(QStringLiteral("pages"));
-    m_app->removeSetting(QStringLiteral("pluginsPaths"));
-    m_app->removeSetting(QStringLiteral("version"));
+    m_settings->removeSetting(QStringLiteral("listeners"));
+    m_settings->removeSetting(QStringLiteral("pages"));
+    m_settings->removeSetting(QStringLiteral("pluginsPaths"));
+    m_settings->removeSetting(QStringLiteral("version"));
 }
 
 void PluginManager::createDatabaseTables(const QString &pluginDirPath)
@@ -228,9 +222,9 @@ void PluginManager::parsePages(const QString &pluginPath, const QVariantMap &plu
         // save the absolute path to this page to qml application load the login page.
         // This feature is to reduce the hard coded set what's the login page and the home page (initial page after login)
         if (page.contains(QStringLiteral("isLoginPage")))
-            m_app->saveSetting(QStringLiteral("loginPageUrl"), pagePath);
+            m_settings->saveSetting(QStringLiteral("loginPageUrl"), pagePath);
         else if (page.contains(QStringLiteral("isHomePage")))
-            m_app->saveSetting(QStringLiteral("homePageUrl"), pagePath);
+            m_settings->saveSetting(QStringLiteral("homePageUrl"), pagePath);
 
         m_pages << page;
     }
