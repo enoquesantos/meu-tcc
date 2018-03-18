@@ -10,11 +10,11 @@ QT += widgets
 
 CONFIG += c++11
 
-HEADERS += src/core/app.h \
-    src/core/filedialog.h \
+HEADERS += src/core/filedialog.h \
     src/core/observer.h \
     src/core/pluginmanager.h \
     src/core/plugindatabasetablecreator.h \
+    src/core/settings.h \
     src/core/subject.h \
     src/core/utils.h \
     src/database/asyncselect.h \
@@ -31,11 +31,11 @@ HEADERS += src/core/app.h \
     src/notification/handlelinuxdesktopclickaction.h
 
 SOURCES += main.cpp \
-    src/core/app.cpp \
     src/core/filedialog.cpp \
     src/core/observer.cpp \
     src/core/pluginmanager.cpp \
     src/core/plugindatabasetablecreator.cpp \
+    src/core/settings.cpp \
     src/core/subject.cpp \
     src/core/utils.cpp \
     src/database/asyncselect.cpp \
@@ -82,7 +82,6 @@ android: {
     QT += androidextras
 
     HEADERS += src/extras/androidfiledialog.h \
-        src/extras/JavaCppConnect.h \
         src/extras/androidstatusbar.h
 
     SOURCES += src/extras/androidfiledialog.cpp \

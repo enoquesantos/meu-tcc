@@ -1,44 +1,40 @@
-#include "app.h"
-#include "pluginmanager.h"
+#include "settings.h"
 #include "utils.h"
 
 #include <QApplication>
-#include <QFile>
-#include <QFileInfo>
+#include <QIcon>
 #include <QJSValue>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
-#include <QJsonParseError>
 #include <QQuickStyle>
 #include <QSettings>
-#include <QStandardPaths>
 
-#ifdef Q_OS_ANDROID
-#include <QtAndroid>
-#include <QtAndroidExtras>
-#elif defined Q_OS_IOS
-// pass
-#else
-// used to set the application window icon in desktop mode
-#include <QIcon>
-#endif
-
-App* App::m_instance = nullptr;
-
-App::App(QObject *parent) : QObject(parent)
+Settings::Settings(QObject *parent) : QObject(parent)
 {
-    App::m_instance = this;
     init();
+#ifdef Q_OS_ANDROID
+_IS_ANDROID = true;
+_IS_MOBILE = true;
+#elif defined Q_OS_IOS
+_IS_IOS = true;
+_IS_MOBILE = true;
+#elif defined Q_OS_DARWIN
+_IS_OSX = true;
+#elif defined Q_OS_LINUX
+_IS_LINUX = true;
+#elif defined Q_OS_WIN
+_IS_WINDOWS = true;
+#endif
 }
 
-App::~App()
+Settings::~Settings()
 {
     if (m_config.size())
         m_config.clear();
 }
 
-void App::init()
+void Settings::init()
 {
     // read the config.json file
     m_config = Utils::instance()->readFile(QStringLiteral(":/config.json")).toMap();
@@ -83,41 +79,21 @@ void App::init()
      */
     QQuickStyle::setStyle(m_config.value(QStringLiteral("applicationStyle")).toString());
 
-    /**
-     * @brief m_pluginManager
-     * This object manage the application plugins and require a reference to
-     * qsettings object to save the plugins pages, application version and others data.
-     * PluginManager compare the app version value from previous saved value using QApplication::ApplicationVersion()
-     * to decide if remove all qml cached files (*.qmlc and *.jsc) to refresh new changes
-     */
-    PluginManager pluginManager(this);
-    pluginManager.setApp(this);
-    pluginManager.loadPlugins();
-
-    setPluginsPaths();
-
-#ifdef Q_OS_ANDROID
-    // pass
-#elif defined Q_OS_IOS
-    // pass
-#else
-    // set application icon if running in desktop linux or osx
-    qApp->setWindowIcon(QIcon::fromTheme(":/icon.png"));
-    QApplication::addLibraryPath(qApp->applicationDirPath() + "/plugins");
-#endif
+    qApp->setWindowIcon(QIcon::fromTheme(QStringLiteral(":/icon.png")));
+    QApplication::addLibraryPath(qApp->applicationDirPath() + QStringLiteral("/plugins"));
 }
 
-QVariantMap App::config() const
+QVariantMap Settings::config() const
 {
     return m_config;
 }
 
-void App::setPluginsPaths()
+void Settings::setPluginsPaths()
 {
     m_config.insert(QStringLiteral("plugins"), readSetting(QStringLiteral("pluginsPaths"), settingTypeJsonObject));
 }
 
-QVariant App::readSetting(const QString &key, quint8 returnType)
+QVariant Settings::readSetting(const QString &key, quint8 returnType)
 {
     if (key.isEmpty())
         return 0;
@@ -138,7 +114,7 @@ QVariant App::readSetting(const QString &key, quint8 returnType)
         return value;
 }
 
-void App::saveSetting(const QString &key, const QVariant &value)
+void Settings::saveSetting(const QString &key, const QVariant &value)
 {
     QJsonDocument jsonDocument(QJsonDocument::fromVariant(value));
     if (value.typeName() == QStringLiteral("QJSValue"))
@@ -150,20 +126,8 @@ void App::saveSetting(const QString &key, const QVariant &value)
         m_qsettings->setValue(key, value);
 }
 
-void App::removeSetting(const QString &key)
+void Settings::removeSetting(const QString &key)
 {
     if (m_qsettings->contains(key))
         m_qsettings->remove(key);
-}
-
-void App::fireEventNotify(const QString &eventName, const QString &eventData)
-{
-    if (App::m_instance == nullptr)
-        return;
-    emit App::m_instance->eventNotify(eventName, eventData);
-}
-
-App *App::instance()
-{
-    return m_instance;
 }

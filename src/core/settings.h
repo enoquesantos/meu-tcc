@@ -1,5 +1,5 @@
-﻿#ifndef APP_H
-#define APP_H
+﻿#ifndef SETTINGS_H
+#define SETTINGS_H
 
 #include <QObject>
 #include <QVariant>
@@ -7,19 +7,19 @@
 class QSettings;
 
 /**
- * @brief The App class
+ * @brief The Settings class
  * @extends QObject
- * This class has some application responsibilities and contains a useful utilities:
+ * This class has some Settingslication responsibilities and contains a useful utilities:
  * 1: Handle the local settings from a QSettings instance.
  *    QML objects can save/read/remove local settings using the methods saveSetting(...), readSetting(...) and removeSetting(...)
- * 2: Handle the application plugins from PluginManager instance.
+ * 2: Handle the Settingslication plugins from PluginManager instance.
  *    The pluginManager is a object that load all plugins, create a database table for each plugin and
- *    remove all qml cached files when app are updated.
- * 3: Load the config.json file that contains the application property settings.
+ *    remove all qml cached files when Settings are updated.
+ * 3: Load the config.json file that contains the Settingslication property settings.
  * 4: Set the QuickControls style (Material, Universal) defined from config.json, passed to QQuickStyle.
- * 5: Handle the push notification messages from a connection with android activity and ios QtAppDelegate, sending the events to QML main window.
+ * 5: Handle the push notification messages from a connection with android activity and ios QtSettingsDelegate, sending the events to QML main window.
  */
-class App : public QObject
+class Settings : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(quint8 SettingTypeBool MEMBER settingTypeBool CONSTANT FINAL)
@@ -27,33 +27,38 @@ class App : public QObject
     Q_PROPERTY(quint8 SettingTypeString MEMBER settingTypeString CONSTANT FINAL)
     Q_PROPERTY(quint8 SettingTypeStringList MEMBER settingTypeStringList CONSTANT FINAL)
     Q_PROPERTY(quint8 SettingTypeJsonObject MEMBER settingTypeJsonObject CONSTANT FINAL)
-    Q_PROPERTY(quint8 SettingTypeJsonArray MEMBER settingTypeJsonArray CONSTANT FINAL)
+    Q_PROPERTY(bool IS_ANDROID MEMBER _IS_ANDROID CONSTANT FINAL)
+    Q_PROPERTY(bool IS_IOS MEMBER _IS_IOS CONSTANT FINAL)
+    Q_PROPERTY(bool IS_OSX MEMBER _IS_OSX CONSTANT FINAL)
+    Q_PROPERTY(bool IS_LINUX MEMBER _IS_LINUX CONSTANT FINAL)
+    Q_PROPERTY(bool IS_WINDOWS MEMBER _IS_WINDOWS CONSTANT FINAL)
+    Q_PROPERTY(bool IS_MOBILE MEMBER _IS_MOBILE CONSTANT FINAL)
 public:
     /**
-     * @brief App
+     * @brief Settings
      * The object constructor
      * @param parent *QObject a pointer to the object parent
      */
-    explicit App(QObject *parent = nullptr);
+    explicit Settings(QObject *parent = nullptr);
 
     /**
-     * @brief ~App
+     * @brief ~Settings
      * The object destructor
      */
-    ~App();
+    ~Settings();
 
     /**
      * @brief init
      * This method is called by constructor and load the config.json,
-     * register the application settings names to QApplication,
-     * set the application style to QQuickStyle::setStyle and
+     * register the Settingslication settings names to QSettingslication,
+     * set the Settingslication style to QQuickStyle::setStyle and
      * load all plugins using PluginManager object.
      */
     void init();
 
     /**
      * @brief config
-     * Get the application config.json as QMap<QString, QVariant> object and
+     * Get the Settingslication config.json as QMap<QString, QVariant> object and
      * is used by QML objects to get window properties, the colors used in widgets and
      * others properties like webservice informations (base url, images url and authentication parameters)
      * @return QVariantMap
@@ -62,14 +67,14 @@ public:
 
     /**
      * @brief setPluginsPaths
-     * Append into Config.json a list with all plugins paths by plugin name.
+     * Settingsend into Config.json a list with all plugins paths by plugin name.
      * Can be used to qml plugins load a file or page using a syntax like this: Config.plugins.about + "About.qml"
      */
     void setPluginsPaths();
 
     /**
      * @brief readSetting
-     * Read a generic value (string, integer, float or a json) from application local settings.
+     * Read a generic value (string, integer, float or a json) from Settingslication local settings.
      * The returned type will be defined by 'returnType', based on the object attributes 'settingType'.
      * The 'returnType' prevent QML objects to make parse to specific values like integer, float or JSON.
      * @param key QString the key to retrieve the value
@@ -80,7 +85,7 @@ public:
 
     /**
      * @brief saveSetting
-     * Save a generic data in application settings.
+     * Save a generic data in Settingslication settings.
      * This method is useful to save strings, booleans, integers or json, using a keyword and value.
      * @param key QString the key name to be used when retrieve the value
      * @param value QVariant the value to save. If some value already exists to the key, the data will be updated
@@ -94,54 +99,19 @@ public:
      */
     Q_INVOKABLE void removeSetting(const QString &key);
 
-    /**
-     * @brief fireEventNotify
-     * This method make a connection with android Activity to receive push events (messages and firebase token).
-     * In android, the connection is created in JavaCppConnect.h before application running (via JNI_OnLoad).
-     * In ios, this method is called directly from QtAppDelegate.mm.
-     * The events will be fired to application using the signal 'notifyEvent'.
-     * @param eventName QString the event name
-     * @param eventData QString the event data, like a string as json data or string with push notification token.
-     */
-    static void fireEventNotify(const QString &eventName, const QString &eventData);
-
-    /**
-     * @brief instance
-     * @return App *
-     */
-    static App *instance();
-
-signals:
-    /**
-     * @brief notifyEvent
-     * Fire internal android and iOS events that become in eventNotify slot.
-     * Is used by push notification token and push notification messages when
-     * the app is on foreground or background (but running), sending the event data to qml main window.
-     * @param eventName QVariant the name (or indentity) of the event
-     * @param eventData QVariant the event argument data
-     */
-    void eventNotify(const QString &eventName, const QVariant &eventData);
-
 private:
     /**
-     * @brief m_instance
-     * This pointer is used to call object signal from static method fireEventNotify(...),
-     * from application binds with android activity and ios QtAppDelegate
-     */
-    static App *m_instance;
-
-    /**
      * @brief m_qsettings
-     * This object handle the application settings using key->value to save/read data.
+     * This object handle the Settingslication settings using key->value to save/read data.
      */
     QSettings *m_qsettings;
 
     /**
      * @brief m_config
-     * This object keep the application configuration (from config.json) file while application running.
+     * This object keep the Settingslication configuration (from config.json) file while Settingslication running.
      * The content data of this object is not saved and can be used to:
-     * 1: define application colors, font size and others properties
-     * 2: keeps the application name, description and other flags
+     * 1: define Settingslication colors, font size and others properties
+     * 2: keeps the Settingslication name, description and other flags
      * 3: set the webservice url, username and userpassword for Basic Authentication (send in http requests)
      */
     QVariantMap m_config;
@@ -156,6 +126,13 @@ private:
     const quint8 settingTypeStringList = 5;
     const quint8 settingTypeJsonObject = 6;
     const quint8 settingTypeJsonArray = 7;
+
+    bool _IS_ANDROID = false;
+    bool _IS_IOS = false;
+    bool _IS_OSX = false;
+    bool _IS_LINUX = false;
+    bool _IS_WINDOWS = false;
+    bool _IS_MOBILE = false;
 };
 
-#endif // APP_H
+#endif // SETTINGS_H
