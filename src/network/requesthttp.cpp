@@ -15,7 +15,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 
-#include "../core/app.h"
+#include "../core/utils.h"
 #include "uploadmanager.h"
 #include "downloadmanager.h"
 
@@ -28,7 +28,8 @@ RequestHttp::RequestHttp(QObject *parent) : QObject(parent)
 {
     static QVariantMap config;
     if (config.isEmpty()) {
-        config = App::instance()->config().value(QStringLiteral("restService")).toMap();
+        config = Utils::instance()->readFile(QStringLiteral(":/config.json")).toMap();
+        config = config.value(QStringLiteral("restService")).toMap();
         setBaseUrl(config.value(QStringLiteral("baseUrl")).toByteArray());
         setBasicAuthorization(config.value(QStringLiteral("userName")).toByteArray(), config.value(QStringLiteral("userPass")).toByteArray());
     }
