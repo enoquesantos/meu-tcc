@@ -6,20 +6,23 @@ import Qt.labs.platform 1.0
 ApplicationWindow {
     id: window
     visible: true
-    width: Qt.platform.os == "linux" || Qt.platform.os == "osx" ? Screen.width / 2.5 : Screen.width
-    height: Qt.platform.os == "linux" || Qt.platform.os == "osx" ? Screen.height * 0.90 : Screen.height
+    width: Settings.IS_MOBILE ? Screen.width : Screen.width / 2.5
+    height: Settings.IS_MOBILE ? Screen.height : Screen.height * 0.90
     title: currentPage ? (currentPage.title || qsTr("Welcome") + " - " + Config.applicationName) : "%1 - %2".arg(Config.applicationName).arg(Config.organizationName)
     onClosing: functions.buttonPressed(close)
 
     Component.onCompleted: {
         // when runnig in desktop mode, centralize the application window.
-        if (["linux","osx"].indexOf(Qt.platform.os) > -1) {
+        if (!Settings.IS_MOBILE) {
             setX(Screen.width / 2 - width / 2)
             setY(Screen.height / 2 - height / 2)
         }
         functions.setActivePage()
         functions.loadListeners()
     }
+
+    // keeps a reference to the current visible page at the window.
+    property QtObject currentPage
 
     // keeps a instance of MessageDialog with native look and feel,
     // the instance will be created dinamically by platform type.
@@ -30,23 +33,10 @@ ApplicationWindow {
     // using the TabBar buttons put in the bottom of window.
     property QtObject swipeView
 
-    // keeps a reference to the current visible page at the window.
-    property QtObject currentPage
-
     // keeps a instance of UserProfile if the application has UserProfile
     // if "hasLogin" (from config.json) is defined to true.
     // All qml components can read the user information from "user" reference.
     property QtObject userProfile
-
-    // keeps a instance of Menu.qml where is a instance of QuickControls.Drawer
-    // if "hasLogin" (from config.json) is defined to true.
-    // All qml components can read the user information from "user" reference.
-    property QtObject drawer
-
-    // the first function called by window to set the first page to the user.
-    // to more details take a look in functions.setActivePage()
-    signal setActivePage()
-    onSetActivePage: functions.setActivePage()
 
     // load the main TabBar to show pages buttons, used with swipeview if "usesSwipeView" is true
     // in config.json. The app can uses the swipeView + tabBar to swap the application pages.
