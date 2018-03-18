@@ -89,8 +89,6 @@ public class SystemNotification
         notificationBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
         // start vibration if user enable vibration to the app
         notificationBuilder.setVibrate(new long[] {500, 500, 500});
-        // start the device LED notification (available only in some devices)
-        notificationBuilder.setLights(Color.BLUE, 3000, 3000);
 
         // create pending intent, a mention to the Activity which needs to be
         // triggered when user clicks in the notification. In this case is QtActivity class
