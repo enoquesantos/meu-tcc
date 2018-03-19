@@ -1,7 +1,7 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
     <!-- public components used by plugins -->
-    <qresource prefix="publicComponentes">
+    <qresource prefix="publicComponents">
         <file>AwesomeIcon.qml</file>
         <file>BasePage.qml</file>
         <file>CameraCapture.qml</file>

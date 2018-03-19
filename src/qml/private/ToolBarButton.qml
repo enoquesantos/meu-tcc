@@ -1,6 +1,6 @@
 import QtQuick.Controls 2.3
 
-import "qrc:/publicComponentes/" as Components
+import "qrc:/publicComponents/" as Components
 
 ToolButton {
     onClicked: if (actionName) Subject.notify(actionName, 0)

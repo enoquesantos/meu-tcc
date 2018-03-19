@@ -1,6 +1,6 @@
 import QtQuick.Controls 2.2
 
-import "qrc:/publicComponentes/" as Components
+import "qrc:/publicComponents/" as Components
 
 Components.BasePage {
     id: page

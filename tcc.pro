@@ -50,7 +50,7 @@ SOURCES += main.cpp \
     src/notification/handlelinuxdesktopclickaction.cpp
 
 RESOURCES += config.qrc \
-    src/qml/qml.qrc \
+    src/qml/public.qrc \
     src/qml/private/private.qrc \
     assets/assets.qrc \
     assets/desktop_assets.qrc \

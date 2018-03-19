@@ -2,7 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import Observer 1.0
 
-import "qrc:/publicComponentes/" as Components
+import "qrc:/publicComponents/" as Components
 
 Drawer {
     id: drawer
