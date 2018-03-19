@@ -11,7 +11,7 @@ class QSettings;
  * @extends QObject
  * This class has some Settingslication responsibilities and contains a useful utilities:
  * 1: Handle the local settings from a QSettings instance.
- *    QML objects can save/read/remove local settings using the methods saveSetting(...), readSetting(...) and removeSetting(...)
+ *    QML objects can save/read/remove local settings using the methods save(...), read(...) and remove(...)
  * 2: Handle the Settingslication plugins from PluginManager instance.
  *    The pluginManager is a object that load all plugins, create a database table for each plugin and
  *    remove all qml cached files when Settings are updated.
@@ -73,7 +73,7 @@ public:
     void setPluginsPaths();
 
     /**
-     * @brief readSetting
+     * @brief read
      * Read a generic value (string, integer, float or a json) from Settingslication local settings.
      * The returned type will be defined by 'returnType', based on the object attributes 'settingType'.
      * The 'returnType' prevent QML objects to make parse to specific values like integer, float or JSON.
@@ -81,23 +81,23 @@ public:
      * @param returnType quint8 the type value to be returned. Default is QString
      * @return QVariant
      */
-    Q_INVOKABLE QVariant readSetting(const QString &key, quint8 returnType = 4);
+    Q_INVOKABLE QVariant read(const QString &key, quint8 returnType = 4);
 
     /**
-     * @brief saveSetting
+     * @brief save
      * Save a generic data in Settingslication settings.
      * This method is useful to save strings, booleans, integers or json, using a keyword and value.
      * @param key QString the key name to be used when retrieve the value
      * @param value QVariant the value to save. If some value already exists to the key, the data will be updated
      */
-    Q_INVOKABLE void saveSetting(const QString &key, const QVariant &value);
+    Q_INVOKABLE void save(const QString &key, const QVariant &value);
 
     /**
-     * @brief removeSetting
+     * @brief remove
      * Remove a value from local settings if exists.
      * @param key QString the key to remove from qsettings
      */
-    Q_INVOKABLE void removeSetting(const QString &key);
+    Q_INVOKABLE void remove(const QString &key);
 
 private:
     /**
@@ -118,7 +118,7 @@ private:
 
     /**
      * The properties bellow will be used to define the return type
-     * in 'readSetting' method called by QML objects to get apropriated setting value types.
+     * in 'read' method called by QML objects to get apropriated setting value types.
      */
     const quint8 settingTypeBool = 1;
     const quint8 settingTypeInt = 2;

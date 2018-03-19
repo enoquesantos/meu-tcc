@@ -8,10 +8,10 @@ Item {
     // this property is a shortcut to the user profile permission
     property string profileName
 
-    property bool isLoggedIn: Settings.readSetting("is_user_logged_in", Settings.SettingTypeBool)
-    onIsLoggedInChanged: Settings.saveSetting("is_user_logged_in", isLoggedIn)
+    property bool isLoggedIn: Settings.read("is_user_logged_in", Settings.SettingTypeBool)
+    onIsLoggedInChanged: Settings.save("is_user_logged_in", isLoggedIn)
 
-    property var profile: Settings.readSetting("user_profile_data", Settings.SettingTypeJsonObject)
+    property var profile: Settings.read("user_profile_data", Settings.SettingTypeJsonObject)
     onProfileChanged: {
         if (!profile || !Object.keys(profile).length)
             return
@@ -23,7 +23,7 @@ Item {
             internal.setProperty("image_path", (Config.restService.baseImagesUrl || Config.restService.baseUrl) + profile.image_path)
 
         // save the new user profile in local settings
-        Settings.saveSetting("user_profile_data", profile)
+        Settings.save("user_profile_data", profile)
 
         // notify pages and components that make bind with user profile
         Subject.notify(Config.events.userProfileChanged, profile)
@@ -55,7 +55,7 @@ Item {
                 isLoggedIn = true
             } else {
                 isLoggedIn = false
-                Settings.saveSetting("user_profile_data", "")
+                Settings.save("user_profile_data", "")
             }
             // after user login or logout,
             // the application active page will be replaced

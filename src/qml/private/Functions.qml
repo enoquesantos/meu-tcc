@@ -52,7 +52,7 @@ QtObject {
       */
     function setMenuItens() {
         var i = 0, length = 0, pages = []
-        pages = Settings.readSetting("pages", Settings.SettingTypeJsonArray)
+        pages = Settings.read("pages", Settings.SettingTypeJsonArray)
         length = pages.length
         while (i < length) addNewMenuItem(pages[i++], false)
     }
@@ -133,7 +133,7 @@ QtObject {
       *    Login page needs to be set by some plugin and the path is saved by PluginManager.
       */
     function setActivePage() {
-        if (Config.showEula && Settings.readSetting("eula_accepted") !== "1") {
+        if (Config.showEula && Settings.read("eula_accepted") !== "1") {
             pageStack.push(Qt.resolvedUrl("EulaAgreement.qml"))
             return
         }
@@ -142,11 +142,11 @@ QtObject {
                 pageStack.clear()
                 setMenuItens()
             } else {
-                pageStack.replace(Settings.readSetting("homePageUrl", Settings.SettingTypeString))
+                pageStack.replace(Settings.read("homePageUrl", Settings.SettingTypeString))
             }
         } else {
             // get the login page url defined by some plugin
-            var loginPageUrl = Settings.readSetting("loginPageUrl", Settings.SettingTypeString)
+            var loginPageUrl = Settings.read("loginPageUrl", Settings.SettingTypeString)
             // if pageStack has more of one item like logout page,
             // replace the last page by login page to prevent user back to
             // previous page using the android back button
@@ -162,7 +162,7 @@ QtObject {
      * defined by plugins.
      */
     function loadListeners() {
-        var component = {}, listeners = Settings.readSetting("listeners", Settings.SettingTypeJsonArray)
+        var component = {}, listeners = Settings.read("listeners", Settings.SettingTypeJsonArray)
         while (listeners.length) {
             component = Qt.createComponent(listeners.pop())
             if (component.status === Component.Ready)

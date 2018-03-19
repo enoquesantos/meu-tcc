@@ -90,10 +90,10 @@ QVariantMap Settings::config() const
 
 void Settings::setPluginsPaths()
 {
-    m_config.insert(QStringLiteral("plugins"), readSetting(QStringLiteral("pluginsPaths"), settingTypeJsonObject));
+    m_config.insert(QStringLiteral("plugins"), read(QStringLiteral("pluginsPaths"), settingTypeJsonObject));
 }
 
-QVariant Settings::readSetting(const QString &key, quint8 returnType)
+QVariant Settings::read(const QString &key, quint8 returnType)
 {
     if (key.isEmpty())
         return 0;
@@ -114,7 +114,7 @@ QVariant Settings::readSetting(const QString &key, quint8 returnType)
         return value;
 }
 
-void Settings::saveSetting(const QString &key, const QVariant &value)
+void Settings::save(const QString &key, const QVariant &value)
 {
     QJsonDocument jsonDocument(QJsonDocument::fromVariant(value));
     if (value.typeName() == QStringLiteral("QJSValue"))
@@ -126,7 +126,7 @@ void Settings::saveSetting(const QString &key, const QVariant &value)
         m_qsettings->setValue(key, value);
 }
 
-void Settings::removeSetting(const QString &key)
+void Settings::remove(const QString &key)
 {
     if (m_qsettings->contains(key))
         m_qsettings->remove(key);
