@@ -28,8 +28,7 @@ RequestHttp::RequestHttp(QObject *parent) : QObject(parent)
 {
     static QVariantMap config;
     if (config.isEmpty()) {
-        config = Utils::instance()->readFile(QStringLiteral(":/config.json")).toMap();
-        config = config.value(QStringLiteral("restService")).toMap();
+        config = Utils::instance()->readFile(QStringLiteral(":/config.json")).toMap().value(QStringLiteral("restService")).toMap();
         setBaseUrl(config.value(QStringLiteral("baseUrl")).toByteArray());
         setBasicAuthorization(config.value(QStringLiteral("userName")).toByteArray(), config.value(QStringLiteral("userPass")).toByteArray());
     }
