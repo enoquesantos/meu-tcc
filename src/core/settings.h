@@ -22,17 +22,17 @@ class QSettings;
 class Settings : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(quint8 SettingTypeBool MEMBER settingTypeBool CONSTANT FINAL)
-    Q_PROPERTY(quint8 SettingTypeInt MEMBER settingTypeInt CONSTANT FINAL)
-    Q_PROPERTY(quint8 SettingTypeString MEMBER settingTypeString CONSTANT FINAL)
-    Q_PROPERTY(quint8 SettingTypeStringList MEMBER settingTypeStringList CONSTANT FINAL)
-    Q_PROPERTY(quint8 SettingTypeJsonObject MEMBER settingTypeJsonObject CONSTANT FINAL)
-    Q_PROPERTY(bool IS_ANDROID MEMBER _IS_ANDROID CONSTANT FINAL)
-    Q_PROPERTY(bool IS_IOS MEMBER _IS_IOS CONSTANT FINAL)
-    Q_PROPERTY(bool IS_OSX MEMBER _IS_OSX CONSTANT FINAL)
-    Q_PROPERTY(bool IS_LINUX MEMBER _IS_LINUX CONSTANT FINAL)
-    Q_PROPERTY(bool IS_WINDOWS MEMBER _IS_WINDOWS CONSTANT FINAL)
-    Q_PROPERTY(bool IS_MOBILE MEMBER _IS_MOBILE CONSTANT FINAL)
+    Q_PROPERTY(quint8   TypeBool        MEMBER _TypeBool        CONSTANT FINAL)
+    Q_PROPERTY(quint8   TypeInt         MEMBER _TypeInt         CONSTANT FINAL)
+    Q_PROPERTY(quint8   TypeString      MEMBER _TypeString      CONSTANT FINAL)
+    Q_PROPERTY(quint8   TypeStringList  MEMBER _TypeStringList  CONSTANT FINAL)
+    Q_PROPERTY(quint8   TypeJsonObject  MEMBER _TypeJsonObject  CONSTANT FINAL)
+    Q_PROPERTY(bool     IS_ANDROID      MEMBER _IS_ANDROID      CONSTANT FINAL)
+    Q_PROPERTY(bool     IS_IOS          MEMBER _IS_IOS          CONSTANT FINAL)
+    Q_PROPERTY(bool     IS_OSX          MEMBER _IS_OSX          CONSTANT FINAL)
+    Q_PROPERTY(bool     IS_LINUX        MEMBER _IS_LINUX        CONSTANT FINAL)
+    Q_PROPERTY(bool     IS_WINDOWS      MEMBER _IS_WINDOWS      CONSTANT FINAL)
+    Q_PROPERTY(bool     IS_MOBILE       MEMBER _IS_MOBILE       CONSTANT FINAL)
 public:
     /**
      * @brief Settings
@@ -120,19 +120,18 @@ private:
      * The properties bellow will be used to define the return type
      * in 'read' method called by QML objects to get apropriated setting value types.
      */
-    const quint8 settingTypeBool = 1;
-    const quint8 settingTypeInt = 2;
-    const quint8 settingTypeString = 4;
-    const quint8 settingTypeStringList = 5;
-    const quint8 settingTypeJsonObject = 6;
-    const quint8 settingTypeJsonArray = 7;
-
-    bool _IS_ANDROID = false;
-    bool _IS_IOS = false;
-    bool _IS_OSX = false;
-    bool _IS_LINUX = false;
-    bool _IS_WINDOWS = false;
-    bool _IS_MOBILE = false;
+    const quint8 _TypeBool        = 1;
+    const quint8 _TypeInt         = 2;
+    const quint8 _TypeString      = 4;
+    const quint8 _TypeStringList  = 5;
+    const quint8 _TypeJsonObject  = 6;
+    const quint8 _TypeJsonArray   = 7;
+    bool _IS_ANDROID              = false;
+    bool _IS_IOS                  = false;
+    bool _IS_OSX                  = false;
+    bool _IS_LINUX                = false;
+    bool _IS_WINDOWS              = false;
+    bool _IS_MOBILE               = false;
 };
 
 #endif // SETTINGS_H

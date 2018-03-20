@@ -12,20 +12,20 @@
 
 Settings::Settings(QObject *parent) : QObject(parent)
 {
-    init();
 #ifdef Q_OS_ANDROID
 _IS_ANDROID = true;
-_IS_MOBILE = true;
+_IS_MOBILE  = true;
 #elif defined Q_OS_IOS
-_IS_IOS = true;
-_IS_MOBILE = true;
+_IS_IOS     = true;
+_IS_MOBILE  = true;
 #elif defined Q_OS_DARWIN
-_IS_OSX = true;
+_IS_OSX     = true;
 #elif defined Q_OS_LINUX
-_IS_LINUX = true;
+_IS_LINUX   = true;
 #elif defined Q_OS_WIN
 _IS_WINDOWS = true;
 #endif
+    init();
 }
 
 Settings::~Settings()
@@ -90,7 +90,7 @@ QVariantMap Settings::config() const
 
 void Settings::setPluginsPaths()
 {
-    m_config.insert(QStringLiteral("plugins"), read(QStringLiteral("pluginsPaths"), settingTypeJsonObject));
+    m_config.insert(QStringLiteral("plugins"), read(QStringLiteral("pluginsPaths"), _TypeJsonObject));
 }
 
 QVariant Settings::read(const QString &key, quint8 returnType)
@@ -98,17 +98,17 @@ QVariant Settings::read(const QString &key, quint8 returnType)
     if (key.isEmpty())
         return 0;
     QVariant value(m_qsettings->value(key, QLatin1String("")));
-    if (returnType == settingTypeInt)
+    if (returnType == _TypeInt)
         return value.toInt();
-    else if (returnType == settingTypeBool)
+    else if (returnType == _TypeBool)
         return value.toBool();
-    else if (returnType == settingTypeString)
+    else if (returnType == _TypeString)
         return value.toString();
-    else if (returnType == settingTypeStringList)
+    else if (returnType == _TypeStringList)
         return value.toStringList();
-    else if (returnType == settingTypeJsonArray)
+    else if (returnType == _TypeJsonArray)
         return QJsonDocument(QJsonDocument::fromJson(value.toByteArray())).array().toVariantList();
-    else if (returnType == settingTypeJsonObject)
+    else if (returnType == _TypeJsonObject)
         return QJsonDocument(QJsonDocument::fromJson(value.toByteArray())).object().toVariantMap();
     else
         return value;
